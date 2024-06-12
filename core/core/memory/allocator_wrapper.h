@@ -1,0 +1,7 @@
+#ifndef V_FRAMEWORK_CORE_MEMORY_ALLOCATOR_WRAPPER_H
+#define V_FRAMEWORK_CORE_MEMORY_ALLOCATOR_WRAPPER_H
+
+#include <core/base.h>
+
+
+#endif 

@@ -1,0 +1,9 @@
+SET(FILES
+    base.h
+    platform.cpp
+    platform.h
+    platform_default.h
+    platform_incl.h
+    debug/trace.h 
+    debug/stack_tracer.h
+)
