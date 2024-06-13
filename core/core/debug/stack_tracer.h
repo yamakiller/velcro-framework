@@ -1,5 +1,12 @@
-#ifndef V_FRAMEWORK_CORE_STACK_TRACER_H
-#define V_FRAMEWORK_CORE_STACK_TRACER_H
+/*
+ * Copyright (c) Contributors to the VelcroFramework.
+ * For complete copyright and license terms please see the LICENSE at the root of this distribution.
+ * 
+ * SPDX-License-Identifier: Apache-2.0 OR MIT
+ * 
+ */
+#ifndef V_FRAMEWORK_CORE_DEBUG_STACK_TRACER_H
+#define V_FRAMEWORK_CORE_DEBUG_STACK_TRACER_H
 
 #include <core/base.h>
 #include <core/traits_platform.h>
@@ -78,4 +85,4 @@ namespace V {
     }
 }
 
-#endif 
+#endif // V_FRAMEWORK_CORE_DEBUG_STACK_TRACER_H

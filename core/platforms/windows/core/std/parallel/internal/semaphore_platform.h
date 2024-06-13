@@ -1,6 +1,6 @@
 #ifndef V_FRAMEWORK_CORE_STD_PARALLEL_WINDOWS_INTERNAL_SEMAPHORE_PLATFORM_H
 #define V_FRAMEWORK_CORE_STD_PARALLEL_WINDOWS_INTERNAL_SEMAPHORE_PLATFORM_H
 
-#include <../common/winapi/core/std/parallel/internal/semaphore_winapi.h>
+#include <../common/winapi/core/std/parallel/internal/semaphore_winapi.inl>
 
 #endif // V_FRAMEWORK_CORE_STD_PARALLEL_WINDOWS_INTERNAL_SEMAPHORE_PLATFORM_H

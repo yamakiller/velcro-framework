@@ -440,8 +440,8 @@ static_assert(V_VA_NUM_ARGS(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 1
 #define V_REMOVE_PARENTHESIS(...) V_REMOVE(V_PARENTHESIS __VA_ARGS__)
 #define V_PARENTHESIS(...) V_PARENTHESIS __VA_ARGS__
 #define V_REMOVE(...) V_REMOVE_I(__VA_ARGS__)
-#define V_REMOVE_I(...) O3DE_ ## __VA_ARGS__
-#define O3DE_V_PARENTHESIS
+#define V_REMOVE_I(...) VFW_ ## __VA_ARGS__
+#define VFW_V_PARENTHESIS
 #define V_UNWRAP(...) V_REMOVE(V_PARENTHESIS __VA_ARGS__)
 // Wraps variadic arguments inside parenthesis
 #define V_WRAP_I(...) (__VA_ARGS__)

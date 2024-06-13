@@ -2,6 +2,6 @@
 #define V_FRAMEWORK_CORE_STD_PARALLEL_WINDOWS_INTERNAL_MUTEX_PLATFORM_H
 
 
-#include <../common/winapi/core/std/parallel/internal/mutex_winapi.h>
+#include <../common/winapi/core/std/parallel/internal/mutex_winapi.inl>
 
 #endif // V_FRAMEWORK_CORE_STD_PARALLEL_WINDOWS_INTERNAL_MUTEX_PLATFORM_H
