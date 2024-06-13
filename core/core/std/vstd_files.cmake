@@ -113,6 +113,7 @@ set(FILES
     smart_ptr/sp_convertible.h
     smart_ptr/unique_ptr.h
     smart_ptr/weak_ptr.h
+    smart_ptr/test.h
     string/alphanum.cpp
     string/alphanum.h
     string/conversions.h

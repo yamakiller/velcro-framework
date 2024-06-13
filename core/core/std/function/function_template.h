@@ -667,4 +667,4 @@ namespace VStd
     function(F) -> function<typename VStd::Internal::function_object<F>::function_type>;
 } // end namespace VStd
 
-endif // V_FRAMEWORK_CORE_STD_FUNCTION_TEMPLATE_H
+#endif // V_FRAMEWORK_CORE_STD_FUNCTION_TEMPLATE_H

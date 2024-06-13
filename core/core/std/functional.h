@@ -6,7 +6,7 @@
  *
  */
 #ifndef V_FRAMEWORK_CORE_STD_FUNCTIONAL_H
-#define V_FRAMEWORK_CORE_STD_FUNCTIONAL_H
+#define V_FRAMEWORK_CORE_STD_FUNCTIONAL_H 1
 
 #include <core/std/functional_basic.h>
 
@@ -17,3 +17,4 @@
 #include <core/std/function/function_template.h>
 
 #endif // V_FRAMEWORK_CORE_STD_FUNCTIONAL_H
+#pragma once

@@ -5,8 +5,8 @@
  * SPDX-License-Identifier: Apache-2.0 OR MIT
  * 
  */
-#ifndef V_FRAMEWORK_CORE_STD_SMART_PTR_UNIAUE_PTR_H
-#define V_FRAMEWORK_CORE_STD_SMART_PTR_UNIAUE_PTR_H
+#ifndef V_FRAMEWORK_CORE_STD_SMART_PTR_UNIQUE_PTR_H
+#define V_FRAMEWORK_CORE_STD_SMART_PTR_UNIQUE_PTR_H
 
 #include <core/std/smart_ptr/sp_convertible.h>
 #include <core/std/typetraits/is_array.h>
@@ -28,12 +28,10 @@ namespace VStd {
     struct hash;
 
     template <typename T, typename Deleter>
-    struct hash<unique_ptr<T, Deleter>>
-    {
+    struct hash<unique_ptr<T, Deleter>> {
         typedef unique_ptr<T, Deleter> argument_type;
         typedef VStd::size_t result_type;
-        inline result_type operator()(const argument_type& value) const
-        {
+        inline result_type operator()(const argument_type& value) const {
             return std::hash<argument_type>()(value);
         }
     };
@@ -63,4 +61,4 @@ namespace VStd {
 } // namespace VStd
 
 
-#endif // V_FRAMEWORK_CORE_STD_SMART_PTR_UNIAUE_PTR_H
+#endif // V_FRAMEWORK_CORE_STD_SMART_PTR_UNIQUE_PTR_H

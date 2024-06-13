@@ -70,7 +70,7 @@ namespace VStd {
         //#pragma endregion
 
         //////////////////////////////////////////////////////////////////////////
-        // 23.2.4.1 construct/copy/destroy
+        // construct/copy/destroy
         /// Construct an empty vector.
         V_FORCE_INLINE vector()
             : m_start(0)
