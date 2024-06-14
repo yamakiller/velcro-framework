@@ -14,6 +14,9 @@ SET (FILES
     platforms/windows/core/math/random_windows.h
     platforms/windows/core/math/random_windows.cc
     platforms/windows/core/debug/stacktracer_windows.cc
+    platforms/windows/core/ipc/shared_memory_platform.h
+    platforms/windows/core/ipc/shared_memory_windows.h
+    platforms/windows/core/ipc/shared_memory_windows.cc
     platforms/common/winapi/core/std/parallel/internal/condition_variable_winapi.inl
     platforms/common/winapi/core/std/parallel/internal/mutex_winapi.inl
     platforms/common/winapi/core/std/parallel/internal/semaphore_winapi.inl

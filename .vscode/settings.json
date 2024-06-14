@@ -38,6 +38,8 @@
         "cctype": "cpp",
         "queue": "cpp",
         "stack": "cpp",
-        "locale": "cpp"
+        "locale": "cpp",
+        "xlocale": "cpp",
+        "xlocinfo": "cpp"
     }
 }

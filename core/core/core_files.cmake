@@ -1,9 +1,16 @@
 SET(FILES
     base.h
-    platform.cpp
-    platform.h
-    platform_default.h
+    variadic.h
     platform_incl.h
+    platform.h
+    platform.cc
+    platform_default.h
+    platform_restricted_file_default.h
+    casting/lossy_cast.h
+    casting/numeric_cast_internal.h
+    casting/numeric_cast.h
     debug/trace.h 
     debug/stack_tracer.h
+    debug/memory_profiler.h
+    detector/
 )
