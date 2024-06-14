@@ -1,5 +1,6 @@
 #include <core/platform_incl.h>
 #include <core/memory/allocation_records.h>
+#include <core/memory/allocator_manager.h>
 
 
 #include <core/std/time.h>
@@ -72,7 +73,7 @@ AllocationRecords::lock()
 //=========================================================================
 bool AllocationRecords::try_lock()
 {
-    return DrillerEBusMutex::GetMutex().try_lock();
+    //return DrillerEBusMutex::GetMutex().try_lock();
 }
 
 //=========================================================================
@@ -81,7 +82,7 @@ bool AllocationRecords::try_lock()
 void
 AllocationRecords::unlock()
 {
-    DrillerEBusMutex::GetMutex().unlock();
+    //DrillerEBusMutex::GetMutex().unlock();
 }
 
 //=========================================================================
@@ -123,8 +124,8 @@ AllocationRecords::RegisterAllocation(void* address, size_t byteSize, size_t ali
     }
 
     Debug::AllocationInfo& ai = iterBool.first->second;
-    ai.m_byteSize =  byteSize;
-    ai.m_alignment = static_cast<unsigned int>(alignment);
+    ai.ByteSize =  byteSize;
+    ai.Alignment = static_cast<unsigned int>(alignment);
     if ((m_saveNames || m_mode == RECORD_FULL) && name && fileName)
     {
         // In RECORD_FULL mode or when specifically enabled in app descriptor with 
@@ -137,32 +138,32 @@ AllocationRecords::RegisterAllocation(void* address, size_t byteSize, size_t ali
         const size_t nameLength = strlen(name);
         const size_t fileNameLength = strlen(fileName);
         const size_t totalLength = nameLength + fileNameLength + 2; // + 2 for terminating null characters
-        ai.m_namesBlock = m_records.get_allocator().allocate(totalLength, 1);
-        ai.m_namesBlockSize = totalLength;
-        char* savedName = reinterpret_cast<char*>(ai.m_namesBlock);
+        ai.NamesBlock = m_records.get_allocator().allocate(totalLength, 1);
+        ai.NamesBlockSize = totalLength;
+        char* savedName = reinterpret_cast<char*>(ai.NamesBlock);
         char* savedFileName = savedName + nameLength + 1;
         memcpy(reinterpret_cast<void*>(savedName), reinterpret_cast<const void*>(name), nameLength + 1);
         memcpy(reinterpret_cast<void*>(savedFileName), reinterpret_cast<const void*>(fileName), fileNameLength + 1);
-        ai.m_name = savedName;
-        ai.m_fileName = savedFileName;
+        ai.Name = savedName;
+        ai.FileName = savedFileName;
     }
     else
     {
-        ai.m_name = name;
-        ai.m_fileName = fileName;
-        ai.m_namesBlock = nullptr;
-        ai.m_namesBlockSize = 0;
+        ai.Name = name;
+        ai.FileName = fileName;
+        ai.NamesBlock = nullptr;
+        ai.NamesBlockSize = 0;
     }
-    ai.m_lineNum = lineNum;
-    ai.m_timeStamp = VStd::GetTimeNowMicroSecond();
+    ai.LineNum = lineNum;
+    ai.TimeStamp = VStd::GetTimeNowMicroSecond();
 
     // if we don't have a fileName,lineNum record the stack or if the user requested it.
     if ((fileName == nullptr && m_mode == RECORD_STACK_IF_NO_FILE_LINE) || m_mode == RECORD_FULL)
     {
-        ai.m_stackFrames = m_numStackLevels ? reinterpret_cast<V::Debug::StackFrame*>(m_records.get_allocator().allocate(sizeof(V::Debug::StackFrame)*m_numStackLevels, 1)) : nullptr;
-        if (ai.m_stackFrames)
+        ai.StackFrames = m_numStackLevels ? reinterpret_cast<V::Debug::StackFrame*>(m_records.get_allocator().allocate(sizeof(V::Debug::StackFrame)*m_numStackLevels, 1)) : nullptr;
+        if (ai.StackFrames)
         {
-            Debug::StackRecorder::Record(ai.m_stackFrames, m_numStackLevels, stackSuppressCount + 1);
+            Debug::StackRecorder::Record(ai.StackFrames, m_numStackLevels, stackSuppressCount + 1);
 
             if (m_decodeImmediately)
             {
@@ -185,7 +186,7 @@ AllocationRecords::RegisterAllocation(void* address, size_t byteSize, size_t ali
                     while (numStackLevels > 0)
                     {
                         unsigned char numToDecode = VStd::GetMin(decodeStep, numStackLevels);
-                        Debug::SymbolStorage::DecodeFrames(&ai.m_stackFrames[iFrame], numToDecode, lines);
+                        Debug::SymbolStorage::DecodeFrames(&ai.StackFrames[iFrame], numToDecode, lines);
                         numStackLevels -= numToDecode;
                         iFrame += numToDecode;
                     }
@@ -232,11 +233,11 @@ AllocationRecords::UnregisterAllocation(void* address, size_t byteSize, size_t a
 
     (void)byteSize;
     (void)alignment;
-    V_Assert(byteSize==0||byteSize==iter->second.m_byteSize, "Mismatched byteSize at deallocation! You supplied an invalid value!");
-    V_Assert(alignment==0||alignment==iter->second.m_alignment, "Mismatched alignment at deallocation! You supplied an invalid value!");
+    V_Assert(byteSize==0||byteSize==iter->second.ByteSize, "Mismatched byteSize at deallocation! You supplied an invalid value!");
+    V_Assert(alignment==0||alignment==iter->second.Alignment, "Mismatched alignment at deallocation! You supplied an invalid value!");
 
     // statistics
-    m_requestedBytes -= iter->second.m_byteSize;
+    m_requestedBytes -= iter->second.ByteSize;
     
 #if defined(ENABLE_MEMORY_GUARD)
     // memory guard
@@ -250,7 +251,7 @@ AllocationRecords::UnregisterAllocation(void* address, size_t byteSize, size_t a
         else
         {
             // check current allocation
-            char* guardAddress = reinterpret_cast<char*>(address)+iter->second.m_byteSize;
+            char* guardAddress = reinterpret_cast<char*>(address)+iter->second.ByteSize;
             Debug::GuardValue* guard = reinterpret_cast<Debug::GuardValue*>(guardAddress);
             if (!guard->Validate())
             {
@@ -265,18 +266,18 @@ AllocationRecords::UnregisterAllocation(void* address, size_t byteSize, size_t a
 #endif
 
     // delete allocation record
-    if (iter->second.m_namesBlock)
+    if (iter->second.NamesBlock)
     {
-        m_records.get_allocator().deallocate(iter->second.m_namesBlock, iter->second.m_namesBlockSize, 1);
-        iter->second.m_namesBlock = nullptr;
-        iter->second.m_namesBlockSize = 0;
-        iter->second.m_name = nullptr;
-        iter->second.m_fileName = nullptr;
+        m_records.get_allocator().deallocate(iter->second.NamesBlock, iter->second.NamesBlockSize, 1);
+        iter->second.NamesBlock = nullptr;
+        iter->second.NamesBlockSize = 0;
+        iter->second.Name = nullptr;
+        iter->second.FileName = nullptr;
     }
-    if (iter->second.m_stackFrames)
+    if (iter->second.StackFrames)
     {
-        m_records.get_allocator().deallocate(iter->second.m_stackFrames, sizeof(V::Debug::StackFrame)*m_numStackLevels, 1);
-        iter->second.m_stackFrames = nullptr;
+        m_records.get_allocator().deallocate(iter->second.StackFrames, sizeof(V::Debug::StackFrame)*m_numStackLevels, 1);
+        iter->second.StackFrames = nullptr;
     }
 
     if (info)
@@ -326,7 +327,7 @@ AllocationRecords::ResizeAllocation(void* address, size_t newSize)
         else
         {
             // check memory guard
-            char* guardAddress = reinterpret_cast<char*>(address)+iter->second.m_byteSize;
+            char* guardAddress = reinterpret_cast<char*>(address)+iter->second.ByteSize;
             Debug::GuardValue* guard = reinterpret_cast<Debug::GuardValue*>(guardAddress);
             if (!guard->Validate())
             {
@@ -344,13 +345,13 @@ AllocationRecords::ResizeAllocation(void* address, size_t newSize)
 #endif
 
     // statistics
-    m_requestedBytes -= iter->second.m_byteSize;
+    m_requestedBytes -= iter->second.ByteSize;
     m_requestedBytes += newSize;
     m_requestedBytesPeak = VStd::GetMax(m_requestedBytesPeak, m_requestedBytes);
     ++m_requestedAllocs;
 
     // update allocation size
-    iter->second.m_byteSize = newSize;
+    iter->second.ByteSize = newSize;
 }
 
 //=========================================================================
@@ -369,7 +370,7 @@ AllocationRecords::SetMode(Mode mode)
         m_requestedAllocs = 0;
     }
 
-    V_ATOMIC_BOOL_LOCK_FREE("Memory", m_mode!=RECORD_NO_RECORDS||mode==RECORD_NO_RECORDS, "Records recording was disabled and now it's enabled! You might get assert when you free memory, if a you have allocations which were not recorded!");
+    V_Warning("Memory", m_mode!=RECORD_NO_RECORDS||mode==RECORD_NO_RECORDS, "Records recording was disabled and now it's enabled! You might get assert when you free memory, if a you have allocations which were not recorded!");
 
     m_mode = mode;
 
@@ -394,7 +395,7 @@ AllocationRecords::EnumerateAllocations(AllocationInfoCBType cb)
             break;
         }
     }
-    DrillerEBusMutex::GetMutex().unlock();
+    //DrillerEBusMutex::GetMutex().unlock();
 }
 
 //=========================================================================
@@ -405,11 +406,11 @@ AllocationRecords::IntegrityCheck() const
 {
     if (m_memoryGuardSize == sizeof(Debug::GuardValue))
     {
-        DrillerEBusMutex::GetMutex().lock();
+        //DrillerEBusMutex::GetMutex().lock();
 
         IntegrityCheckNoLock();
 
-        DrillerEBusMutex::GetMutex().unlock();
+        //::GetMutex().unlock();
     }
 }
 
@@ -424,7 +425,7 @@ AllocationRecords::IntegrityCheckNoLock() const
     for (Debug::AllocationRecordsType::const_iterator iter = m_records.begin(); iter != m_records.end(); ++iter)
     {
         // check memory guard
-        const char* guardAddress = reinterpret_cast<const char*>(iter->first)+ iter->second.m_byteSize;
+        const char* guardAddress = reinterpret_cast<const char*>(iter->first)+ iter->second.ByteSize;
         if (!reinterpret_cast<const Debug::GuardValue*>(guardAddress)->Validate())
         {
             // We have to turn off the integrity check at this point if we want to succesfully report the memory
@@ -446,20 +447,20 @@ AllocationRecords::IntegrityCheckNoLock() const
 bool
 PrintAllocationsCB::operator()(void* address, const AllocationInfo& info, unsigned char numStackLevels)
 {
-    if (m_includeNameAndFilename && info.m_name)
+    if (m_includeNameAndFilename && info.Name)
     {
-        V_Printf("Memory", "Allocation Name: \"%s\" Addr: 0%p Size: %d Alignment: %d\n", info.m_name, address, info.m_byteSize, info.m_alignment);
+        V_Printf("Memory", "Allocation Name: \"%s\" Addr: 0%p Size: %d Alignment: %d\n", info.Name, address, info.ByteSize, info.Alignment);
     }
     else
     {
-        V_Printf("Memory", "Allocation Addr: 0%p Size: %d Alignment: %d\n", address, info.m_byteSize, info.m_alignment);
+        V_Printf("Memory", "Allocation Addr: 0%p Size: %d Alignment: %d\n", address, info.ByteSize, info.Alignment);
     }
 
     if (m_isDetailed)
     {
-        if (!info.m_stackFrames)
+        if (!info.StackFrames)
         {
-            V_Printf("Memory", " %s (%d)\n", info.m_fileName, info.m_lineNum);
+            V_Printf("Memory", " %s (%d)\n", info.FileName, info.LineNum);
         }
         else
         {
@@ -470,10 +471,10 @@ PrintAllocationsCB::operator()(void* address, const AllocationInfo& info, unsign
             while (numStackLevels>0)
             {
                 unsigned char numToDecode = VStd::GetMin(decodeStep, numStackLevels);
-                Debug::SymbolStorage::DecodeFrames(&info.m_stackFrames[iFrame], numToDecode, lines);
+                Debug::SymbolStorage::DecodeFrames(&info.StackFrames[iFrame], numToDecode, lines);
                 for (unsigned char i = 0; i < numToDecode; ++i)
                 {
-                    if (info.m_stackFrames[iFrame+i].IsValid())
+                    if (info.StackFrames[iFrame+i].IsValid())
                     {
                         V_Printf("Memory", " %s\n", lines[i]);
                     }

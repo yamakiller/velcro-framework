@@ -156,7 +156,7 @@ namespace V {
         void InternalDestroy();
         void ConfigureAllocatorOverrides(IAllocator* alloc);
         void DebugBreak(void* address, const Debug::AllocationInfo& info);
-       V::MallocSchema* CreateMallocSchema();
+        V::MallocSchema* CreateMallocSchema();
 
         AllocatorManager(const AllocatorManager&);
         AllocatorManager& operator=(const AllocatorManager&);
@@ -164,7 +164,7 @@ namespace V {
         static const int m_maxNumAllocators = 100;
         IAllocator*         m_allocators[m_maxNumAllocators];
         volatile int        m_numAllocators;
-        ///OutOfMemoryCBType   m_outOfMemoryListener;
+        OutOfMemoryCBType   m_outOfMemoryListener;
         bool                m_isAllocatorLeaking;
         MemoryBreak         m_memoryBreak[MaxNumMemoryBreaks];
         char                m_activeBreaks;

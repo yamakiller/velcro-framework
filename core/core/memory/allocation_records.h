@@ -24,17 +24,17 @@ namespace V {
         * Allocation tracking information.
         */
         struct AllocationInfo  {
-            size_t          m_byteSize{};
-            const char*     m_name{};
-            const char*     m_fileName{};
-            int             m_lineNum{};
-            unsigned int    m_alignment{};
-            void*           m_namesBlock{}; ///< Memory block if m_name and m_fileName have been allocated specifically for this allocation record
-            size_t          m_namesBlockSize{};
+            size_t          ByteSize{};
+            const char*     Name{};
+            const char*     FileName{};
+            int             LineNum{};
+            unsigned int    Alignment{};
+            void*           NamesBlock{}; ///< Memory block if m_name and m_fileName have been allocated specifically for this allocation record
+            size_t          NamesBlockSize{};
 
-            V::Debug::StackFrame*  m_stackFrames{};
+            V::Debug::StackFrame*  StackFrames{};
 
-            V::u64         m_timeStamp{}; ///< Timestamp for sorting/tracking allocations
+            V::u64         TimeStamp{}; ///< Timestamp for sorting/tracking allocations
         };
 
         // We use OSAllocator which uses system calls to allocate memory, they are not recorded or tracked!
