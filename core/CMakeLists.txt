@@ -34,7 +34,9 @@ IF (CMAKE_SYSTEM_NAME MATCHES "Windows")
         ADD_COMPILE_OPTIONS(/Zc:preprocessor /wd5105)
     ENDIF()
     INCLUDE_DIRECTORIES(${PROJECT_SOURCE_DIR}/core/platforms/windows)
-    include(${PROJECT_SOURCE_DIR}/core/platforms/windows/platform_windows_files.cmake)
+    INCLUDE(${PROJECT_SOURCE_DIR}/core/platforms/windows/platform_windows_files.cmake)
+    ADD_DEFINITIONS("-DV_NUMERICCAST_ENABLED=1")
+
 
 ELSEIF (CMAKE_SYSTEM_NAME MATCHES "Linux")
     MESSAGE(STATUS "Platform Linux")

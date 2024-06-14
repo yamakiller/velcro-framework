@@ -37,6 +37,7 @@
         "deque": "cpp",
         "cctype": "cpp",
         "queue": "cpp",
-        "stack": "cpp"
+        "stack": "cpp",
+        "locale": "cpp"
     }
 }

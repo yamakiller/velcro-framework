@@ -1,6 +1,6 @@
 CMAKE_MINIMUM_REQUIRED(VERSION 3.10)
 
-SET(PROJ_NAME VelcroFramework)
+#SET(PROJ_NAME VelcroFramework)
 
 #调试版本增加后缀
 SET(CMAKE_DEBUG_POSTFIX "_debug")

@@ -38,7 +38,8 @@
  * If you want guranteed "secure" functions, you should not use those wrappers. In general we recommend using VStd::string/wstring for manipulating strings.
  */
 #if V_TRAIT_USE_SECURE_CRT_FUNCTIONS
-#   define vsnprintf(_buffer, _size, ...)                  _snprintf_s(_buffer, _size, _size-1, __VA_ARGS__)
+
+#   define vsnprintfv(_buffer, _size, ...)                  _snprintf_s(_buffer, _size, _size-1, __VA_ARGS__)
 #   define vvsnprintf(_buffer, _size, _format, _va_list)   _vsnprintf_s(_buffer, _size, _size-1, _format, _va_list)
 #   define vsnwprintf(_buffer, _size, ...)                 _snwprintf_s(_buffer, _size, _size-1, __VA_ARGS__)
 #   define vvsnwprintf(_buffer, _size, _format, _va_list)  _vsnwprintf_s(_buffer, _size, _size-1, _format, _va_list)
@@ -76,8 +77,8 @@
 #   define vstrdate                                        _strdate_s
 #   define vlocaltime(time, result)                        localtime_s(result, time)
 #else
-#   define vsnprintf                                       snprintf
-#   define vvsnprintf                                      vsnprintf
+#   define vsnprintfv                                       snprintf
+#   define vvsnprintf                                      vsnprintfv
 #   if V_TRAIT_COMPILER_DEFINE_VSWNPRINTF_AS_SWPRINTF
 #       define vsnwprintf                                  swprintf
 #       define vvsnwprintf                                 vswprintf
@@ -85,7 +86,7 @@
 #       define vsnwprintf                                  snwprintf
 #       define vvsnwprintf                                 vsnwprintf
 #   endif
-#   define vscprintf(...)                                  vsnprintf(nullptr, static_cast<size_t>(0), __VA_ARGS__);
+#   define vscprintf(...)                                  vsnprintfv(nullptr, static_cast<size_t>(0), __VA_ARGS__);
 #   define vvscprintf(_format, _va_list)                   vvsnprintf(nullptr, static_cast<size_t>(0), _format, _va_list);
 #   define vscwprintf(...)                                 vsnwprintf(nullptr, static_cast<size_t>(0), __VA_ARGS__);
 #   define vvscwprintf(_format, _va_list)                  vvsnwprintf(nullptr, static_cast<size_t>(0), _format, _va_list);

@@ -7,4 +7,21 @@ SET (FILES
     platforms/windows/core/platform_incl_windows.h
     platforms/windows/core/platform_windows.cc
     platforms/windows/core/platform_id/platform_id_platform.h
+    platforms/windows/core/platform_id/platform_id_windows.inl
+    platforms/windows/core/math/internal/math_types_platform.h
+    platforms/windows/core/math/internal/math_types_windows.h
+    platforms/windows/core/math/random_platform.h
+    platforms/windows/core/math/random_windows.h
+    platforms/windows/core/math/random_windows.cc
+    platforms/windows/core/debug/stacktracer_windows.cc
+    platforms/common/winapi/core/std/parallel/internal/condition_variable_winapi.inl
+    platforms/common/winapi/core/std/parallel/internal/mutex_winapi.inl
+    platforms/common/winapi/core/std/parallel/internal/semaphore_winapi.inl
+    platforms/common/winapi/core/std/parallel/internal/thread_winapi.h
+    platforms/common/winapi/core/std/parallel/internal/thread_winapi.cc
+    platforms/common/winapi/core/std/parallel/config_winapi.h
+    platforms/common/winapi/core/memory/osallocator_winapi.inl
+    platforms/common/winapi/core/io/system_file_winapi.h
+    platforms/common/winapi/core/io/system_file_winapi.cc
+    platforms/common/winapi/core/utilitys/utility_winapi.cc
 )

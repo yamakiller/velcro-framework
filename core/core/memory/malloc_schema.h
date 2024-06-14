@@ -18,11 +18,11 @@ namespace V {
 
         struct Descriptor {
             Descriptor(bool useAZMalloc = true)
-                : UseAZMalloc(useAZMalloc)
+                : UseVMalloc(useAZMalloc)
             {
             }
 
-            bool UseAZMalloc;
+            bool UseVMalloc;
         };
 
         MallocSchema(const Descriptor& desc = Descriptor());

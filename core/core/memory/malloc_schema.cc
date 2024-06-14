@@ -18,7 +18,7 @@ namespace V {
 
 V::MallocSchema::MallocSchema(const Descriptor& desc) : 
     m_bytesAllocated(0) {
-    if (desc.UseAZMalloc) {
+    if (desc.UseVMalloc) {
         static const int DEFAULT_ALIGNMENT = sizeof(void*) * 2;  // Default malloc alignment
 
         m_mallocFn = [](size_t byteSize) { return V_OS_MALLOC(byteSize, DEFAULT_ALIGNMENT); };

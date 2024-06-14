@@ -20,16 +20,16 @@
 
 #else
 
-#include <AzCore/Casting/numeric_cast_internal.h>
-#include <AzCore/std/typetraits/is_arithmetic.h>
-#include <AzCore/std/typetraits/is_class.h>
-#include <AzCore/std/typetraits/is_enum.h>
-#include <AzCore/std/typetraits/is_floating_point.h>
-#include <AzCore/std/typetraits/is_integral.h>
-#include <AzCore/std/typetraits/is_signed.h>
-#include <AzCore/std/typetraits/remove_cvref.h>
-#include <AzCore/std/typetraits/underlying_type.h>
-#include <AzCore/std/utils.h>
+#include <core/casting/numeric_cast_internal.h>
+#include <core/std/typetraits/is_arithmetic.h>
+#include <core/std/typetraits/is_class.h>
+#include <core/std/typetraits/is_enum.h>
+#include <core/std/typetraits/is_floating_point.h>
+#include <core/std/typetraits/is_integral.h>
+#include <core/std/typetraits/is_signed.h>
+#include <core/std/typetraits/remove_cvref.h>
+#include <core/std/typetraits/underlying_type.h>
+#include <core/std/utils.h>
 #include <limits>
 
 /*

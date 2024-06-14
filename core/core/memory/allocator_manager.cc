@@ -176,7 +176,6 @@ AllocatorManager::~AllocatorManager()
 
 //=========================================================================
 // RegisterAllocator
-// [9/17/2009]
 //=========================================================================
 void
 AllocatorManager::RegisterAllocator(class IAllocator* alloc)

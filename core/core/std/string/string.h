@@ -1425,8 +1425,8 @@ namespace VStd
         {
             basic_string<char, char_traits<char>, Allocator> result;
             // On Windows, V_TRAIT_USE_SECURE_CRT_FUNCTIONS is set, so azvsnprintf calls _vsnprintf_s.
-            // _vsnprintf_s, unlike vsnprintf, will fail and return -1 when the size argument is 0.
-            // azvscprintf uses the proper function(_vscprintf or vsnprintf) on the given platform
+            // _vsnprintf_s, unlike vsnprintfv, will fail and return -1 when the size argument is 0.
+            // azvscprintf uses the proper function(_vscprintf or vsnprintfv) on the given platform
             va_list argListCopy; //<- Depending on vprintf implementation va_list may be consumed, so send a copy
             va_copy(argListCopy, argList);
             const int len = azvscprintf(formatStr, argListCopy);
