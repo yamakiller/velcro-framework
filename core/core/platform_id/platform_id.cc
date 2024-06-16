@@ -36,4 +36,3 @@ namespace V {
 
 }
 
-#include <core/platform_id/platform_id_platform.h>

@@ -26,37 +26,36 @@ namespace V {
         struct Descriptor
         {
             Descriptor()
-                : m_custom(0)
-                , m_allocationRecords(true)
-                , m_stackRecordLevels(5)
+                : Custom(0)
+                , AllocationRecords(true)
+                , StackRecordLevels(5)
             {}
-            IAllocatorAllocate*         m_custom;   ///< You can provide our own allocation scheme. If NULL a HeapScheme will be used with the provided Descriptor.
+            IAllocatorAllocate*         Custom;   ///< You can provide our own allocation scheme. If NULL a HeapScheme will be used with the provided Descriptor.
 
             struct Heap
             {
                 Heap()
-                    : m_pageSize(m_defaultPageSize)
-                    , m_poolPageSize(m_defaultPoolPageSize)
-                    , m_isPoolAllocations(true)
-                    , m_numFixedMemoryBlocks(0)
-                    , m_subAllocator(nullptr)
-                    , m_systemChunkSize(0)
-                {}
-                static const int        m_defaultPageSize = V_TRAIT_OS_DEFAULT_PAGE_SIZE;
-                static const int        m_defaultPoolPageSize = 4 * 1024;
-                static const int        m_memoryBlockAlignment = m_defaultPageSize;
-                static const int        m_maxNumFixedBlocks = 3;
-                unsigned int            m_pageSize;                                 ///< Page allocation size must be 1024 bytes aligned. (default m_defaultPageSize)
-                unsigned int            m_poolPageSize;                             ///< Page size used to small memory allocations. Must be less or equal to m_pageSize and a multiple of it. (default m_defaultPoolPageSize)
-                bool                    m_isPoolAllocations;                        ///< True (default) if we use pool for small allocations (< 256 bytes), otherwise false. IMPORTANT: Changing this to false will degrade performance!
-                int                     m_numFixedMemoryBlocks;                     ///< Number of memory blocks to use.
-                void*                   m_fixedMemoryBlocks[m_maxNumFixedBlocks];   ///< Pointers to provided memory blocks or NULL if you want the system to allocate them for you with the System Allocator.
-                size_t                  m_fixedMemoryBlocksByteSize[m_maxNumFixedBlocks]; ///< Sizes of different memory blocks (MUST be multiple of m_pageSize), if m_memoryBlock is 0 the block will be allocated for you with the System Allocator.
-                IAllocatorAllocate*     m_subAllocator;                             ///< Allocator that m_memoryBlocks memory was allocated from or should be allocated (if NULL).
-                size_t                  m_systemChunkSize;                          ///< Size of chunk to request from the OS when more memory is needed (defaults to m_pageSize)
+                    : PageSize(DefaultPageSize)
+                    , PoolPageSize(DefaultPoolPageSize)
+                    , IsPoolAllocations(true)
+                    , NumFixedMemoryBlocks(0)
+                    , SubAllocator(nullptr)
+                    , SystemChunkSize(0) {}
+                static const int        DefaultPageSize = V_TRAIT_OS_DEFAULT_PAGE_SIZE;
+                static const int        DefaultPoolPageSize = 4 * 1024;
+                static const int        MemoryBlockAlignment = DefaultPageSize;
+                static const int        MaxNumFixedBlocks = 3;
+                unsigned int            PageSize;                                 ///< Page allocation size must be 1024 bytes aligned. (default m_defaultPageSize)
+                unsigned int            PoolPageSize;                             ///< Page size used to small memory allocations. Must be less or equal to m_pageSize and a multiple of it. (default m_defaultPoolPageSize)
+                bool                    IsPoolAllocations;                        ///< True (default) if we use pool for small allocations (< 256 bytes), otherwise false. IMPORTANT: Changing this to false will degrade performance!
+                int                     NumFixedMemoryBlocks;                     ///< Number of memory blocks to use.
+                void*                   FixedMemoryBlocks[MaxNumFixedBlocks];   ///< Pointers to provided memory blocks or NULL if you want the system to allocate them for you with the System Allocator.
+                size_t                  FixedMemoryBlocksByteSize[MaxNumFixedBlocks]; ///< Sizes of different memory blocks (MUST be multiple of m_pageSize), if m_memoryBlock is 0 the block will be allocated for you with the System Allocator.
+                IAllocatorAllocate*     SubAllocator;                             ///< Allocator that m_memoryBlocks memory was allocated from or should be allocated (if NULL).
+                size_t                  SystemChunkSize;                          ///< Size of chunk to request from the OS when more memory is needed (defaults to m_pageSize)
             }                           m_heap;
-            bool                        m_allocationRecords;    ///< True if we want to track memory allocations, otherwise false.
-            unsigned char               m_stackRecordLevels;    ///< If stack recording is enabled, how many stack levels to record.
+            bool                        AllocationRecords;    ///< True if we want to track memory allocations, otherwise false.
+            unsigned char               StackRecordLevels;    ///< If stack recording is enabled, how many stack levels to record.
         };
 
         bool Create(const Descriptor& desc);

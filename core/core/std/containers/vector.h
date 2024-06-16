@@ -316,12 +316,12 @@ namespace VStd {
         inline iterator emplace(const_iterator pos, Args&& ... args)
         {
 #ifdef VSTD_HAS_CHECKED_ITERATORS
-            AZ_Assert(pos.m_container == this, "Iterator doesn't belong to this container");
+            V_Assert(pos.m_container == this, "Iterator doesn't belong to this container");
             pointer element = const_cast<pointer>(pos.m_iter);
 #else
             pointer element = const_cast<pointer>(pos);
 #endif
-            AZ_Assert(element >= m_start && element <= m_last, "where iterator outsize vector range [0,%d]", size());
+            V_Assert(element >= m_start && element <= m_last, "where iterator outsize vector range [0,%d]", size());
             size_t offset = element - m_start;
             emplace_back(VStd::forward<Args>(args) ...);
             VStd::rotate(m_start + offset, m_last - 1, m_last);
@@ -639,9 +639,9 @@ namespace VStd {
             }
             else
             {
-                AZ_Assert(insertPos.m_container == this, "Iterator doesn't belong to this container");
+                V_Assert(insertPos.m_container == this, "Iterator doesn't belong to this container");
                 insertPosPtr = insertPos.m_iter;
-                AZ_Assert(insertPosPtr == 0 && m_start == m_end && m_start == m_last && m_start == insertPosPtr, "vector::insert_iter - This is allowed only if the container has no elements");
+                V_Assert(insertPosPtr == 0 && m_start == m_end && m_start == m_last && m_start == insertPosPtr, "vector::insert_iter - This is allowed only if the container has no elements");
             }
 #else
             const_pointer insertPosPtr = const_cast<pointer>(insertPos);
@@ -666,9 +666,9 @@ namespace VStd {
             }
             else
             {
-                AZ_Assert(insertPos.m_container == this, "Iterator doesn't belong to this container");
+                V_Assert(insertPos.m_container == this, "Iterator doesn't belong to this container");
                 insertPosPtr = const_cast<pointer>(insertPos.m_iter);
-                AZ_Assert(insertPosPtr == 0 && m_start == m_end && m_start == m_last && m_start == insertPosPtr, "vector::insert_iter - This is allowed only if the container has no elements");
+                V_Assert(insertPosPtr == 0 && m_start == m_end && m_start == m_last && m_start == insertPosPtr, "vector::insert_iter - This is allowed only if the container has no elements");
             }
 #else
             pointer insertPosPtr = const_cast<pointer>(insertPos);
@@ -863,7 +863,7 @@ namespace VStd {
             Internal::destroy<pointer>::range(m_start, m_last);
             m_last = m_start;
         }
-        AZ_INLINE void      swap(this_type& rhs)
+        V_INLINE void      swap(this_type& rhs)
         {
             if (m_allocator == rhs.m_allocator)
             {
@@ -956,7 +956,7 @@ namespace VStd {
         V_FORCE_INLINE int     validate_iterator(const iterator& iter) const
         {
 #ifdef VSTD_HAS_CHECKED_ITERATORS
-            AZ_Assert(iter.m_container == this, "Iterator doesn't belong to this container");
+            V_Assert(iter.m_container == this, "Iterator doesn't belong to this container");
             pointer iterPtr = iter.m_iter;
 #else
             pointer iterPtr = iter;
@@ -975,7 +975,7 @@ namespace VStd {
         V_FORCE_INLINE int     validate_iterator(const const_iterator& iter) const
         {
 #ifdef VSTD_HAS_CHECKED_ITERATORS
-            AZ_Assert(iter.m_container == this, "Iterator doesn't belong to this container");
+            V_Assert(iter.m_container == this, "Iterator doesn't belong to this container");
             const_pointer iterPtr = iter.m_iter;
 #else
             const_pointer iterPtr = iter;
@@ -1151,9 +1151,9 @@ namespace VStd {
             }
             else
             {
-                AZ_Assert(insertPos.m_container == this, "Iterator doesn't belong to this container");
+                V_Assert(insertPos.m_container == this, "Iterator doesn't belong to this container");
                 insertPosPtr = const_cast<pointer>(insertPos.m_iter);
-                AZ_Assert(insertPosPtr == 0 && m_start == m_end && m_start == m_last && m_start == insertPosPtr, "vector::insert_iter - This is allowed only if the container has no elements");
+                V_Assert(insertPosPtr == 0 && m_start == m_end && m_start == m_last && m_start == insertPosPtr, "vector::insert_iter - This is allowed only if the container has no elements");
             }
 #else
             pointer insertPosPtr = const_cast<pointer>(insertPos);
@@ -1338,12 +1338,12 @@ namespace VStd {
         inline void orphan_range(pointer first, pointer last) const
         {
 #ifdef VSTD_CHECKED_ITERATORS_IN_MULTI_THREADS
-            AZ_GLOBAL_SCOPED_LOCK(get_global_section());
+            V_GLOBAL_SCOPED_LOCK(get_global_section());
 #endif
             Debug::checked_iterator_base* iter = m_iteratorList;
             while (iter != 0)
             {
-                AZ_Assert(iter->m_container == static_cast<const checked_container_base*>(this), "vector::orphan_range - iterator was corrupted!");
+                V_Assert(iter->m_container == static_cast<const checked_container_base*>(this), "vector::orphan_range - iterator was corrupted!");
                 pointer iterPtr = static_cast<iterator*>(iter)->m_iter;
 
                 if (iterPtr >= first && iterPtr <= last)

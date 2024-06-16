@@ -21,13 +21,13 @@ template <typename ToType, typename FromType>
 inline constexpr VStd::enable_if_t<
     (VStd::is_arithmetic<FromType>::value || VStd::is_enum<FromType>::value)
     && (VStd::is_arithmetic<ToType>::value || VStd::is_enum<ToType>::value)
-    , ToType > azlossy_cast(FromType value)
+    , ToType > vlossy_cast(FromType value)
 {
     return static_cast<ToType>(value);
 }
 
 // This is a helper class that lets us induce the destination type of a lossy numeric cast.
-// It should never be directly used by anything other than azlossy_caster.
+// It should never be directly used by anything other than vlossy_caster.
 namespace V {
     template <typename FromType>
     class LossyCasted
@@ -36,7 +36,7 @@ namespace V {
         explicit constexpr LossyCasted(FromType value)
             : m_value(value) { }
         template <typename ToType>
-        constexpr operator ToType() const { return azlossy_cast<ToType>(m_value); }
+        constexpr operator ToType() const { return vlossy_cast<ToType>(m_value); }
 
     private:
         LossyCasted() = delete;
@@ -49,7 +49,7 @@ namespace V {
 // This is the primary function we should use when lossy casting, since it induces the type we need
 // to cast to from the code rather than requiring an explicit coupling in the source.
 template <typename FromType>
-inline constexpr V::LossyCasted<FromType> azlossy_caster(FromType value)
+inline constexpr V::LossyCasted<FromType> vlossy_caster(FromType value)
 {
     return V::LossyCasted<FromType>(value);
 }

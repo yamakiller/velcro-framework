@@ -31,5 +31,6 @@ namespace V {
     const char* GetPlatformName(PlatformID platform);
 }
 
+#include <core/platform_id/platform_id_platform.h>
 
 #endif // V_FRAMEWORK_CORE_PLATFORM_ID_H

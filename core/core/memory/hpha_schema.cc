@@ -1127,11 +1127,11 @@ namespace V {
         // If m_systemChunkSize is specified, use that size for allocating tree blocks from the OS
         // m_treePageAlignment should be OS_VIRTUAL_PAGE_SIZE in all cases with this trait as we work 
         // with virtual memory addresses when the tree grows and we cannot specify an alignment in all cases
-        : m_treePageSize(desc.m_fixedMemoryBlock != nullptr ? desc.m_pageSize :
-            desc.m_systemChunkSize != 0 ? desc.m_systemChunkSize : OS_VIRTUAL_PAGE_SIZE)
-        , m_treePageAlignment(desc.m_pageSize)
-        , m_poolPageSize(desc.m_fixedMemoryBlock != nullptr ? desc.m_poolPageSize : OS_VIRTUAL_PAGE_SIZE)
-        , m_subAllocator(desc.m_subAllocator)
+        : m_treePageSize(desc.FixedMemoryBlock != nullptr ? desc.PageSize :
+            desc.SystemChunkSize != 0 ? desc.SystemChunkSize : OS_VIRTUAL_PAGE_SIZE)
+        , m_treePageAlignment(desc.PageSize)
+        , m_poolPageSize(desc.FixedMemoryBlock != nullptr ? desc.PoolPageSize : OS_VIRTUAL_PAGE_SIZE)
+        , m_subAllocator(desc.SubAllocator)
     {
 #ifdef DEBUG_ALLOCATOR
         mTotalDebugRequestedSize[DEBUG_SOURCE_BUCKETS] = 0;
@@ -1140,10 +1140,10 @@ namespace V {
         mTotalAllocatedSizeBuckets = 0;
         mTotalAllocatedSizeTree = 0;
 
-        m_fixedBlock = desc.m_fixedMemoryBlock;
-        m_fixedBlockSize = desc.m_fixedMemoryBlockByteSize;
-        m_isPoolAllocations = desc.m_isPoolAllocations;
-        if (desc.m_fixedMemoryBlock)
+        m_fixedBlock = desc.FixedMemoryBlock;
+        m_fixedBlockSize = desc.FixedMemoryBlockByteSize;
+        m_isPoolAllocations = desc.IsPoolAllocations;
+        if (desc.FixedMemoryBlock)
         {
             block_header* bl = tree_add_block(m_fixedBlock, m_fixedBlockSize);
             tree_attach(bl);
@@ -2524,7 +2524,6 @@ namespace V {
 
     //=========================================================================
     // HphaScema
-    // [2/22/2011]
     //=========================================================================
     HphaSchema::HphaSchema(const Descriptor& desc)
     {
@@ -2534,22 +2533,18 @@ namespace V {
         m_desc = desc;
         m_ownMemoryBlock = false;
 
-        if (m_desc.m_fixedMemoryBlockByteSize > 0)
-        {
-            V_Assert((m_desc.m_fixedMemoryBlockByteSize & (m_desc.m_pageSize - 1)) == 0, "Memory block size %d MUST be multiples of the of the page size %d!", m_desc.m_fixedMemoryBlockByteSize, m_desc.m_pageSize);
-            if (m_desc.m_fixedMemoryBlock == nullptr)
-            {
-                V_Assert(m_desc.m_subAllocator != nullptr, "Sub allocator must point to a valid allocator if m_fixedMemoryBlock is NOT allocated (NULL)!");
-                m_desc.m_fixedMemoryBlock = m_desc.m_subAllocator->Allocate(m_desc.m_fixedMemoryBlockByteSize, m_desc.m_fixedMemoryBlockAlignment, 0, "HphaSchema", __FILE__, __LINE__, 1);
-                V_Assert(m_desc.m_fixedMemoryBlock != nullptr, "Failed to allocate %d bytes!", m_desc.m_fixedMemoryBlockByteSize);
+        if (m_desc.FixedMemoryBlockByteSize > 0) {
+            V_Assert((m_desc.FixedMemoryBlockByteSize & (m_desc.PageSize - 1)) == 0, "Memory block size %d MUST be multiples of the of the page size %d!", m_desc.FixedMemoryBlockByteSize, m_desc.PageSize);
+            if (m_desc.FixedMemoryBlock == nullptr) {
+                V_Assert(m_desc.SubAllocator != nullptr, "Sub allocator must point to a valid allocator if FixedMemoryBlock is NOT allocated (NULL)!");
+                m_desc.FixedMemoryBlock = m_desc.SubAllocator->Allocate(m_desc.FixedMemoryBlockByteSize, m_desc.FixedMemoryBlockAlignment, 0, "HphaSchema", __FILE__, __LINE__, 1);
+                V_Assert(m_desc.FixedMemoryBlock != nullptr, "Failed to allocate %d bytes!", m_desc.FixedMemoryBlockByteSize);
                 m_ownMemoryBlock = true;
             }
-            V_Assert((reinterpret_cast<size_t>(m_desc.m_fixedMemoryBlock) & static_cast<size_t>(desc.m_fixedMemoryBlockAlignment - 1)) == 0, "Memory block must be page size (%d bytes) aligned!", desc.m_fixedMemoryBlockAlignment);
-            m_capacity = m_desc.m_fixedMemoryBlockByteSize;
-        }
-        else
-        {
-            m_capacity = desc.m_capacity;
+            V_Assert((reinterpret_cast<size_t>(m_desc.FixedMemoryBlock) & static_cast<size_t>(desc.FixedMemoryBlockAlignment - 1)) == 0, "Memory block must be page size (%d bytes) aligned!", desc.FixedMemoryBlockAlignment);
+            m_capacity = m_desc.FixedMemoryBlockByteSize;
+        } else {
+            m_capacity = desc.Capacity;
         }
 
         V_Assert(sizeof(HpAllocator) <= sizeof(m_hpAllocatorBuffer), "Increase the m_hpAllocatorBuffer, we need %d bytes but we have %d bytes!", sizeof(HpAllocator), sizeof(m_hpAllocatorBuffer));
@@ -2558,7 +2553,6 @@ namespace V {
 
     //=========================================================================
     // ~HphaSchema
-    // [2/22/2011]
     //=========================================================================
     HphaSchema::~HphaSchema()
     {
@@ -2567,8 +2561,8 @@ namespace V {
 
         if (m_ownMemoryBlock)
         {
-            m_desc.m_subAllocator->DeAllocate(m_desc.m_fixedMemoryBlock, m_desc.m_fixedMemoryBlockByteSize, m_desc.m_fixedMemoryBlockAlignment);
-            m_desc.m_fixedMemoryBlock = nullptr;
+            m_desc.SubAllocator->DeAllocate(m_desc.FixedMemoryBlock, m_desc.FixedMemoryBlockByteSize, m_desc.FixedMemoryBlockAlignment);
+            m_desc.FixedMemoryBlock = nullptr;
         }
     }
 
