@@ -752,8 +752,8 @@ namespace V {
             *! This has similar behavior to Python pathlib '/' operator and os.path.join
             *! Specifically, that it uses the last absolute path as the anchor for the resulting path
             *! https://docs.python.org/3/library/pathlib.html#pathlib.PurePath
-            *! This means that joining StringFunc::Path::Join("C:\\O3DE" "F:\\O3DE") results in "F:\\O3DE"
-            *! not "C:\\O3DE\\F:\\O3DE"
+            *! This means that joining StringFunc::Path::Join("C:\\VELCRO" "F:\\VELCRO") results in "F:\\VELCRO"
+            *! not "C:\\VELCRO\\F:\\VELCRO"
             *! EX: StringFunc::Path::Join("C:\\linux\\game","info\\some.file", a) == true; a== "C:\\linux\\game\\info\\some.file"
             *! EX: StringFunc::Path::Join("C:\\linux\\game\\info", "game\\info\\some.file", a) == true; a== "C:\\linux\\game\\info\\game\\info\\some.file"
             *! EX: StringFunc::Path::Join("C:\\linux\\game\\info", "\\game\\info\\some.file", a) == true; a== "C:\\game\\info\\some.file"

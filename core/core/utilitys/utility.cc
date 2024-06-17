@@ -7,12 +7,12 @@
 #include <core/std/containers/vector.h>
 #include <core/string_func/string_func.h>
 
-namespace V::Utils
+namespace V::Utilitys
 {
     ExecutablePathResult GetExecutableDirectory(char* exeStorageBuffer, size_t exeStorageSize)
     {
-        V::Utils::GetExecutablePathReturnType result = GetExecutablePath(exeStorageBuffer, exeStorageSize);
-        if (result.m_pathStored != V::Utils::ExecutablePathResult::Success)
+        GetExecutablePathReturnType result = GetExecutablePath(exeStorageBuffer, exeStorageSize);
+        if (result.m_pathStored != ExecutablePathResult::Success)
         {
             *exeStorageBuffer = '\0';
             return result.m_pathStored;
@@ -58,13 +58,13 @@ namespace V::Utils
 
     V::IO::FixedMaxPathString GetEngineManifestPath()
     {
-        V::IO::FixedMaxPath o3deManifestPath = GetO3deManifestDirectory();
-        if (!o3deManifestPath.empty())
+        V::IO::FixedMaxPath velcroManifestPath = GetVelcroManifestDirectory();
+        if (!velcroManifestPath.empty())
         {
-            o3deManifestPath /= "o3de_manifest.json";
+            velcroManifestPath /= "velcro_manifest.json";
         }
 
-        return o3deManifestPath.Native();
+        return velcroManifestPath.Native();
     }
 
     V::IO::FixedMaxPathString GetEnginePath()
@@ -170,16 +170,16 @@ namespace V::Utils
     template V::Outcome<VStd::vector<int8_t>, VStd::string> ReadFile(VStd::string_view filePath, size_t maxFileSize);
     template V::Outcome<VStd::vector<uint8_t>, VStd::string> ReadFile(VStd::string_view filePath, size_t maxFileSize);
 
-    V::IO::FixedMaxPathString GetO3deManifestDirectory()
+    V::IO::FixedMaxPathString GetVelcroManifestDirectory()
     {
         V::IO::FixedMaxPath path = GetHomeDirectory();
-        path /= ".o3de";
+        path /= ".velcro";
         return path.Native();
     }
 
-    V::IO::FixedMaxPathString GetO3deLogsDirectory()
+    V::IO::FixedMaxPathString GetVelcroLogsDirectory()
     {
-        V::IO::FixedMaxPath path = GetO3deManifestDirectory();
+        V::IO::FixedMaxPath path = GetVelcroManifestDirectory();
         path /= "Logs";
         return path.Native();
     }

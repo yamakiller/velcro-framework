@@ -82,14 +82,14 @@ namespace V {
         //! Retrieves the full directory to the Home directory, i.e. "<userhome> or overrideHomeDirectory"
         V::IO::FixedMaxPathString GetHomeDirectory();
 
-        //! Retrieves the full directory to the O3DE manifest directory, i.e. "<userhome>/.o3de"
-        V::IO::FixedMaxPathString GetO3deManifestDirectory();
+        //! Retrieves the full directory to the VELCRO manifest directory, i.e. "<userhome>/.velcro"
+        V::IO::FixedMaxPathString GetVelcroManifestDirectory();
 
-        //! Retrieves the full path where the manifest file lives, i.e. "<userhome>/.o3de/o3de_manifest.json"
+        //! Retrieves the full path where the manifest file lives, i.e. "<userhome>/.velcro/velcro_manifest.json"
         V::IO::FixedMaxPathString GetEngineManifestPath();
 
-        //! Retrieves the full directory to the O3DE logs directory, i.e. "<userhome>/.o3de/Logs"
-        V::IO::FixedMaxPathString GetO3deLogsDirectory();
+        //! Retrieves the full directory to the VELCRO logs directory, i.e. "<userhome>/.velcro/Logs"
+        V::IO::FixedMaxPathString GetVelcroLogsDirectory();
 
         //! Retrieves the App root path to use on the current platform
         //! If the optional is not engaged the AppRootPath should be calculated based
