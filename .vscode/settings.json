@@ -76,5 +76,6 @@
         "xlocbuf": "cpp",
         "xlocmes": "cpp",
         "xloctime": "cpp"
-    }
+    },
+    "dotnet.defaultSolution": "disable"
 }
