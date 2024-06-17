@@ -1,5 +1,5 @@
-#ifndef V_FRAMEWORK_CORE_EVENTS_EVENT_H
-#define V_FRAMEWORK_CORE_EVENTS_EVENT_H
+#ifndef V_FRAMEWORK_CORE_EVENT_STREAM_EVENT_H
+#define V_FRAMEWORK_CORE_EVENT_STREAM_EVENT_H
 
 #include <core/base.h>
 #include <core/casting/numeric_cast.h>
@@ -423,4 +423,4 @@ namespace V {
     }
 }
 
-#endif // V_FRAMEWORK_CORE_EVENTS_EVENT_H
+#endif // V_FRAMEWORK_CORE_EVENT_STREAM_EVENT_H
