@@ -115,7 +115,7 @@ namespace V {
         * and possible memory corruption.
         */
         class AllocationRecords {
-            friend class MemoryDriller;
+            friend class MemoryDetector;
             V_CLASS_ALLOCATOR(AllocationRecords, OSAllocator, 0);
 
         public:

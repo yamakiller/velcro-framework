@@ -6,7 +6,7 @@
 #include <core/memory/allocator_records.h>
 #include <core/memory/allocator_override_shim.h>
 #include <core/memory/malloc_schema.h>
-//#include <core/memory/MemoryDrillerBus.h>
+#include <core/memory/memory_detector_bus.h>
 
 #include <core/std/parallel/lock.h>
 #include <core/std/smart_ptr/make_shared.h>
@@ -207,7 +207,7 @@ AllocatorManager::InternalDestroy() {
         (void)allocator;
         V_Assert(allocator->IsLazilyCreated(), "Manually created allocator '%s (%s)' must be manually destroyed before shutdown", allocator->GetName(), allocator->GetDescription());
         m_allocators[--m_numAllocators] = nullptr;
-        // Do not actually destroy the lazy allocator as it may have work to do during non-deterministic shutdown
+        // 实际上不要销毁惰性分配器，因为它在非确定性关闭期间可能有工作要做
     }
 
     if (m_data) {
@@ -228,13 +228,13 @@ void
 AllocatorManager::ConfigureAllocatorOverrides(IAllocator* alloc) {
     auto record = m_data->m_allocatorMap.emplace(VStd::piecewise_construct, VStd::forward_as_tuple(alloc->GetName(), VStdIAllocator(m_mallocSchema.get())), VStd::forward_as_tuple(alloc));
 
-    // We only need to keep going if the allocator supports overrides.
+    // 如果分配器支持覆盖，我们只需要继续.
     if (!alloc->CanBeOverridden()) {
         return;
     }
 
     if (!alloc->IsAllocationSourceChanged()) {
-        // All allocators must switch to an OverrideEnabledAllocationSource proxy if they are to support allocator overriding.
+        // 如果要支持分配器覆盖，所有分配器都必须切换到 OverrideEnabledAllocationSource 代理.
         auto overrideEnabled = Internal::AllocatorOverrideShim::Create(alloc, m_mallocSchema.get());
         alloc->SetAllocationSource(overrideEnabled);
     }
@@ -281,7 +281,7 @@ AllocatorManager::UnRegisterAllocator(class IAllocator* alloc){
     VStd::lock_guard<VStd::mutex> lock(m_allocatorListMutex);
 
     if (alloc->GetRecords()){
-        //EBUS_EVENT(Debug::MemoryDrillerBus, UnregisterAllocator, alloc);
+        EVENTBUS_EVENT(Debug::MemoryDetectorBus, UnregisterAllocator, alloc);
     }
 
     for (int i = 0; i < m_numAllocators; ++i) {
