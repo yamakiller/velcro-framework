@@ -176,9 +176,9 @@ namespace V
 
             virtual ~NonIdHandler()
             {
-AZ_PUSH_DISABLE_WARNING(4127, "-Wunknown-warning-option") // conditional expression is constant (for Traits::LocklessDispatch in asserts)
+V_PUSH_DISABLE_WARNING(4127, "-Wunknown-warning-option") // conditional expression is constant (for Traits::LocklessDispatch in asserts)
                 V_Assert((!VStd::is_polymorphic<typename BusType::InterfaceType>::value || VStd::is_same<typename BusType::MutexType, V::NullMutex>::value || !BusIsConnected()), "EventBus handlers must be disconnected prior to destruction on multi-threaded buses with virtual functions");
-AZ_POP_DISABLE_WARNING
+V_POP_DISABLE_WARNING
 
                 if (BusIsConnected())
                 {
@@ -253,9 +253,9 @@ AZ_POP_DISABLE_WARNING
 
             virtual ~IdHandler()
             {
-AZ_PUSH_DISABLE_WARNING(4127, "-Wunknown-warning-option") // conditional expression is constant (for Traits::LocklessDispatch in asserts)
+V_PUSH_DISABLE_WARNING(4127, "-Wunknown-warning-option") // conditional expression is constant (for Traits::LocklessDispatch in asserts)
                 V_Assert((!VStd::is_polymorphic<typename BusType::InterfaceType>::value || VStd::is_same_v<typename BusType::MutexType, V::NullMutex> || !BusIsConnected()), "EventBus handlers must be disconnected prior to destruction on multi-threaded buses with virtual functions");
-AZ_POP_DISABLE_WARNING
+V_POP_DISABLE_WARNING
 
                 if (BusIsConnected())
                 {

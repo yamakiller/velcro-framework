@@ -865,7 +865,7 @@ namespace V
             }
             else
             {
-                AZ_Warning("EventBus", false, "Unable to queue function onto EventBus.  This may be due to a previous call to AllowFunctionQueuing(false)."
+                V_Warning("EventBus", false, "Unable to queue function onto EventBus.  This may be due to a previous call to AllowFunctionQueuing(false)."
                     "  Hint: This is often disabled during shutdown of a ComponentApplication");
             }
         }

@@ -18,22 +18,22 @@ namespace V
             // When we create Global context we store addition information for access 
             // to the TLS Environment and context index to support EBusEnvironmnets
             // hold a reference to the variable (even though we will never release it)
-            static EnvironmentVariable<Internal::EventBusEnvironmentTLSAccessors> s_tlsAccessor = nullptr;
-            if (!s_tlsAccessor)
+            static EnvironmentVariable<Internal::EventBusEnvironmentTLSAccessors> _tlsAccessor = nullptr;
+            if (!_tlsAccessor)
             {
-                s_tlsAccessor = Environment::CreateVariable<Internal::EventBusEnvironmentTLSAccessors>(Internal::EventBusEnvironmentTLSAccessors::GetId());
+                _tlsAccessor = Environment::CreateVariable<Internal::EventBusEnvironmentTLSAccessors>(Internal::EventBusEnvironmentTLSAccessors::GetId());
             }
 
-            m_ebusEnvironmentGetter = s_tlsAccessor->m_getter;
-            m_ebusEnvironmentTLSIndex = s_tlsAccessor->m_numUniqueEventBuses++;
+            m_ebusEnvGetter = _tlsAccessor->m_getter;
+            m_ebusEnvTLSIndex = _tlsAccessor->NumUniqueEventBuses++;
         }
 
         //////////////////////////////////////////////////////////////////////////
         ContextBase::ContextBase(EventBusEnvironment* environment)
-            : m_ebusEnvironmentGetter(nullptr)
-            , m_ebusEnvironmentTLSIndex(-1)
+            : m_ebusEnvGetter(nullptr)
+            , m_ebusEnvTLSIndex(-1)
         {
-            // we need m_ebusEnvironmentGetter and m_ebusEnvironmentTLSIndex only in the global context
+            // we need m_ebusEnvGetter and m_ebusEnvTLSIndex only in the global context
             (void)environment;
         }
 
@@ -44,7 +44,7 @@ namespace V
         EventBusEnvironmentTLSAccessors::EventBusEnvironmentTLSAccessors()
             : m_getter(&GetTLSEnvironment)
             , m_setter(&SetTLSEnvironment)
-            , m_numUniqueEventBuses(0)
+            , NumUniqueEventBuses(0)
         {
         }
 

@@ -42,8 +42,8 @@ namespace V
 
         private:
 
-            int m_ebusEnvironmentTLSIndex;
-            EventBusEnvironmentGetterType m_ebusEnvironmentGetter;
+            int m_ebusEnvTLSIndex;
+            EventBusEnvironmentGetterType m_ebusEnvGetter;
         };
 
         /**
@@ -67,7 +67,7 @@ namespace V
             static EventBusEnvironment* GetTLSEnvironment();
             static void SetTLSEnvironment(EventBusEnvironment* environment);
 
-            VStd::atomic_int m_numUniqueEventBuses; ///< Used to provide unique index for the TLS table
+            VStd::atomic_int NumUniqueEventBuses; ///< Used to provide unique index for the TLS table
 
             static V_THREAD_LOCAL EventBusEnvironment* _tlsCurrentEnvironment; ///< Pointer to the current environment for the current thread.
         };
@@ -187,7 +187,7 @@ namespace V
        V::Internal::ContextBase* context = FindContext(tlsKey);
         if (!context)
         {
-            context = new(AZ_OS_MALLOC(sizeof(Context), VStd::alignment_of<Context>::value)) Context(this);
+            context = new(V_OS_MALLOC(sizeof(Context), VStd::alignment_of<Context>::value)) Context(this);
             InsertContext(tlsKey, context, true);
         }
         return static_cast<Context*>(context);
@@ -200,7 +200,7 @@ namespace V
         EventBusEnvironment* currentEnvironment = m_tlsAccessor->m_getter(); // store current environment
         m_tlsAccessor->m_setter(nullptr); // set the environment to null to make sure that we can global context when we call Get()
         typename Bus::Context& globalContext = Bus::StoragePolicy::GetOrCreate();
-        bool isInserted = InsertContext(globalContext.m_ebusEnvironmentTLSIndex, &globalContext, false);
+        bool isInserted = InsertContext(globalContext.m_ebusEnvTLSIndex, &globalContext, false);
         m_tlsAccessor->m_setter(currentEnvironment);
         return isInserted;
     }
@@ -234,7 +234,7 @@ namespace V
         /**
         * Environment variable that contains a pointer to the EventBus data.
         */
-        static EnvironmentVariable<Context> s_defaultGlobalContext;
+        static EnvironmentVariable<Context> _defaultGlobalContext;
 
         // EventBus traits should provide a valid unique name, so that handlers can 
         // connect to the EventBus across modules.
@@ -244,26 +244,26 @@ namespace V
     };
 
     template<class Context>
-    EnvironmentVariable<Context> EventBusEnvironmentStoragePolicy<Context>::s_defaultGlobalContext;
+    EnvironmentVariable<Context> EventBusEnvironmentStoragePolicy<Context>::_defaultGlobalContext;
 
     //////////////////////////////////////////////////////////////////////////
     template<class Context>
     Context* EventBusEnvironmentStoragePolicy<Context>::Get()
     {
-        if (!s_defaultGlobalContext && Environment::IsReady())
+        if (!_defaultGlobalContext && Environment::IsReady())
         {
-            s_defaultGlobalContext = Environment::FindVariable<Context>(GetVariableId());
+            _defaultGlobalContext = Environment::FindVariable<Context>(GetVariableId());
         }
 
-        if (s_defaultGlobalContext)
+        if (_defaultGlobalContext)
         {
-            if (s_defaultGlobalContext.IsConstructed())
+            if (_defaultGlobalContext.IsConstructed())
             {
-                Context* globalContext = &s_defaultGlobalContext.Get();
+                Context* globalContext = &_defaultGlobalContext.Get();
 
-                if (EventBusEnvironment* tlsEnvironment = globalContext->m_ebusEnvironmentGetter())
+                if (EventBusEnvironment* tlsEnvironment = globalContext->m_ebusEnvGetter())
                 {
-                    return tlsEnvironment->GetBusContext<Context>(globalContext->m_ebusEnvironmentTLSIndex);
+                    return tlsEnvironment->GetBusContext<Context>(globalContext->m_ebusEnvTLSIndex);
                 }
                 return globalContext;
             }
@@ -274,18 +274,15 @@ namespace V
 
     //////////////////////////////////////////////////////////////////////////
     template<class Context>
-    Context& EventBusEnvironmentStoragePolicy<Context>::GetOrCreate()
-    {
-        if (!s_defaultGlobalContext)
-        {
-            s_defaultGlobalContext = Environment::CreateVariable<Context>(GetVariableId());
+    Context& EventBusEnvironmentStoragePolicy<Context>::GetOrCreate() {
+        if (!_defaultGlobalContext) {
+            _defaultGlobalContext = Environment::CreateVariable<Context>(GetVariableId());
         }
 
-        Context& globalContext = *s_defaultGlobalContext;
+        Context& globalContext = *_defaultGlobalContext;
 
-        if (EventBusEnvironment* tlsEnvironment = globalContext.m_ebusEnvironmentGetter())
-        {
-            return *tlsEnvironment->GetBusContext<Context>(globalContext.m_ebusEnvironmentTLSIndex);
+        if (EventBusEnvironment* tlsEnvironment = globalContext.m_ebusEnvGetter()) {
+            return *tlsEnvironment->GetBusContext<Context>(globalContext.m_ebusEnvTLSIndex);
         }
 
         return globalContext;
@@ -295,7 +292,7 @@ namespace V
     template<class Context>
     u32 EventBusEnvironmentStoragePolicy<Context>::GetVariableId()
     {
-        static const u32 NameCrc = Crc32(AZ_FUNCTION_SIGNATURE);
+        static const u32 NameCrc = Crc32(V_FUNCTION_SIGNATURE);
         return NameCrc;
     }
 } // namespace V

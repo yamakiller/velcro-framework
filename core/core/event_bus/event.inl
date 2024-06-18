@@ -19,7 +19,7 @@ namespace V
 
     template <typename... Params>
     EventHandler<Params...>::EventHandler(Callback callback)
-        : m_callback(AZStd::move(callback))
+        : m_callback(VStd::move(callback))
     {
         ;
     }
@@ -47,7 +47,7 @@ namespace V
     EventHandler<Params...>::EventHandler(EventHandler&& rhs)
         : m_event(rhs.m_event)
         , m_index(rhs.m_index)
-        , m_callback(AZStd::move(rhs.m_callback))
+        , m_callback(VStd::move(rhs.m_callback))
     {
         // Moves all of the data of the r-value handle, fixup the event to point to them, and revert the r-value handle to it's original construction state
         rhs.m_event = nullptr;
@@ -98,7 +98,7 @@ namespace V
             // Moves all of the data of the r-value handle, fixup the event to point to them, and revert the r-value handle to it's original construction state
             m_event = rhs.m_event;
             m_index = rhs.m_index;
-            m_callback = AZStd::move(rhs.m_callback);
+            m_callback = VStd::move(rhs.m_callback);
 
             rhs.m_event = nullptr;
             rhs.m_index = 0;
@@ -115,13 +115,13 @@ namespace V
     {
         // Cannot add an unbound event handle (no function callback) to an event, this is a programmer error
         // We explicitly do not support binding the callback after the handler has been constructed so we can just reject the event handle here
-        AZ_Assert(m_callback, "Handler callback is null");
+        V_Assert(m_callback, "Handler callback is null");
         if (!m_callback)
         {
             return;
         }
 
-        AZ_Assert(!m_event, "Handler is already registered to an event, binding a handler to multiple events is unsupported");
+        V_Assert(!m_event, "Handler is already registered to an event, binding a handler to multiple events is unsupported");
         m_event = &event;
 
         event.Connect(*this);
@@ -153,12 +153,12 @@ namespace V
             // The index can then be converted to the add list index in which it lives
             if (m_index < 0)
             {
-                AZ_Assert(m_event->m_addList[-(m_index + 1)] == &from, "From handle does not match");
+                V_Assert(m_event->m_addList[-(m_index + 1)] == &from, "From handle does not match");
                 m_event->m_addList[-(m_index + 1)] = this;
             }
             else
             {
-                AZ_Assert(m_event->m_handlers[m_index] == &from, "From handle does not match");
+                V_Assert(m_event->m_handlers[m_index] == &from, "From handle does not match");
                 m_event->m_handlers[m_index] = this;
             }
         }
@@ -167,9 +167,9 @@ namespace V
 
     template <typename... Params>
     Event<Params...>::Event(Event&& rhs)
-        : m_handlers(AZStd::move(rhs.m_handlers))
-        , m_addList(AZStd::move(rhs.m_addList))
-        , m_freeList(AZStd::move(rhs.m_freeList))
+        : m_handlers(VStd::move(rhs.m_handlers))
+        , m_addList(VStd::move(rhs.m_addList))
+        , m_freeList(VStd::move(rhs.m_freeList))
         , m_updating(rhs.m_updating)
     {
         // Move all sub-objects into this event and fixup each handle to point to this event
@@ -194,9 +194,9 @@ namespace V
         // Revert the r-value event to it's default state (the moves should do it but PODs need to be set)
         DisconnectAllHandlers();
 
-        m_handlers = AZStd::move(rhs.m_handlers);
-        m_addList = AZStd::move(rhs.m_addList);
-        m_freeList = AZStd::move(rhs.m_freeList);
+        m_handlers = VStd::move(rhs.m_handlers);
+        m_addList = VStd::move(rhs.m_addList);
+        m_freeList = VStd::move(rhs.m_freeList);
         m_updating = rhs.m_updating;
 
         BindHandlerEventPointers();
@@ -210,13 +210,13 @@ namespace V
     template <typename... Params>
     auto Event<Params...>::ClaimHandlers(Event&& other) -> Event&
     {
-        auto handlers = AZStd::move(other.m_handlers);
-        auto addList = AZStd::move(other.m_addList);
+        auto handlers = VStd::move(other.m_handlers);
+        auto addList = VStd::move(other.m_addList);
         other.m_freeList = {};
         other.m_updating = false;
 
-        AZStd::array handlerContainers{ &handlers, &addList };
-        for (AZStd::vector<Handler*>* handlerList : handlerContainers)
+        VStd::array handlerContainers{ &handlers, &addList };
+        for (VStd::vector<Handler*>* handlerList : handlerContainers)
         {
             for (Handler* handler : *handlerList)
             {
@@ -256,7 +256,7 @@ namespace V
         {
             if (handler)
             {
-                AZ_Assert(handler->m_event == this, "Entry event does not match");
+                V_Assert(handler->m_event == this, "Entry event does not match");
                 handler->Disconnect();
             }
         }
@@ -264,17 +264,17 @@ namespace V
         // Clear any handlers still pending registration
         for (Handler* handler : m_addList)
         {
-            AZ_Assert(handler, "NULL handler encountered in Event addList");
-            AZ_Assert(handler->m_event == this, "Entry event does not match");
+            V_Assert(handler, "NULL handler encountered in Event addList");
+            V_Assert(handler->m_event == this, "Entry event does not match");
             handler->Disconnect();
         }
 
         // Free up any owned memory
-        AZStd::vector<Handler*> freeHandlers;
+        VStd::vector<Handler*> freeHandlers;
         m_handlers.swap(freeHandlers);
-        AZStd::vector<Handler*> freeAdds;
+        VStd::vector<Handler*> freeAdds;
         m_addList.swap(freeAdds);
-        AZStd::stack<size_t> freeFree;
+        VStd::stack<size_t> freeFree;
         m_freeList.swap(freeFree);
     }
 
@@ -298,7 +298,7 @@ namespace V
         {
             for (Handler* handler : m_addList)
             {
-                AZ_Assert(handler, "NULL handler encountered in Event addList");
+                V_Assert(handler, "NULL handler encountered in Event addList");
                 if (m_freeList.empty())
                 {
                     handler->m_index = aznumeric_cast<int32_t>(m_handlers.size());
@@ -309,7 +309,7 @@ namespace V
                     handler->m_index = aznumeric_cast<int32_t>(m_freeList.top());
                     m_freeList.pop();
 
-                    AZ_Assert(m_handlers[handler->m_index] == nullptr, "Callback already registered");
+                    V_Assert(m_handlers[handler->m_index] == nullptr, "Callback already registered");
                     m_handlers[handler->m_index] = handler;
                 }
             }
@@ -328,7 +328,7 @@ namespace V
             if (handler)
             {
                 // This should have happened as part of a move so none of the pointers should refer to this event (they should also all refer to the same event)
-                AZ_Assert(handler->m_event != this, "Should not refer to this");
+                V_Assert(handler->m_event != this, "Should not refer to this");
                 handler->m_event = this;
             }
         }
@@ -336,8 +336,8 @@ namespace V
         for (Handler* handler : m_addList)
         {
             // This should have happened as part of a move so none of the pointers should refer to this event (they should also all refer to the same event)
-            AZ_Assert(handler, "NULL handler encountered in Event addList");
-            AZ_Assert(handler->m_event != this, "Should not refer to this");
+            V_Assert(handler, "NULL handler encountered in Event addList");
+            V_Assert(handler->m_event != this, "Should not refer to this");
             handler->m_event = this;
         }
     }
@@ -363,7 +363,7 @@ namespace V
             handler.m_index = aznumeric_cast<int32_t>(m_freeList.top());
             m_freeList.pop();
 
-            AZ_Assert(m_handlers[handler.m_index] == nullptr, "Replacing non nullptr event");
+            V_Assert(m_handlers[handler.m_index] == nullptr, "Replacing non nullptr event");
             m_handlers[handler.m_index] = &handler;
         }
     }
@@ -372,17 +372,17 @@ namespace V
     template <typename... Params>
     inline void Event<Params...>::Disconnect(Handler& eventHandle) const
     {
-        AZ_Assert(eventHandle.m_event == this, "Trying to remove a handler bound to a different event");
+        V_Assert(eventHandle.m_event == this, "Trying to remove a handler bound to a different event");
 
         int32_t index = eventHandle.m_index;
         if (index < 0)
         {
-            AZ_Assert(m_addList[-(index + 1)] == &eventHandle, "Entry does not refer to handle");
+            V_Assert(m_addList[-(index + 1)] == &eventHandle, "Entry does not refer to handle");
             m_addList[-(index + 1)] = nullptr;
         }
         else
         {
-            AZ_Assert(m_handlers[index] == &eventHandle, "Entry does not refer to handle");
+            V_Assert(m_handlers[index] == &eventHandle, "Entry does not refer to handle");
             m_handlers[index] = nullptr;
             m_freeList.push(index);
         }

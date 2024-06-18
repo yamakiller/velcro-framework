@@ -23,8 +23,7 @@ namespace V
         struct AddressStoragePolicy;
         // Unordered
         template <typename Traits, typename HandlerStorage>
-        struct AddressStoragePolicy<Traits, HandlerStorage, EventBusAddressPolicy::ById>
-        {
+        struct AddressStoragePolicy<Traits, HandlerStorage, EventBusAddressPolicy::ById> {
         private:
             using IdType = typename Traits::BusIdType;
 
@@ -55,9 +54,7 @@ namespace V
             };
 
         public:
-            struct StorageType
-                : public VStd::hash_table<hash_table_traits>
-            {
+            struct StorageType : public VStd::hash_table<hash_table_traits> {
                 using base_type = VStd::hash_table<hash_table_traits>;
 
                 StorageType()
@@ -66,16 +63,14 @@ namespace V
 
                 // EventBus extension: Assert on insert
                 template <typename... InputArgs>
-                typename base_type::iterator emplace(InputArgs&&... args)
-                {
+                typename base_type::iterator emplace(InputArgs&&... args) {
                     auto pair = base_type::emplace(VStd::forward<InputArgs>(args)...);
                     EVENTBUS_ASSERT(pair.second, "Internal error: Failed to insert");
                     return pair.first;
                 }
 
                 // EventBus extension: rehash on final erase
-                void erase(const IdType& id)
-                {
+                void erase(const IdType& id) {
                     base_type::erase(id);
                     if (base_type::empty())
                     {
