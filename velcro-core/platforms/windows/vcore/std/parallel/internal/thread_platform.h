@@ -1,6 +1,6 @@
 #ifndef V_FRAMEWORK_CORE_STD_PARALLEL_WINDOWS_INTERNAL_THREAD_PLATFORM_H
 #define V_FRAMEWORK_CORE_STD_PARALLEL_WINDOWS_INTERNAL_THREAD_PLATFORM_H
 
-#include <../common/winapi/core/std/parallel/internal/thread_winapi.h>
+#include <../common/winapi/vcore/std/parallel/internal/thread_winapi.h>
 
 #endif // V_FRAMEWORK_CORE_STD_PARALLEL_WINDOWS_INTERNAL_THREAD_PLATFORM_H

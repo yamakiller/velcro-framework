@@ -32,11 +32,11 @@ namespace V {
 } // namespace V
 
 #if   V_TRAIT_USE_PLATFORM_SIMD_SSE
-#   include <core/math/internal/simd_see.inl>
+#   include <vcore/math/internal/simd_see.inl>
 #elif V_TRAIT_USE_PLATFORM_SIMD_NEON
-#   include <core/math/internal/simd_neon.inl>
+#   include <vcore/math/internal/simd_neon.inl>
 #elif V_TRAIT_USE_PLATFORM_SIMD_SCALAR
-#   include <core/math/internal/simd_scalar.inl>
+#   include <vcore/math/internal/simd_scalar.inl>
 #endif
 
 

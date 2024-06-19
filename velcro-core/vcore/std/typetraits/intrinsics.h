@@ -11,7 +11,7 @@
 #include <vcore/std/typetraits/config.h>
 
 #if defined(V_COMPILER_MSVC)
-#   include <core/std/typetraits/is_same.h>
+#   include <vcore/std/typetraits/is_same.h>
 
 #   define VSTD_IS_UNION(T) __is_union(T)
 #   define VSTD_IS_POD(T) (__is_pod(T) && __has_trivial_constructor(T))
