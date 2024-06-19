@@ -5,8 +5,7 @@ CMAKE_MINIMUM_REQUIRED(VERSION 3.10)
 #调试版本增加后缀
 SET(CMAKE_DEBUG_POSTFIX "_debug")
 
-SET(LOCAL_SOURCE_DIR ${PROJECT_SOURCE_DIR}/core)
-SET(LOCAL_TEST_SOURCE_DIR ${PROJECT_SOURCE_DIR}/velcro-test)
+SET(LOCAL_SOURCE_DIR ${PROJECT_SOURCE_DIR}/velcro-core)
 SET(THIRDPARTY_DIR ${PROJECT_SOURCE_DIR}/3dparty)
 
 
@@ -17,7 +16,7 @@ SET(LIBRARY_OUTPUT_PATH    ${PROJECT_SOURCE_DIR}/Binaries)
 #设置编译输出目录为默认库搜索路径
 LINK_DIRECTORIES(${PROJECT_SOURCE_DIR}/Binaries)
 #设置头文件搜索目录
-INCLUDE_DIRECTORIES(${PROJECT_SOURCE_DIR}/core)
+INCLUDE_DIRECTORIES(${PROJECT_SOURCE_DIR}/velcro-core)
 
 # ThreadSanitizer
 set(CMAKE_C_FLAGS_TSAN
@@ -73,6 +72,6 @@ set(CMAKE_CXX_FLAGS_UBSAN
 	FORCE)
 
     
-add_subdirectory(core)
+add_subdirectory(velcro-core)
 add_subdirectory(version)
 
