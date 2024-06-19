@@ -14,7 +14,7 @@
 #   error This compiler is not supported
 #endif
 
-#include "core/traits_platform.h"
+#include "vcore/traits_platform.h"
 
 
 //////////////////////////////////////////////////////////////////////////
