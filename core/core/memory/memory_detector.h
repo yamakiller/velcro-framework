@@ -11,7 +11,7 @@ namespace V
         struct StackFrame;
 
         /**
-         * Trace messages driller class
+         * Trace messages detector class
          */
         class MemoryDetector
             : public Detector

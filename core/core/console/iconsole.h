@@ -1,8 +1,8 @@
 #ifndef V_FRAMEWORK_CORE_CONSOLE_ICONSOLE_H
 #define V_FRAMEWORK_CORE_CONSOLE_ICONSOLE_H
 
-#include <core/console/ConsoleFunctor.h>
-#include <core/console/ConsoleDataWrapper.h>
+#include <core/console/console_functor.h>
+#include <core/console/console_data_wrapper.h>
 #include <core/console/iconsole_types.h>
 #include <core/event_bus/event.h>
 #include <core/std/containers/vector.h>
@@ -175,5 +175,75 @@ namespace V {
         return cvarFunctor->GetValue(outValue);
     }
 }
+
+template <typename _TYPE, typename = void>
+static constexpr V::ThreadSafety ConsoleThreadSafety = V::ThreadSafety::RequiresLock;
+
+template <typename _TYPE>
+static constexpr V::ThreadSafety ConsoleThreadSafety<_TYPE, std::enable_if_t<std::is_arithmetic_v<_TYPE>>> = V::ThreadSafety::UseStdAtomic;
+
+//! Standard cvar macro.
+//! @param _TYPE the data type of the cvar
+//! @param _NAME the name of the cvar
+//! @param _INIT the initial value to assign to the cvar
+//! @param _CALLBACK this is an optional callback function to get invoked when a cvar changes value
+//!        You have no guarantees as to what thread will invoke the callback
+//!        It is the responsibility of the implementor of the callback to ensure thread safety
+//! @param _FLAGS a set of VelcroFramework::ConsoleFunctorFlags used to mutate behaviour
+//! @param _DESC a description of the cvar
+#define V_CVAR(_TYPE, _NAME, _INIT, _CALLBACK, _FLAGS, _DESC) \
+    using CVarDataWrapperType##_NAME = V::ConsoleDataWrapper<_TYPE, ConsoleThreadSafety<_TYPE>>; \
+    inline CVarDataWrapperType##_NAME _NAME(_INIT, _CALLBACK, #_NAME, _DESC, _FLAGS)
+
+//! Block-scoped cvar macro.
+//! This declaration should only be used within a block-scope or function body
+//! @param _TYPE the data type of the cvar
+//! @param _NAME the name of the cvar
+//! @param _INIT the initial value to assign to the cvar
+//! @param _CALLBACK this is an optional callback function to get invoked when a cvar changes value
+//! @param _FLAGS a set of VelcroFramework::ConsoleFunctorFlags used to mutate behaviour
+//!        You have no guarantees as to what thread will invoke the callback
+//!        It is the responsibility of the implementor of the callback to ensure thread safety
+//! @param _DESC a description of the cvar
+#define V_CVAR_SCOPED(_TYPE, _NAME, _INIT, _CALLBACK, _FLAGS, _DESC) \
+    using CVarDataWrapperType##_NAME = V::ConsoleDataWrapper<_TYPE, ConsoleThreadSafety<_TYPE>>; \
+    CVarDataWrapperType##_NAME _NAME(_INIT, _CALLBACK, #_NAME, _DESC, _FLAGS)
+
+//! Cvar macro that externs a console variable.
+//! @param _TYPE the data type of the cvar to extern
+//! @param _NAME the name of the cvar to extern
+#define V_CVAR_EXTERNED(_TYPE, _NAME) \
+    using CVarDataWrapperType##_NAME = V::ConsoleDataWrapper<_TYPE, ConsoleThreadSafety<_TYPE>>; \
+    extern CVarDataWrapperType##_NAME _NAME;
+
+//! Implements a console functor for a class member function.
+//! @param _CLASS the that the function gets invoked on
+//! @param _FUNCTION the method to invoke
+//!        You have no guarantees as to what thread will invoke the function
+//!        It is the responsibility of the implementor of the console function to ensure thread safety
+//! @param _FLAGS a set of VelcroFramework::ConsoleFunctorFlags used to mutate behaviour
+//! @param _DESC a description of the cvar
+#define V_CONSOLEFUNC(_CLASS, _FUNCTION, _FLAGS, _DESC) \
+    V::ConsoleFunctor<_CLASS, false> m_functor##_FUNCTION{#_CLASS "." #_FUNCTION, _DESC, _FLAGS, V::TypeId::CreateNull(), *this, &_CLASS::_FUNCTION}
+
+//! Implements a console functor for a non-member function.
+//! @param _FUNCTION the method to invoke
+//!        ** YOU HAVE NO GUARANTEES AS TO WHAT THREAD WILL INVOKE YOUR FUNCTION ** It is the responsibility of the implementor of the console function to ensure thread safety
+//! @param _FLAGS a set of VelcroFramework::ConsoleFunctorFlags used to mutate behaviour
+//! @param _DESC a description of the cvar
+#define V_CONSOLEFREEFUNC_3(_FUNCTION, _FLAGS, _DESC) \
+    inline V::ConsoleFunctor<void, false> Functor##_FUNCTION(#_FUNCTION, _DESC, _FLAGS | V::ConsoleFunctorFlags::DontDuplicate, V::TypeId::CreateNull(), &_FUNCTION)
+
+//! Implements a console functor for a non-member function.
+//!
+//! @param _FUNCTION the method to invoke
+//!        ** YOU HAVE NO GUARANTEES AS TO WHAT THREAD WILL INVOKE YOUR FUNCTION ** It is the responsibility of the implementor of the console function to ensure thread safety
+//! @param _NAME the name the of the function in the console
+//! @param _FLAGS a set of VelcroFramework::ConsoleFunctorFlags used to mutate behaviour
+//! @param _DESC a description of the cvar
+#define V_CONSOLEFREEFUNC_4(_NAME, _FUNCTION, _FLAGS, _DESC) \
+    inline V::ConsoleFunctor<void, false> Functor##_FUNCTION(#_FUNCTION, _DESC, _FLAGS | V::ConsoleFunctorFlags::DontDuplicate, V::TypeId::CreateNull(), &_FUNCTION)
+
+#define V_CONSOLEFREEFUNC(...) V_MACRO_SPECIALIZE(V_CONSOLEFREEFUNC_, V_VA_NUM_ARGS(__VA_ARGS__), (__VA_ARGS__))
 
 #endif // V_FRAMEWORK_CORE_CONSOLE_ICONSOLE_H

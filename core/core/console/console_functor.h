@@ -107,8 +107,8 @@ namespace V
 
         bool m_isDeferred = true;
 
-        static ConsoleFunctorBase* s_deferredHead;
-        static bool s_deferredHeadInvoked;
+        static ConsoleFunctorBase* _deferredHead;
+        static bool                _deferredHeadInvoked;
 
         friend class Console;
     };
@@ -194,6 +194,8 @@ namespace V
         FunctorSignature m_function;
     };
 }
+
+#include <core/console/console_functor.inl>
 
 
 #endif // V_FRAMEWORK_CORE_CONSOLE_CONSOLE_FUNCTOR_H

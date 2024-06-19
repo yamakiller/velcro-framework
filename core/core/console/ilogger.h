@@ -68,7 +68,89 @@ namespace V {
             va_end(args);
         }
     };
-
 }
+
+#define VELCROLOG_TRACE(MESSAGE, ...)                                                                        \
+{                                                                                                            \
+    V::ILogger* logger = V::Interface<V::ILogger>::Get("ILogger");                                           \
+    if (logger != nullptr && V::LogLevel::Trace >= logger->GetLogLevel())                                    \
+    {                                                                                                        \
+        logger->LogInternal(V::LogLevel::Trace, MESSAGE, __FILE__, __FUNCTION__, __LINE__, ##__VA_ARGS__);   \
+    }                                                                                                        \
+}
+
+#define VELCROLOG_DEBUG(MESSAGE, ...)                                                                        \
+{                                                                                                            \
+    V::ILogger* logger = V::Interface<V::ILogger>::Get("ILogger");                                           \
+    if (logger != nullptr && V::LogLevel::Debug >= logger->GetLogLevel())                                    \
+    {                                                                                                        \
+        logger->LogInternal(V::LogLevel::Debug, MESSAGE, __FILE__, __FUNCTION__, __LINE__, ##__VA_ARGS__);   \
+    }                                                                                                        \
+}
+
+#define VELCROLOG_INFO(MESSAGE, ...)                                                                         \
+{                                                                                                            \
+    V::ILogger* logger = V::Interface<V::ILogger>::Get("ILogger");                                           \
+    if (logger != nullptr && V::LogLevel::Info >= logger->GetLogLevel())                                     \
+    {                                                                                                        \
+        logger->LogInternal(V::LogLevel::Info, MESSAGE, __FILE__, __FUNCTION__, __LINE__, ##__VA_ARGS__);    \
+    }                                                                                                        \
+}
+
+#define VELCROLOG_NOTICE(MESSAGE, ...)                                                                       \
+{                                                                                                            \
+    V::ILogger* logger = V::Interface<V::ILogger>::Get("ILogger");                                           \
+    if (logger != nullptr && V::LogLevel::Notice >= logger->GetLogLevel())                                   \
+    {                                                                                                        \
+        logger->LogInternal(V::LogLevel::Notice, MESSAGE, __FILE__, __FUNCTION__, __LINE__, ##__VA_ARGS__);  \
+    }                                                                                                        \
+}
+
+#define VELCROLOG_WARN(MESSAGE, ...)                                                                         \
+{                                                                                                            \
+    V::ILogger* logger = V::Interface<V::ILogger>::Get("ILogger");                                           \
+    if (logger != nullptr && V::LogLevel::Warn >= logger->GetLogLevel())                                     \
+    {                                                                                                        \
+        logger->LogInternal(V::LogLevel::Warn, MESSAGE, __FILE__, __FUNCTION__, __LINE__, ##__VA_ARGS__);    \
+    }                                                                                                        \
+}
+
+#define VELCROLOG_ERROR(MESSAGE, ...)                                                                        \
+{                                                                                                            \
+    V::ILogger* logger = V::Interface<V::ILogger>::Get("ILogger");                                           \
+    if (logger != nullptr && V::LogLevel::Error >= logger->GetLogLevel())                                    \
+    {                                                                                                        \
+        logger->LogInternal(V::LogLevel::Error, MESSAGE, __FILE__, __FUNCTION__, __LINE__, ##__VA_ARGS__);   \
+    }                                                                                                        \
+}
+
+#define VELCROLOG_FATAL(MESSAGE, ...)                                                                        \
+{                                                                                                            \
+    V::ILogger* logger = V::Interface<V::ILogger>::Get("ILogger");                                           \
+    if (logger != nullptr && V::LogLevel::Fatal >= logger->GetLogLevel())                                    \
+    {                                                                                                        \
+        logger->LogInternal(V::LogLevel::Fatal, MESSAGE, __FILE__, __FUNCTION__, __LINE__, ##__VA_ARGS__);   \
+    }                                                                                                        \
+}
+
+#define VELCROLOG(TAG, MESSAGE, ...)                                                                         \
+{                                                                                                            \
+    static const V::HashValue32 hashValue = V::TypeHash32(#TAG);                                             \
+    V::ILogger* logger = V::Interface<V::ILogger>::Get("ILogger");                                           \
+    if (logger != nullptr && logger->IsTagEnabled(hashValue))                                                \
+    {                                                                                                        \
+        logger->LogInternal(V::LogLevel::Notice, MESSAGE, __FILE__, __FUNCTION__, __LINE__, ##__VA_ARGS__);  \
+    }                                                                                                        \
+}
+
+#define VELCROLOG_FLUSH()                                                                                    \
+{                                                                                                            \
+    V::ILogger* logger = V::Interface<V::ILogger>::Get("ILogger");                                           \
+    if (logger != nullptr)                                                                                   \
+    {                                                                                                        \
+        logger->Flush();                                                                                     \
+    }                                                                                                        \
+}
+
 
 #endif // V_FRAMEWORK_CORE_CONSOLE_ILOGGER_H

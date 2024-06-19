@@ -281,7 +281,7 @@ AllocatorManager::UnRegisterAllocator(class IAllocator* alloc){
     VStd::lock_guard<VStd::mutex> lock(m_allocatorListMutex);
 
     if (alloc->GetRecords()){
-        EVENTBUS_EVENT(Debug::MemoryDetectorBus, UnregisterAllocator, alloc);
+        EBUS_EVENT(Debug::MemoryDetectorBus, UnregisterAllocator, alloc);
     }
 
     for (int i = 0; i < m_numAllocators; ++i) {
