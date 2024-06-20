@@ -75,7 +75,18 @@
         "xiosbase": "cpp",
         "xlocbuf": "cpp",
         "xlocmes": "cpp",
-        "xloctime": "cpp"
+        "xloctime": "cpp",
+        "any": "cpp",
+        "bitset": "cpp",
+        "codecvt": "cpp",
+        "complex": "cpp",
+        "csignal": "cpp",
+        "cstdarg": "cpp",
+        "set": "cpp",
+        "unordered_set": "cpp",
+        "numeric": "cpp",
+        "regex": "cpp",
+        "variant": "cpp"
     },
     "dotnet.defaultSolution": "disable"
 }

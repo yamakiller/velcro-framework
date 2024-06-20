@@ -1,10 +1,7 @@
-
-SET(PROJ_NAME_CORE VelcroCore)
+SET(PROJ_NAME_CORE VelcroTest)
 
 SET(LIB_LINKS)
 
-
-#设置不同平台的编辑参数
 IF (CMAKE_SYSTEM_NAME MATCHES "Windows")
     #在Windows平台下值考虑MSVC编译器
     MESSAGE(STATUS "Platform Window")
@@ -39,7 +36,8 @@ IF (CMAKE_SYSTEM_NAME MATCHES "Windows")
 
     ENDIF()
     INCLUDE_DIRECTORIES(${LOCAL_CORE_SOURCE_DIR}/platforms/windows)
-    INCLUDE(${LOCAL_CORE_SOURCE_DIR}/platforms/windows/platform_windows_files.cmake)
+    INCLUDE_DIRECTORIES(${LOCAL_TEST_SOURCE_DIR}/platforms/windows)
+    INCLUDE(${LOCAL_TEST_SOURCE_DIR}/platforms/windows/platform_windows_files.cmake)
     ADD_DEFINITIONS("-DV_NUMERICCAST_ENABLED=1")
 
 
@@ -53,7 +51,7 @@ ELSEIF (CMAKE_SYSTEM_NAME MATCHES "Linux")
     SET(CMAKE_CXX_FLAGS_DEBUG	"-std=c++17 -O0 -Wall -march=pentium4 -mmmx -g2 -ggdb")
     SET(CMAKE_CXX_FLAGS_RELEASE	"-std=c++17 -Wall -o3")
 
-    LIST(APPEND LIB_LINKS "-lzlib")
+    #LIST(APPEND LIB_LINKS "-lzlib")
 ELSEIF (CMAKE_SYSTEM_NAME MATCHES "FreeBSD")
     MESSAGE(STATUS "Platform FreeBSD")
     MESSAGE(STATUS "Compile Tool gcc/g++")
@@ -71,7 +69,7 @@ ENDIF (CMAKE_SYSTEM_NAME MATCHES "Windows")
 Message("-- Used Compressor is zlib")
 INCLUDE_DIRECTORIES(${THIRDPARTY_DIR}/zlib/include)
 IF (CMAKE_SYSTEM_NAME MATCHES "Windows")
-    LIST(APPEND LIB_LINKS "zlib")
+    #LIST(APPEND LIB_LINKS "zlib")
     IF (CMAKE_CL_64)
         IF(CMAKE_BUILD_TYPE AND (CMAKE_BUILD_TYPE STREQUAL "Debug"))
             LINK_DIRECTORIES(${THIRDPARTY_DIR}/zlib/lib/Win64/Debug)
@@ -92,7 +90,7 @@ ENDIF()
 Message("-- Used Compressor is zstd")
 INCLUDE_DIRECTORIES(${THIRDPARTY_DIR}/zstd/include)
 IF (CMAKE_SYSTEM_NAME MATCHES "Windows")
-    LIST(APPEND LIB_LINKS "zstd")
+    #LIST(APPEND LIB_LINKS "zstd")
     IF (CMAKE_CL_64)
         IF(CMAKE_BUILD_TYPE AND (CMAKE_BUILD_TYPE STREQUAL "Debug"))
             LINK_DIRECTORIES(${THIRDPARTY_DIR}/zstd/lib/Win64/Debug)
@@ -107,12 +105,12 @@ IF (CMAKE_SYSTEM_NAME MATCHES "Windows")
         ENDIF()
     ENDIF()
 ELSEIF (CMAKE_SYSTEM_NAME MATCHES "Linux")
-    LIST(APPEND LIB_LINKS "-lzstd")
+    #LIST(APPEND LIB_LINKS "-lzstd")
 ENDIF()
 
 
 
-INCLUDE(${LOCAL_CORE_SOURCE_DIR}/vcore/core_files.cmake)
+INCLUDE(${LOCAL_CORE_SOURCE_DIR}/vtest/vtest_files.cmake)
 
 ADD_LIBRARY(${PROJ_NAME_CORE} SHARED ${FILES})
 TARGET_LINK_LIBRARIES(${PROJ_NAME_CORE} ${LIB_LINKS})

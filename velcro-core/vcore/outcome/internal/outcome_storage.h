@@ -1,12 +1,12 @@
 #ifndef V_FRAMEWORK_CORE_OUTCOMME_INTERNAL_OUTCOMME_STORAGE_H
 #define V_FRAMEWORK_CORE_OUTCOMME_INTERNAL_OUTCOMME_STORAGE_H
 
-#include "core/std/typetraits/aligned_storage.h"
-#include "core/std/typetraits/alignment_of.h"
-#include "core/std/typetraits/is_object.h"
-#include "core/std/typetraits/is_void.h"
-#include "core/std/typetraits/decay.h"
-#include "core/std/utils.h"
+#include "vcore/std/typetraits/aligned_storage.h"
+#include "vcore/std/typetraits/alignment_of.h"
+#include "vcore/std/typetraits/is_object.h"
+#include "vcore/std/typetraits/is_void.h"
+#include "vcore/std/typetraits/decay.h"
+#include "vcore/std/utils.h"
 
 namespace V
 {
