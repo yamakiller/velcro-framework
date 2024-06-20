@@ -2,7 +2,7 @@
 #define V_FRAMEWORK_CORE_PLATFORM_WINDOWS_IO_SYSTEM_FILE_WINAPI_H
 
 #include <fcntl.h>
-#include <vcorecrt_io.h>
+#include <corecrt_io.h>
 #include <sys/stat.h>
 
 #include <vcore/std/typetraits/underlying_type.h>

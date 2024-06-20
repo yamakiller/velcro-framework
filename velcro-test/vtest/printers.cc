@@ -20,11 +20,3 @@ namespace V::IO
         *os << "path: " << V::IO::FixedMaxPath(path.Native(), V::IO::PosixPathSeparator).MakePreferred().c_str();
     }
 } // namespace V::IO
-
-namespace V
-{
-    void PrintTo(const V::Uuid& uuid, ::std::ostream* os)
-    {
-        *os << uuid.ToFixedString().c_str();
-    }
-} // namespace V

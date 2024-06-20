@@ -86,7 +86,8 @@
         "unordered_set": "cpp",
         "numeric": "cpp",
         "regex": "cpp",
-        "variant": "cpp"
+        "variant": "cpp",
+        "cassert": "cpp"
     },
     "dotnet.defaultSolution": "disable"
 }

@@ -125,7 +125,7 @@ namespace V {
 
         VStd::string GetCurrentExecutablePath() {
             char exeDirectory[V_MAX_PATH_LEN];
-            V::Utils::GetExecutableDirectory(exeDirectory, V_ARRAY_SIZE(exeDirectory));
+            V::Utilitys::GetExecutableDirectory(exeDirectory, V_ARRAY_SIZE(exeDirectory));
 
             VStd::string executablePath = exeDirectory;
             return executablePath;
