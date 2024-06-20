@@ -207,8 +207,15 @@ SET(FILES
     vcore/std/smart_ptr/weak_ptr.h
     vcore/std/string/utf8/core.h
     vcore/std/string/utf8/unchecked.h
+    vcore/std/string/alphanum.h
+    vcore/std/string/alphanum.cc
     vcore/std/string/conversions.h
     vcore/std/string/fixed_string.h
+    vcore/std/string/memory_to_ascii.h
+    vcore/std/string/memory_to_ascii.cc
+    vcore/std/string/osstring.h
+    vcore/std/string/regex.h
+    vcore/std/string/regex.cc
     vcore/std/string/string_view.h
     vcore/std/string/string.h
     vcore/std/string/string.cc

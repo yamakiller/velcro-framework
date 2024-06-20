@@ -303,9 +303,9 @@ namespace VStd
     template<class Element>
     struct ClassNames
     {   // structure to associate class name with mask value
-        const Element* m_element;
-        unsigned int m_length;
-        int m_type;
+        const Element* Element;
+        unsigned int Length;
+        int Type;
     };
 
     template<class Element>
