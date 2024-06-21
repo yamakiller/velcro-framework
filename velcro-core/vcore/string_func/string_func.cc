@@ -1067,7 +1067,7 @@ namespace V {
                 double doubleValue = 0.0;
                 result = LooksLikeDouble(in, &doubleValue);
 
-                (*pFloat) = vnumeric_cast<float>(doubleValue);
+                (*pFloat) = v_numeric_cast<float>(doubleValue);
             }
             else
             {

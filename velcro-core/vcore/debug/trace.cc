@@ -150,7 +150,7 @@ namespace V
         using VStd::chrono::time_point;
         using VStd::chrono::milliseconds;
 
-        milliseconds timeoutMs = milliseconds(vnumeric_cast<long long>(timeoutSeconds * 1000));
+        milliseconds timeoutMs = milliseconds(v_numeric_cast<long long>(timeoutSeconds * 1000));
         system_clock clock;
         time_point start = clock.now();
         auto hasTimedOut = [&clock, start, timeoutMs]()
@@ -248,7 +248,7 @@ namespace V
         v_vsnprintf(message, g_maxMessageLength-1, format, mark); // -1 to make room for the "/n" that will be appended below 
         va_end(mark);
 
-        if (auto logger = Interface<IEventLogger>::Get("IEventLogger"); logger)
+        if (auto logger = Interface<IEventLogger>::Get(); logger)
         {
             logger->RecordStringEvent(ErrorEventId, message);
         }
@@ -266,7 +266,7 @@ namespace V
         Output(window, "\n==================================================================\n");
         v_snprintf(header, g_maxMessageLength, "Trace::Error\n %s(%d): '%s'\n", fileName, line, funcName);
         Output(window, header);
-        vstrcat(message, g_maxMessageLength, "\n");
+        v_strcat(message, g_maxMessageLength, "\n");
         Output(window, message);
 
         EBUS_EVENT(TraceMessageDetectorBus, OnError, window, message);
@@ -316,7 +316,7 @@ namespace V
         Output(window, "\n==================================================================\n");
         v_snprintf(header, g_maxMessageLength, "Trace::Warning\n %s(%d): '%s'\n", fileName, line, funcName);
         Output(window, header);
-        vstrcat(message, g_maxMessageLength, "\n");
+        v_strcat(message, g_maxMessageLength, "\n");
         Output(window, message);
 
         EBUS_EVENT(TraceMessageDetectorBus, OnWarning, window, message);
@@ -342,7 +342,7 @@ namespace V
         v_vsnprintf(message, g_maxMessageLength, format, mark);
         va_end(mark);
 
-        if (auto logger = Interface<IEventLogger>::Get("IEventLogger"); logger)
+        if (auto logger = Interface<IEventLogger>::Get(); logger)
         {
             logger->RecordStringEvent(PrintfEventId, message);
         }
@@ -423,7 +423,7 @@ namespace V
                     continue;
                 }
 
-                vstrcat(lines[i], V_ARRAY_SIZE(lines[i]), "\n");
+                v_strcat(lines[i], V_ARRAY_SIZE(lines[i]), "\n");
                 V_Printf(window, "%s", lines[i]); // feed back into the trace system so that listeners can get it.
             }
         }

@@ -35,7 +35,7 @@ namespace V::Debug
 #if defined(USE_PIX)
         PIXEndEvent();
 #endif
-        if (auto profiler = V::Interface<Profiler>::Get("Profiler"); profiler)
+        if (auto profiler = V::Interface<Profiler>::Get(); profiler)
         {
             profiler->EndRegion(budget);
         }

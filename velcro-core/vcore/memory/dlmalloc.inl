@@ -5720,7 +5720,7 @@ postaction:
             }
 
             //////////////////////////////////////////////////////////////////////////
-            // AZ extension
+            // V extension
             if (is_not_expandable(ms))
             {
                 mem = 0;

@@ -1435,11 +1435,11 @@ namespace VStd
             {
                 result.resize(len);
                 va_copy(argListCopy, argList);
-                const int bytesPrinted = v_vsnwprintf(result.data(), result.size() + 1, formatStr, argListCopy);
+                const int bytesPrinted = v_vsnprintf(result.data(), result.size() + 1, formatStr, argListCopy);
                 va_end(argListCopy);
                 V_UNUSED(bytesPrinted);
-                V_Assert(bytesPrinted >= 0, "v_vsnwprintf error! Format string: \"%s\"", formatStr);
-                V_Assert(static_cast<size_t>(bytesPrinted) == result.size(), "v_vsnwprintf failed to print all bytes! Format string: \"%s\", bytesPrinted=%i/%i",
+                V_Assert(bytesPrinted >= 0, "v_vsnprintf error! Format string: \"%s\"", formatStr);
+                V_Assert(static_cast<size_t>(bytesPrinted) == result.size(), "v_vsnprintf failed to print all bytes! Format string: \"%s\", bytesPrinted=%i/%i",
                     formatStr, bytesPrinted, len);
             }
             return result;

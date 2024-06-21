@@ -91,7 +91,7 @@ namespace V {
         {
             fraction = fraction / base;
             result += fraction * (index % base);
-            index = vnumeric_cast<uint32_t>(index / base);
+            index = v_numeric_cast<uint32_t>(index / base);
         }
 
         return result;

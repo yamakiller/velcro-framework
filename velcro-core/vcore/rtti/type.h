@@ -19,6 +19,7 @@
 #include <vcore/std/typetraits/has_member_function.h>
 #include <vcore/std/typetraits/void_t.h>
 #include <vcore/std/function/invoke.h>
+#include <vcore/math/uuid.h>
 
 #include <cstdio> // for snprintf
 
@@ -502,8 +503,8 @@ namespace V {
     namespace VelcroGenericTypeInfo {                                                                                 \
         template<>                                                                                                    \
         inline const V::TypeId& Uuid<_Generic>(){ static V::Internal::TypeIdHolder _uuid(_Uuid); return _uuid; }      \
-    }
-}*/
+    }*/
+}
 
 #define VELCRO_TYPE_INFO(_ClassName, _ClassUuid)                                             \
     void TYPEINFO_Enable(){}                                                                 \

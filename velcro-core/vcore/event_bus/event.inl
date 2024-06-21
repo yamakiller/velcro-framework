@@ -301,12 +301,12 @@ namespace V
                 V_Assert(handler, "NULL handler encountered in Event addList");
                 if (m_freeList.empty())
                 {
-                    handler->m_index = aznumeric_cast<int32_t>(m_handlers.size());
+                    handler->m_index = v_numeric_cast<int32_t>(m_handlers.size());
                     m_handlers.push_back(handler);
                 }
                 else
                 {
-                    handler->m_index = aznumeric_cast<int32_t>(m_freeList.top());
+                    handler->m_index = v_numeric_cast<int32_t>(m_freeList.top());
                     m_freeList.pop();
 
                     V_Assert(m_handlers[handler->m_index] == nullptr, "Callback already registered");
@@ -348,19 +348,19 @@ namespace V
     {
         if (m_updating)
         {
-            handler.m_index = -aznumeric_cast<int32_t>(m_addList.size() + 1);
+            handler.m_index = -v_numeric_cast<int32_t>(m_addList.size() + 1);
             m_addList.push_back(&handler);
             return;
         }
 
         if (m_freeList.empty())
         {
-            handler.m_index = aznumeric_cast<int32_t>(m_handlers.size());
+            handler.m_index = v_numeric_cast<int32_t>(m_handlers.size());
             m_handlers.push_back(&handler);
         }
         else
         {
-            handler.m_index = aznumeric_cast<int32_t>(m_freeList.top());
+            handler.m_index = v_numeric_cast<int32_t>(m_freeList.top());
             m_freeList.pop();
 
             V_Assert(m_handlers[handler.m_index] == nullptr, "Replacing non nullptr event");

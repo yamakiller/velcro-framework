@@ -48,7 +48,8 @@ namespace V
         using Callback = VStd::function<void(Params...)>;
         using Handler = EventHandler<Params...>;       
 
-        V_CLASS_ALLOCATOR(Event<Params...>, V::SystemAllocator);
+        VELCRO_TYPE_INFO(Event, "{c77781c1-ec05-4e69-b664-e8151c7b9fe6}");
+        V_CLASS_ALLOCATOR(Event<Params...>, V::SystemAllocator, 0);
 
         Event() = default;
         Event(Event&& rhs);
@@ -100,7 +101,8 @@ namespace V
     public:
         using Callback = VStd::function<void(Params...)>;
 
-        V_CLASS_ALLOCATOR(EventHandler<Params...>, V::SystemAllocator);
+        VELCRO_TYPE_INFO(EventHandler, "{f82884fa-12c0-4333-b126-c213c5ff941d}");
+        V_CLASS_ALLOCATOR(EventHandler<Params...>, V::SystemAllocator, 0);
 
         // We support default constructing of event handles (with no callback function being bound) to allow for better usage with container types
         // An unbound event handle cannot be added to an event and we do not support dynamically binding the callback post construction

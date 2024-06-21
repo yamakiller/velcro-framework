@@ -473,4 +473,6 @@ namespace VStd
 
 } // namespace VStd
 
+#include <vcore/std/string/fixed_string.inl>
+
 #endif // V_FRAMEWORK_CORE_STD_STRING_FIXED_STRING_H

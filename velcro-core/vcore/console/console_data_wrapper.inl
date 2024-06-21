@@ -14,7 +14,7 @@ namespace V
         ConsoleFunctorFlags flags
     )
         : m_callback(callback)
-        , m_functor(name, desc, flags, AzTypeInfo<BASE_TYPE>::Uuid(), *this, &ConsoleDataWrapper<BASE_TYPE, THREAD_SAFETY>::CvarFunctor)
+        , m_functor(name, desc, flags, BASE_TYPE::TYPEINFO_Uuid(), *this, &ConsoleDataWrapper<BASE_TYPE, THREAD_SAFETY>::CvarFunctor)
     {
         this->m_value = value;
     }

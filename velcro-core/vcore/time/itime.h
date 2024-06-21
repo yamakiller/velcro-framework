@@ -63,7 +63,7 @@ namespace V {
     inline auto TimeMsToChrono(TimeMs value)
     {
         auto epoch = VStd::chrono::time_point<VStd::chrono::high_resolution_clock>();
-        auto chronoValue = VStd::chrono::milliseconds(vnumeric_cast<int64_t>(value));
+        auto chronoValue = VStd::chrono::milliseconds(v_numeric_cast<int64_t>(value));
         return epoch + chronoValue;
     }
 
@@ -71,7 +71,7 @@ namespace V {
     inline auto TimeUsToChrono(TimeUs value)
     {
         auto epoch = VStd::chrono::time_point<VStd::chrono::high_resolution_clock>();
-        auto chronoValue = VStd::chrono::microseconds(vnumeric_cast<int64_t>(value));
+        auto chronoValue = VStd::chrono::microseconds(v_numeric_cast<int64_t>(value));
         return epoch + chronoValue;
     }
 }

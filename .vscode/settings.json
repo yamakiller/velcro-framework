@@ -89,5 +89,6 @@
         "variant": "cc",
         "cassert": "cc"
     },
-    "dotnet.defaultSolution": "disable"
+    "dotnet.defaultSolution": "disable",
+    "cmake.configureOnOpen": true
 }

@@ -26,7 +26,7 @@ namespace V::IO {
             for (SizeType windowOffset = 0; windowOffset < bytes; windowOffset += StreamToStreamCopyBufferSize) {
                 // Read in the appropriate number of bytes on every loop iteration.
                 // (ex:  515 bytes requested will read 256 bytes, 256 bytes, and 3 bytes)
-                SizeType transferBytes = VStd::GetMin(bytes - windowOffset, vnumeric_cast<SizeType>(StreamToStreamCopyBufferSize));
+                SizeType transferBytes = VStd::GetMin(bytes - windowOffset, v_numeric_cast<SizeType>(StreamToStreamCopyBufferSize));
 
                 SizeType bytesRead = inputStream->Read(transferBytes, tempBuffer);
                 if (bytesRead > 0)

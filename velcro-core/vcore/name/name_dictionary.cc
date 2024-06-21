@@ -257,12 +257,12 @@ namespace V
             V_TracePrintf("NameDictionary", "Memory saved:       %d\n", potentialStringMemoryUsed - actualStringMemoryUsed);
             if (longestName)
             {
-                V_TracePrintf("NameDictionary", "Longest name:       \"%.*s\"\n", vnumeric_cast<int>(longestName->m_name.size()), longestName->m_name.data());
+                V_TracePrintf("NameDictionary", "Longest name:       \"%.*s\"\n", v_numeric_cast<int>(longestName->m_name.size()), longestName->m_name.data());
                 V_TracePrintf("NameDictionary", "Longest name size:  %d\n", longestName->m_name.size());
             }
             if (mostRepeatedName)
             {
-                V_TracePrintf("NameDictionary", "Most repeated name:        \"%.*s\"\n", vnumeric_cast<int>(mostRepeatedName->m_name.size()), mostRepeatedName->m_name.data());
+                V_TracePrintf("NameDictionary", "Most repeated name:        \"%.*s\"\n", v_numeric_cast<int>(mostRepeatedName->m_name.size()), mostRepeatedName->m_name.data());
                 V_TracePrintf("NameDictionary", "Most repeated name size:   %d\n", mostRepeatedName->m_name.size());
                 const int refCount = mostRepeatedName->m_useCount.load();
                 V_TracePrintf("NameDictionary", "Most repeated name count:  %d\n", refCount);

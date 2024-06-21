@@ -8,6 +8,7 @@ namespace V
     namespace Debug
     {
         class TraceMessageDetectorEvents : public DetectorEventBusTraits {
+        public:
             virtual ~TraceMessageDetectorEvents() {}
 
             /// Triggered when a V_Assert failed. This is terminating event! (the code will break, crash).

@@ -3,6 +3,7 @@
 
 #include <type_traits>
 #include <vcore/base.h>
+#include <vcore/rtti/type.h>
 #include <vcore/std/limits.h>
 #include <vcore/std/string/string_view.h>
 #include <vcore/Casting/numeric_cast.h>
@@ -43,6 +44,8 @@ namespace V::Debug
     class IEventLogger
     {
     public:
+        VELCRO_TYPE_INFO(IEventLogger, "{4a247e75-fb0a-47d6-a24e-9a3f6201ed27}");
+
         struct LogHeader
         {
             int8_t V4CC[4]{ 'V', 'O', 'E', 'L' };  //!< V4CC to uniquely identify the data type. Defaults to 'VOEL'
@@ -116,9 +119,9 @@ namespace V::Debug
         constexpr size_t typeSize = sizeof(T);
 
         static_assert(VStd::is_trivially_copyable_v<T>, "Only simple classes can be added to the event logger.");
-        static_assert(typeSize <= VStd::numeric_limits<decltype(EventHeader::m_size)>::max(), "Class too large to store with the event logger.");
+        static_assert(typeSize <= VStd::numeric_limits<decltype(EventHeader::Size)>::max(), "Class too large to store with the event logger.");
 
-        void* eventData = RecordEventBegin(id, aznumeric_cast<uint16_t>(typeSize), flags);
+        void* eventData = RecordEventBegin(id, v_numeric_cast<uint16_t>(typeSize), flags);
         return *reinterpret_cast<T*>(eventData);
     }
 } // namespace V::Debug

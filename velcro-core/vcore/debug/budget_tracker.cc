@@ -17,7 +17,7 @@ namespace V::Debug
 
     Budget* BudgetTracker::GetBudgetFromEnvironment(const char* budgetName, uint32_t crc)
     {
-        BudgetTracker* tracker = Interface<BudgetTracker>::Get("BudgetTracker");
+        BudgetTracker* tracker = Interface<BudgetTracker>::Get();
         if (tracker)
         {
             return &tracker->GetBudget(budgetName, crc);
@@ -32,12 +32,12 @@ namespace V::Debug
 
     bool BudgetTracker::Init()
     {
-        if (Interface<BudgetTracker>::Get("BudgetTracker"))
+        if (Interface<BudgetTracker>::Get())
         {
             return false;
         }
 
-        Interface<BudgetTracker>::Register("BudgetTracker", this);
+        Interface<BudgetTracker>::Register(this);
         m_impl = new BudgetTrackerImpl;
         return true;
     }
@@ -46,7 +46,7 @@ namespace V::Debug
     {
         if (m_impl)
         {
-            Interface<BudgetTracker>::Unregister("BudgetTracker");
+            Interface<BudgetTracker>::Unregister(this);
             delete m_impl;
             m_impl = nullptr;
         }

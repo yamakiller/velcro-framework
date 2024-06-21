@@ -78,7 +78,7 @@ namespace V
                 }
                 else
                 {
-                    V::Debug::Trace::Instance().Assert(__FILE__, __LINE__, AZ_FUNCTION_SIGNATURE,
+                    V::Debug::Trace::Instance().Assert(__FILE__, __LINE__, V_FUNCTION_SIGNATURE,
                         "Bus %s has multiple threads in its callstack records. Configure MutexType on the bus, or don't send to it from multiple threads", BusType::GetName());
                 }
             }

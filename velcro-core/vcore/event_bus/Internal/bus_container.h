@@ -99,7 +99,7 @@ namespace V
 
             EventBusContainer() = default;
 
-            // EBus will extend this class to gain the Event*/Broadcast* functions
+            // EventBus will extend this class to gain the Event*/Broadcast* functions
             template <typename Bus>
             struct Dispatcher
             {
@@ -633,9 +633,9 @@ namespace V
                 auto handlerIt = handlers.begin();
                 auto handlersEnd = handlers.end();
 
-                // This must be done via void* and static cast because the EBus type
+                // This must be done via void* and static cast because the EventBus type
                 // is not available for resolution while function signatures are compiled.
-                using BusType = EBus<Interface, Traits>;
+                using BusType = EventBus<Interface, Traits>;
                 auto fixer = MakeDisconnectFixer<BusType>(static_cast<typename BusType::Context*>(context), &holder.m_busId,
                     [&handlerIt, &handlersEnd](Interface* handler)
                     {
@@ -779,7 +779,7 @@ namespace V
 
             EventBusContainer() = default;
 
-            // EBus will extend this class to gain the Event*/Broadcast* functions
+            // EventBus will extend this class to gain the Event*/Broadcast* functions
             template <typename Bus>
             struct Dispatcher
             {
@@ -958,7 +958,7 @@ namespace V
                             if (Interface* inst = (addressIt++)->m_interface)
                             {
                                 // @func and @args cannot be forwarded here as rvalue arguments need to bind to const lvalue arguments
-                                // due to potential of multiple addresses of this EBus container invoking the function multiple times
+                                // due to potential of multiple addresses of this EventBus container invoking the function multiple times
                                 Traits::EventProcessingPolicy::Call(func, inst, args...);
                             }
                         }
@@ -996,7 +996,7 @@ namespace V
                             if (Interface* inst = (addressIt++)->m_interface)
                             {
                                 // @func and @args cannot be forwarded here as rvalue arguments need to bind to const lvalue arguments
-                                // due to potential of multiple addresses of this EBus container invoking the function multiple times
+                                // due to potential of multiple addresses of this EventBus container invoking the function multiple times
                                 Traits::EventProcessingPolicy::CallResult(results, func, inst, args...);
                             }
                         }
@@ -1032,7 +1032,7 @@ namespace V
                             {
                                 CallstackEntry entry(context, &holder.m_busId);
                                 // @func and @args cannot be forwarded here as rvalue arguments need to bind to const lvalue arguments
-                                // due to potential of multiple addresses of this EBus container invoking the function multiple times
+                                // due to potential of multiple addresses of this EventBus container invoking the function multiple times
                                 Traits::EventProcessingPolicy::Call(func, inst, args...);
                             }
                             holder.release();
@@ -1088,7 +1088,7 @@ namespace V
                             {
                                 CallstackEntry entry(context, &holder.m_busId);
                                 // @func and @args cannot be forwarded here as rvalue arguments need to bind to const lvalue arguments
-                                // due to potential of multiple addresses of this EBus container invoking the function multiple times
+                                // due to potential of multiple addresses of this EventBus container invoking the function multiple times
                                 Traits::EventProcessingPolicy::CallResult(results, func, inst, args...);
                             }
                             holder.release();
@@ -1320,7 +1320,7 @@ namespace V
 
             EventBusContainer() = default;
 
-            // EBus will extend this class to gain the Event*/Broadcast* functions
+            // EventBus will extend this class to gain the Event*/Broadcast* functions
             template <typename Bus>
             struct Dispatcher
             {
@@ -1354,7 +1354,7 @@ namespace V
                         while (handlerIt != handlersEnd)
                         {
                             // @func and @args cannot be forwarded here as rvalue arguments need to bind to const lvalue arguments
-                            // due to potential of multiple handlers of this EBus container invoking the function multiple times
+                            // due to potential of multiple handlers of this EventBus container invoking the function multiple times
                             auto itr = handlerIt++;
                             Traits::EventProcessingPolicy::Call(func, *itr, args...);
                         }
@@ -1389,7 +1389,7 @@ namespace V
                         while (handlerIt != handlersEnd)
                         {
                             // @func and @args cannot be forwarded here as rvalue arguments need to bind to const lvalue arguments
-                            // due to potential of multiple handlers of this EBus container invoking the function multiple times
+                            // due to potential of multiple handlers of this EventBus container invoking the function multiple times
                             auto itr = handlerIt++;
                             Traits::EventProcessingPolicy::CallResult(results, func, *itr, args...);
                         }
@@ -1410,7 +1410,7 @@ namespace V
                         while (handlerIt != handlers.rend())
                         {
                             // @func and @args cannot be forwarded here as rvalue arguments need to bind to const lvalue arguments
-                            // due to potential of multiple handlers of this EBus container invoking the function multiple times
+                            // due to potential of multiple handlers of this EventBus container invoking the function multiple times
                             auto itr = handlerIt++;
                             Traits::EventProcessingPolicy::Call(func, *itr, args...);
                         }
@@ -1431,7 +1431,7 @@ namespace V
                         while (handlerIt != handlers.rend())
                         {
                             // @func and @args cannot be forwarded here as rvalue arguments need to bind to const lvalue arguments
-                            // due to potential of multiple handlers of this EBus container invoking the function multiple times
+                            // due to potential of multiple handlers of this EventBus container invoking the function multiple times
                             auto itr = handlerIt++;
                             Traits::EventProcessingPolicy::CallResult(results, func, *itr, args...);
                         }
@@ -1514,7 +1514,7 @@ namespace V
 
             EventBusContainer() = default;
 
-            // EBus will extend this class to gain the Event*/Broadcast* functions
+            // EventBus will extend this class to gain the Event*/Broadcast* functions
             template <typename Bus>
             struct Dispatcher
             {

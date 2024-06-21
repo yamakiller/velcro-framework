@@ -103,11 +103,11 @@ namespace V
                 MAX_TYPE value;
                 if constexpr (VStd::is_unsigned_v<MAX_TYPE>)
                 {
-                    value = vnumeric_cast<MAX_TYPE>(strtoull(convertCandidate.c_str(), &endPtr, 0));
+                    value = v_numeric_cast<MAX_TYPE>(strtoull(convertCandidate.c_str(), &endPtr, 0));
                 }
                 else
                 {
-                    value = vnumeric_cast<MAX_TYPE>(strtoll(convertCandidate.c_str(), &endPtr, 0));
+                    value = v_numeric_cast<MAX_TYPE>(strtoll(convertCandidate.c_str(), &endPtr, 0));
                 }
 
                 if (endPtr == convertCandidate.c_str())

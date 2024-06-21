@@ -30,7 +30,7 @@ namespace V
 
         VStd::string QuoteArgument(VStd::string_view arg)
         {
-            return !arg.empty() ? VStd::string::format(R"("%.*s")", vnumeric_cast<int>(arg.size()), arg.data()) : VStd::string{ arg };
+            return !arg.empty() ? VStd::string::format(R"("%.*s")", v_numeric_cast<int>(arg.size()), arg.data()) : VStd::string{ arg };
         }
     }
 

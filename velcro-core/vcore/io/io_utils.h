@@ -17,6 +17,6 @@ namespace V {
         bool RetryOpenStream(FileIOStream& stream, int numRetries = 10, int delayBetweenRetry = 250);
     }   // namespace IO
    
-}   // namespace AZ
+}   // namespace V
 
 #endif // V_FRAMEWORK_CORE_IO_IO_UTILS_H

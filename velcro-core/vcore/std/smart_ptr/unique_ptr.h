@@ -39,7 +39,7 @@ namespace VStd {
     template<typename T, typename... Args>
     VStd::enable_if_t<!VStd::is_array<T>::value && V::HasVClassAllocator<T>::value, unique_ptr<T>> make_unique(Args&&... args)
     {
-        return VStd::unique_ptr<T>(aznew T(VStd::forward<Args>(args)...));
+        return VStd::unique_ptr<T>(vnew T(VStd::forward<Args>(args)...));
     }
 
     template<typename T, typename... Args>

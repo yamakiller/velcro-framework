@@ -64,7 +64,7 @@ namespace VStd
             V_FORCE_INLINE float           max_load_factor() const     {   return m_max_load_factor;   }
             V_FORCE_INLINE void            max_load_factor(float newMaxLoadFactor)
             {
-                AZSTD_CONTAINER_ASSERT(newMaxLoadFactor > 0.0f, "VStd::hash_table_storage::max_load_factor - invalid hash load factor");
+                VSTD_CONTAINER_ASSERT(newMaxLoadFactor > 0.0f, "VStd::hash_table_storage::max_load_factor - invalid hash load factor");
                 m_max_load_factor = newMaxLoadFactor;
             }
 

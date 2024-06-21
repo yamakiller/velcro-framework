@@ -56,6 +56,8 @@ namespace VStd {
 namespace V::Debug {
     class Profiler {
     public:
+        VELCRO_TYPE_INFO(Profiler, "{d582324b-4d54-4316-af39-a5e00ce5e9c6}");
+
         Profiler() = default;
         virtual ~Profiler() = default;
 

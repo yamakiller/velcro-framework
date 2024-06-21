@@ -583,7 +583,7 @@ namespace V
             {
                 if (!_allocator)
                 {
-                    _allocator = Environment::CreateVariable<Allocator>(AzTypeInfo<Allocator>::Name());
+                    _allocator = Environment::CreateVariable<Allocator>(Allocator::TYPEINFO_Name());
                     if (_allocator->IsReady()) // already created in a different module
                     {
                         return;
@@ -591,7 +591,7 @@ namespace V
                 }
                 else
                 {
-                    V_Assert(_allocator->IsReady(), "Allocator '%s' already created!", AzTypeInfo<Allocator>::Name());
+                    V_Assert(_allocator->IsReady(), "Allocator '%s' already created!", Allocator::TYPEINFO_Name());
                 }
 
                 StoragePolicyBase<Allocator>::Create(*_allocator, desc, false);
@@ -609,7 +609,7 @@ namespace V
                 }
                 else
                 {
-                    V_Assert(false, "Allocator '%s' NOT ready for use! Call Create first!", AzTypeInfo<Allocator>::Name());
+                    V_Assert(false, "Allocator '%s' NOT ready for use! Call Create first!", Allocator::TYPEINFO_Name());
                 }
             }
 
@@ -619,7 +619,7 @@ namespace V
                 {
                     if (!_allocator) // if not there check the environment (if available)
                     {
-                        _allocator = Environment::FindVariable<Allocator>(AzTypeInfo<Allocator>::Name());
+                        _allocator = Environment::FindVariable<Allocator>(Allocator::TYPEINFO_Name());
                     }
                     return _allocator && _allocator->IsReady();
                 }
@@ -871,7 +871,7 @@ namespace V
             }
             else
             {
-                m_name = AzTypeInfo<Allocator>::Name();
+                m_name = Allocator::TYPEINFO_Name();
             }
         }
         V_FORCE_INLINE VStdAlloc(const char* name)

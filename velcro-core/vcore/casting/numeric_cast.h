@@ -16,7 +16,7 @@
 
 #if !V_NUMERICCAST_ENABLED
 
-#define vnumeric_cast static_cast
+#define v_numeric_cast static_cast
 
 #else
 
@@ -71,7 +71,7 @@ inline constexpr typename VStd::enable_if<
     VStd::is_integral<FromType>::value&& VStd::is_integral<ToType>::value
     && std::numeric_limits<FromType>::digits <= std::numeric_limits<ToType>::digits
     && (!std::numeric_limits<FromType>::is_signed || std::numeric_limits<ToType>::is_signed)
-    , ToType > ::type vnumeric_cast(FromType value)
+    , ToType > ::type v_numeric_cast(FromType value)
 {
     return static_cast<ToType>(value);
 }
@@ -82,7 +82,7 @@ inline constexpr typename VStd::enable_if<
     VStd::is_integral<FromType>::value&& VStd::is_integral<ToType>::value
     && std::numeric_limits<FromType>::digits <= std::numeric_limits<ToType>::digits
     && std::numeric_limits<FromType>::is_signed&& !std::numeric_limits<ToType>::is_signed
-    , ToType > ::type vnumeric_cast(FromType value)
+    , ToType > ::type v_numeric_cast(FromType value)
 {
     V_NUMERIC_ASSERT(
         NumericCastInternal::FitsInToType<ToType>(value),
@@ -97,7 +97,7 @@ inline constexpr typename VStd::enable_if<
     VStd::is_integral<FromType>::value&& VStd::is_integral<ToType>::value
     && !(std::numeric_limits<FromType>::digits <= std::numeric_limits<ToType>::digits)
     && !std::numeric_limits<FromType>::is_signed
-    , ToType > ::type vnumeric_cast(FromType value)
+    , ToType > ::type v_numeric_cast(FromType value)
 {
     V_NUMERIC_ASSERT(
         NumericCastInternal::FitsInToType<ToType>(value),
@@ -111,7 +111,7 @@ inline constexpr typename VStd::enable_if<
     VStd::is_integral<FromType>::value&& VStd::is_integral<ToType>::value
     && !(std::numeric_limits<FromType>::digits <= std::numeric_limits<ToType>::digits)
     && std::numeric_limits<FromType>::is_signed
-    , ToType > ::type vnumeric_cast(FromType value)
+    , ToType > ::type v_numeric_cast(FromType value)
 {
     V_NUMERIC_ASSERT(
         NumericCastInternal::FitsInToType<ToType>(value),
@@ -124,10 +124,10 @@ inline constexpr typename VStd::enable_if<
 template <typename ToType, typename FromType>
 inline constexpr typename VStd::enable_if<
     VStd::is_enum<FromType>::value&& VStd::is_integral<ToType>::value
-    , ToType > ::type vnumeric_cast(FromType value)
+    , ToType > ::type v_numeric_cast(FromType value)
 {
     using UnderlyingFromType = typename VStd::underlying_type<FromType>::type;
-    return vnumeric_cast<ToType>(static_cast<UnderlyingFromType>(value));
+    return v_numeric_cast<ToType>(static_cast<UnderlyingFromType>(value));
 }
 
 // FLOATING -> INTEGER
@@ -135,7 +135,7 @@ inline constexpr typename VStd::enable_if<
 template <typename ToType, typename FromType>
 inline constexpr typename VStd::enable_if<
     VStd::is_floating_point<FromType>::value&& VStd::is_integral<ToType>::value
-    , ToType > ::type vnumeric_cast(FromType value)
+    , ToType > ::type v_numeric_cast(FromType value)
 {
     V_NUMERIC_ASSERT(
         NumericCastInternal::FitsInToType<ToType>(value),
@@ -148,10 +148,10 @@ inline constexpr typename VStd::enable_if<
 template <typename ToType, typename FromType>
 inline constexpr typename VStd::enable_if<
     VStd::is_integral<FromType>::value&& VStd::is_enum<ToType>::value
-    , ToType > ::type vnumeric_cast(FromType value)
+    , ToType > ::type v_numeric_cast(FromType value)
 {
     using UnderlyingToType = typename VStd::underlying_type<ToType>::type;
-    return static_cast<ToType>(vnumeric_cast<UnderlyingToType>(value));
+    return static_cast<ToType>(v_numeric_cast<UnderlyingToType>(value));
 }
 
 // INTEGER -> FLOATING POINT
@@ -159,7 +159,7 @@ inline constexpr typename VStd::enable_if<
 template <typename ToType, typename FromType>
 inline constexpr typename VStd::enable_if<
     VStd::is_integral<FromType>::value&& VStd::is_floating_point<ToType>::value
-    , ToType > ::type vnumeric_cast(FromType value)
+    , ToType > ::type v_numeric_cast(FromType value)
 {
     return static_cast<ToType>(value);
 }
@@ -169,11 +169,11 @@ inline constexpr typename VStd::enable_if<
 template <typename ToType, typename FromType>
 inline constexpr typename VStd::enable_if<
     VStd::is_enum<FromType>::value&& VStd::is_enum<ToType>::value
-    , ToType > ::type vnumeric_cast(FromType value)
+    , ToType > ::type v_numeric_cast(FromType value)
 {
     using UnderlyingFromType = typename VStd::underlying_type<FromType>::type;
     using UnderlyingToType = typename VStd::underlying_type<ToType>::type;
-    return static_cast<ToType>(vnumeric_cast<UnderlyingToType>(static_cast<UnderlyingFromType>(value)));
+    return static_cast<ToType>(v_numeric_cast<UnderlyingToType>(static_cast<UnderlyingFromType>(value)));
 }
 
 // FLOATING POINT -> FLOATING POINT
@@ -182,7 +182,7 @@ template <typename ToType, typename FromType>
 inline constexpr typename VStd::enable_if<
     VStd::is_floating_point<FromType>::value&& VStd::is_floating_point<ToType>::value
     && std::numeric_limits<FromType>::digits <= std::numeric_limits<ToType>::digits
-    , ToType > ::type vnumeric_cast(FromType value)
+    , ToType > ::type v_numeric_cast(FromType value)
 {
     return static_cast<ToType>(value);
 }
@@ -192,7 +192,7 @@ template <typename ToType, typename FromType>
 inline constexpr typename VStd::enable_if<
     VStd::is_floating_point<FromType>::value&& VStd::is_floating_point<ToType>::value
     && !(std::numeric_limits<FromType>::digits <= std::numeric_limits<ToType>::digits)
-    , ToType > ::type vnumeric_cast(FromType value)
+    , ToType > ::type v_numeric_cast(FromType value)
 {
     V_NUMERIC_ASSERT(
         NumericCastInternal::FitsInToType<ToType>(value),
@@ -203,7 +203,7 @@ inline constexpr typename VStd::enable_if<
 // (L) Support for types that implement a specific conversion operator FromType()
 // This is used to forward the numeric_cast from a class type to arithmetic type
 template <typename ToType, typename FromType>
-inline constexpr auto vnumeric_cast(FromType&& value) ->
+inline constexpr auto v_numeric_cast(FromType&& value) ->
     VStd::enable_if_t<VStd::is_class_v<VStd::remove_cvref_t<FromType>> && VStd::is_arithmetic_v<ToType> && VStd::is_convertible_v<VStd::remove_cvref_t<FromType>, ToType>, ToType>
 {
     return static_cast<ToType>(value);
@@ -220,7 +220,7 @@ namespace V {
         explicit constexpr NumericCasted(FromType value)
             : m_value(value) { }
         template <typename ToType>
-        constexpr operator ToType() const { return vnumeric_cast<ToType>(m_value); }
+        constexpr operator ToType() const { return v_numeric_cast<ToType>(m_value); }
 
     private:
         NumericCasted() = delete;

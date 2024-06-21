@@ -197,7 +197,7 @@ namespace Platform {
                 return 0;
             }
 
-            return vnumeric_cast<SizeType>(newFilePtr.QuadPart);
+            return v_numeric_cast<SizeType>(newFilePtr.QuadPart);
         }
 
         return 0;
@@ -241,12 +241,12 @@ namespace Platform {
                 return 0;
             }
 
-            V::u64 modTime = vnumeric_cast<V::u64>(fileInfo.ChangeTime.QuadPart);
+            V::u64 modTime = v_numeric_cast<V::u64>(fileInfo.ChangeTime.QuadPart);
             // On exFat filesystems the ChangeTime field will be 0
             // Use the LastWriteTime as a failsafe in that case
             if (modTime == 0)
             {
-                modTime = vnumeric_cast<V::u64>(fileInfo.LastWriteTime.QuadPart);
+                modTime = v_numeric_cast<V::u64>(fileInfo.LastWriteTime.QuadPart);
             }
             return modTime;
         }
@@ -400,10 +400,10 @@ namespace Platform {
         // Use the LastWriteTime as a failsafe in that case
         if (fileInfo.ChangeTime.QuadPart == 0)
         {
-            return vnumeric_cast<V::u64>(fileInfo.LastWriteTime.QuadPart);
+            return v_numeric_cast<V::u64>(fileInfo.LastWriteTime.QuadPart);
         }
 
-        return vnumeric_cast<V::u64>(fileInfo.ChangeTime.QuadPart);
+        return v_numeric_cast<V::u64>(fileInfo.ChangeTime.QuadPart);
     }
 
     SystemFile::SizeType Length(const char* fileName)
@@ -422,7 +422,7 @@ namespace Platform {
             LARGE_INTEGER fileSize;
             fileSize.LowPart = data.nFileSizeLow;
             fileSize.HighPart = data.nFileSizeHigh;
-            len = vnumeric_cast<SizeType>(fileSize.QuadPart);
+            len = v_numeric_cast<SizeType>(fileSize.QuadPart);
         }
         else
         {

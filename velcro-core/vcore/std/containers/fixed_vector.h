@@ -13,6 +13,7 @@
 #include <vcore/std/createdestroy.h>
 #include <vcore/std/typetraits/typetraits.h>
 #include <vcore/std/typetraits/aligned_storage.h>
+#include <vcore/std/typetraits/is_const.h>
 
 namespace VStd::Internal {
     template <size_t N>
@@ -195,7 +196,7 @@ namespace VStd::Internal {
         constexpr void resize_no_construct(size_t new_size) noexcept
         {
             VSTD_CONTAINER_ASSERT(new_size <= capacity(), "New size cannot be larger than capacity");
-            m_size = aznumeric_cast<size_type>(new_size);
+            m_size = v_numeric_cast<size_type>(new_size);
         }
 
         //!  Destructs elements in the range [begin, end).
@@ -315,7 +316,7 @@ namespace VStd::Internal {
         constexpr void resize_no_construct(size_t new_size) noexcept
         {
             VSTD_CONTAINER_ASSERT(new_size <= capacity(), "New size cannot be larger than capacity");
-            m_size = aznumeric_cast<size_type>(new_size);
+            m_size = v_numeric_cast<size_type>(new_size);
         }
 
         //! Destructs elements in the range [begin, end).
@@ -388,7 +389,7 @@ namespace VStd
         using node_type = value_type;
 
         //////////////////////////////////////////////////////////////////////////
-        // 23.2.4.1 construct/copy/destroy
+        // construct/copy/destroy
         constexpr fixed_vector() = default;
 
         constexpr explicit fixed_vector(size_type numElements, const_reference value = value_type())

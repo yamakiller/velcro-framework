@@ -69,7 +69,7 @@ namespace VStd {
         {
             (void)flags;
             V_Assert(alignment > 0 && (alignment & (alignment - 1)) == 0, "VStd::static_buffer_allocator::allocate - alignment must be > 0 and power of 2");
-            char* address = AZ::PointerAlignUp(m_freeData, alignment);
+            char* address = V::PointerAlignUp(m_freeData, alignment);
             m_freeData = address + byteSize;
             if (size_t(m_freeData - reinterpret_cast<char*>(&m_data)) > Size)
             {

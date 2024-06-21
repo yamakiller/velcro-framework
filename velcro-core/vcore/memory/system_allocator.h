@@ -9,7 +9,8 @@ namespace V {
         , public IAllocatorAllocate
     {
     public:
-    
+        VELCRO_TYPE_INFO(SystemAllocator, "{eb679696-c016-41e2-83da-6a4028ebb46d}");
+
         SystemAllocator();
         ~SystemAllocator() override;
 

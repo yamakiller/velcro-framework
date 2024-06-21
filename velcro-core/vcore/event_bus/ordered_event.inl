@@ -291,7 +291,7 @@ namespace V
     {
         if (m_updating)
         {
-            handler.m_index = -aznumeric_cast<int32_t>(m_addList.size() + 1);
+            handler.m_index = -v_numeric_cast<int32_t>(m_addList.size() + 1);
             m_addList.push_back(&handler);
             return;
         }
@@ -341,14 +341,14 @@ namespace V
         //if not inserting at the beginning AND the previous index is null, just replace the null with the new handler.
         if (insertLocation != m_handlers.begin() && *(VStd::prev(insertLocation)) == nullptr)
         {
-            handler.m_index = aznumeric_cast<int32_t>(VStd::distance(m_handlers.begin(), VStd::prev(insertLocation)));
+            handler.m_index = v_numeric_cast<int32_t>(VStd::distance(m_handlers.begin(), VStd::prev(insertLocation)));
             V_Assert(m_handlers[handler.m_index] == nullptr, "Replacing non nullptr event");
             m_handlers[handler.m_index] = &handler;
             return handler.m_index;
         }
 
         //insert the new handler
-        handler.m_index = aznumeric_cast<int32_t>(VStd::distance(m_handlers.begin(), insertLocation));
+        handler.m_index = v_numeric_cast<int32_t>(VStd::distance(m_handlers.begin(), insertLocation));
         m_handlers.insert(insertLocation, &handler);
         return handler.m_index;
     }

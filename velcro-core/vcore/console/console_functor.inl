@@ -54,12 +54,9 @@ namespace V
         const TypeId& typeId,
         _TYPE& object,
         FunctorUnion function
-    )
-        : ConsoleFunctorBase(name, desc, flags, typeId)
-        , m_object(&object)
-        , m_function(VStd::move(function))
-    {
-        V_COMPILER_MSVC
+    ) : ConsoleFunctorBase(name, desc, flags, typeId)
+      , m_object(&object)
+      , m_function(VStd::move(function)){
     }
 
     template <typename _TYPE, bool _REPLICATES_VALUE>
@@ -72,12 +69,9 @@ namespace V
         const TypeId& typeId,
         _TYPE& object,
         FunctorUnion function
-    )
-        : ConsoleFunctorBase(console, name, desc, flags, typeId)
-        , m_object(&object)
-        , m_function(VStd::move(function))
-    {
-        ;
+    ) : ConsoleFunctorBase(console, name, desc, flags, typeId)
+      , m_object(&object)
+      , m_function(VStd::move(function)){
     }
 
     template <typename _TYPE, bool _REPLICATES_VALUE>

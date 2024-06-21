@@ -899,7 +899,7 @@ namespace VStd {
 
 //! Use this macro to simplify safe printing of a string_view which may not be null-terminated.
 //! Example: VStd::string::format("Safely formatted: %.*s", V_STRING_ARG(myString));
-#define V_STRING_ARG(str) vnumeric_cast<int>(str.size()), str.data()
+#define V_STRING_ARG(str) v_numeric_cast<int>(str.size()), str.data()
 
 //! Can be used with V_STRING_ARG for convenience, rather than manually including "%.*s" in format strings
 //! Example: VStd::string::format("Safely formatted: " V_STRING_FORMAT, V_STRING_ARG(myString));

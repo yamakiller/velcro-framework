@@ -40,7 +40,7 @@ namespace V
     {
         if (_deferredHeadInvoked)
         {
-            m_console = V::Interface<IConsole>::Get("IConsole");
+            m_console = V::Interface<IConsole>::Get();
             if (m_console)
             {
                 ConsoleFunctorBase* functorPtr = this;

@@ -188,7 +188,7 @@ namespace V
 
             if (StringFunc::StartsWith(curr->m_name, command, false))
             {
-                VELCROLOG_FLUSH("- %s : %s\n", curr->m_name, curr->m_desc);
+                VELCROLOG_INFO("- %s : %s\n", curr->m_name, curr->m_desc);
                 commandSubset.push_back(curr->m_name);
                 if (matches)
                 {
@@ -322,7 +322,7 @@ namespace V
         }
 
         // If the deferred head contains unregistered functors
-        // move this AZ::Console functors list to the end of the deferred functors
+        // move this V::Console functors list to the end of the deferred functors
         if (deferredHead)
         {
             ConsoleFunctorBase* oldDeferred = deferredHead;

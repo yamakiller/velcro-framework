@@ -27,7 +27,7 @@ namespace V::Debug
         , m_crc{ crc }
     {
         m_impl = vnew BudgetImpl;
-        if (auto statsProfiler = Interface<Statistics::StatisticalProfilerProxy>::Get("StatisticalProfilerProxy"); statsProfiler)
+        if (auto statsProfiler = Interface<Statistics::StatisticalProfilerProxy>::Get(); statsProfiler)
         {
             statsProfiler->RegisterProfilerId(m_crc);
         }

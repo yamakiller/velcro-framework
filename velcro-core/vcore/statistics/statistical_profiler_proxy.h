@@ -14,7 +14,7 @@ namespace V::Statistics
     class StatisticalProfilerProxy
     {
     public:
-
+        VELCRO_TYPE_INFO(StatisticalProfilerProxy, "{0a736fec-70c0-47a8-83c4-96680b137afd}");
         using StatIdType = V::Crc32;
         using StatisticalProfilerType = StatisticalProfiler<StatIdType, VStd::shared_spin_mutex>;
 
@@ -32,7 +32,7 @@ namespace V::Statistics
             {
                 if (!m_profilerProxy)
                 {
-                    m_profilerProxy = V::Interface<StatisticalProfilerProxy>::Get("StatisticalProfilerProxy");
+                    m_profilerProxy = V::Interface<StatisticalProfilerProxy>::Get();
                     if (!m_profilerProxy)
                     {
                         return;
@@ -73,12 +73,12 @@ namespace V::Statistics
 
         StatisticalProfilerProxy()
         {
-            V::Interface<StatisticalProfilerProxy>::Register("StatisticalProfilerProxy", this);
+            V::Interface<StatisticalProfilerProxy>::Register( this);
         }
 
         virtual ~StatisticalProfilerProxy()
         {
-            V::Interface<StatisticalProfilerProxy>::Unregister("StatisticalProfilerProxy");
+            V::Interface<StatisticalProfilerProxy>::Unregister(this);
         }
 
         // Note that you have to delete these for safety reasons, you will trip a static_assert if you do not

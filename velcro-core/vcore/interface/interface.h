@@ -60,28 +60,28 @@ namespace V {
     template <typename T>
     void Interface<T>::Register(T* type) {
         if (!type) {
-            V_Assert(false, "Interface '%s' registering a null pointer!", name);
+            V_Assert(false, "Interface '%s' registering a null pointer!", T::TYPEINFO_Name());
             return;
         }
 
-        if (T* foundType = Get(T::TYPEINFO_Name())) {
+        if (T* foundType = Get()) {
             V_Assert(false, "Interface '%s' already registered! [Found: %p]", T::TYPEINFO_Name(), foundType);
             return;
         }
 
         VStd::unique_lock<VStd::shared_mutex> lock(_mutex);
-        _instance = Environment::CreateVariable<T*>(GetVariableName(T::TYPEINFO_Name()));
-        _instance.Get(T::TYPEINFO_Name()) = type;
+        _instance = Environment::CreateVariable<T*>(GetVariableName());
+        _instance.Get() = type;
     }
 
     template <typename T>
     void Interface<T>::Unregister(T* type) {
-        if (!_instance || !_instance.Get(T::TYPEINFO_Name())) {
-            V_Assert(false, "Interface '%s' not registered on this module!", name);
+        if (!_instance || !_instance.Get()) {
+            V_Assert(false, "Interface '%s' not registered on this module!", T::TYPEINFO_Name());
             return;
         }
 
-        if (_instance.Get(T::TYPEINFO_Name()) != type) {
+        if (_instance.Get() != type) {
             V_Assert(false, "Interface '%s' is not the same instance that was registered! [Expected '%p', Found '%p']", T::TYPEINFO_Name(), type, _instance.Get());
             return;
         }
@@ -99,7 +99,7 @@ namespace V {
         {
             VStd::shared_lock<VStd::shared_mutex> lock(_mutex);
             if (_instance) {
-                return _instance.Get(T::TYPEINFO_Name());
+                return _instance.Get();
             }
         }
 

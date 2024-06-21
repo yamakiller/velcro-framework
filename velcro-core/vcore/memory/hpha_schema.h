@@ -80,6 +80,6 @@ namespace V {
         // [LY][sconel@] end
         bool                m_ownMemoryBlock;
     };
-} // namespace AZ
+} // namespaceV
 
 #endif // V_FRAMEWORK_CORE_MEMORY_HPHA_SCHEMA_H

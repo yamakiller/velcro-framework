@@ -185,9 +185,9 @@ namespace V::IO::Internal
 
         int charCompareResult = exactCaseCompare
             ? maxCharsToCompare ? strncmp(left.data(), right.data(), maxCharsToCompare) : 0
-            : maxCharsToCompare ? vstrnicmp(left.data(), right.data(), maxCharsToCompare) : 0;
+            : maxCharsToCompare ? v_strnicmp(left.data(), right.data(), maxCharsToCompare) : 0;
         return charCompareResult == 0
-            ? static_cast<int>(vnumeric_cast<ptrdiff_t>(left.size()) - vnumeric_cast<ptrdiff_t>(right.size()))
+            ? static_cast<int>(v_numeric_cast<ptrdiff_t>(left.size()) - v_numeric_cast<ptrdiff_t>(right.size()))
             : charCompareResult;
     }
 }

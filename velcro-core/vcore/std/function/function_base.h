@@ -242,7 +242,8 @@ namespace VStd {
                     if (op == clone_functor_tag || op == move_functor_tag)  {
 
                         functor_type* in_functor =
-                            reinterpret_cast<functor_type*>(&in_buffer.data); {
+                            reinterpret_cast<functor_type*>(&in_buffer.data); 
+                        if (op == clone_functor_tag) {
                             VStd::construct_at(reinterpret_cast<functor_type*>(&out_buffer), functor_type(*in_functor));
                         } else if (op == move_functor_tag) {
                             VStd::construct_at(reinterpret_cast<functor_type*>(&out_buffer), functor_type(VStd::move(*in_functor)));
