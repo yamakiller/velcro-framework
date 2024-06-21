@@ -227,63 +227,63 @@ namespace VStd
     void to_string(Str& str, int value)
     {
         char buf[16];
-        vsnprintfv(buf, AZ_ARRAY_SIZE(buf), "%d", value);
+        v_snprintf(buf, V_ARRAY_SIZE(buf), "%d", value);
         str = buf;
     }
     template<class Str>
     void to_string(Str& str, unsigned int value)
     {
         char buf[16];
-        vsnprintfv(buf, AZ_ARRAY_SIZE(buf), "%u", value);
+        v_snprintf(buf, V_ARRAY_SIZE(buf), "%u", value);
         str = buf;
     }
     template<class Str>
     void to_string(Str& str, float value)
     {
         char buf[64];
-        vsnprintfv(buf, AZ_ARRAY_SIZE(buf), "%f", value);
+        v_snprintf(buf, V_ARRAY_SIZE(buf), "%f", value);
         str = buf;
     }
     template<class Str>
     void to_string(Str& str, double value)
     {
         char buf[64];
-        vsnprintfv(buf, AZ_ARRAY_SIZE(buf), "%f", value);
+        v_snprintf(buf, V_ARRAY_SIZE(buf), "%f", value);
         str = buf;
     }
     template<class Str>
     void to_string(Str& str, long value)
     {
         char buf[32];
-        vsnprintfv(buf, AZ_ARRAY_SIZE(buf), "%ld", value);
+        v_snprintf(buf, V_ARRAY_SIZE(buf), "%ld", value);
         str = buf;
     }
     template<class Str>
     void to_string(Str& str, unsigned long value)
     {
         char buf[32];
-        vsnprintfv(buf, AZ_ARRAY_SIZE(buf), "%lu", value);
+        v_snprintf(buf, V_ARRAY_SIZE(buf), "%lu", value);
         str = buf;
     }
     template<class Str>
     void to_string(Str& str, long long value)
     {
         char buf[32];
-        vsnprintfv(buf, AZ_ARRAY_SIZE(buf), "%lld", value);
+        v_snprintf(buf, V_ARRAY_SIZE(buf), "%lld", value);
         str = buf;
     }
     template<class Str>
     void to_string(Str& str, unsigned long long value)
     {
         char buf[32];
-        vsnprintfv(buf, AZ_ARRAY_SIZE(buf), "%llu", value);
+        v_snprintf(buf, V_ARRAY_SIZE(buf), "%llu", value);
         str = buf;
     }
     template<class Str>
     void to_string(Str& str, long double value)
     {
         char buf[128];
-        vsnprintfv(buf, AZ_ARRAY_SIZE(buf), "%Lf", value);
+        v_snprintf(buf, V_ARRAY_SIZE(buf), "%Lf", value);
         str = buf;
     }
 
@@ -401,21 +401,21 @@ namespace VStd
     void to_wstring(Str& str, long long value)
     {
         wchar_t buf[64];
-        vsnwprintf(buf, 64, L"%lld", value);
+        v_snwprintf(buf, 64, L"%lld", value);
         str = buf;
     }
     template<class Str>
     void to_wstring(Str& str, unsigned long long value)
     {
         wchar_t buf[64];
-        vsnwprintf(buf, 64, L"%llu", value);
+        v_snwprintf(buf, 64, L"%llu", value);
         str = buf;
     }
     template<class Str>
     void to_wstring(Str& str, long double value)
     {
         wchar_t buf[64];
-        vsnwprintf(buf, 64, L"%Lf", value);
+        v_snwprintf(buf, 64, L"%Lf", value);
         str = buf;
     }
     inline VStd::wstring to_wstring(long long val)             { VStd::wstring wstr; to_wstring(wstr, val); return wstr; }

@@ -36,9 +36,9 @@
 #endif
 
 #if defined(V_COMPILER_CLANG)
-#   include <AzCore/std/typetraits/is_same.h>
-#   include <AzCore/std/typetraits/is_reference.h>
-#   include <AzCore/std/typetraits/is_volatile.h>
+#   include <vcore/std/typetraits/is_same.h>
+#   include <vcore/std/typetraits/is_reference.h>
+#   include <vcore/std/typetraits/is_volatile.h>
 
 #   define VSTD_IS_UNION(T) __is_union(T)
 #   define VSTD_IS_POD(T) __is_pod(T)

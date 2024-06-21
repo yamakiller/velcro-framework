@@ -32,7 +32,7 @@ namespace V {
         void Create(const Descriptor& desc, Args&&... args) {
             Destroy();
 
-            m_allocator = new (&m_storage) Allocator(AZStd::forward<Args>(args)...);
+            m_allocator = new (&m_storage) Allocator(VStd::forward<Args>(args)...);
             m_allocator->Create(desc);
             m_allocator->PostCreate();
         }

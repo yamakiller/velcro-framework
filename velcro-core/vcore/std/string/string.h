@@ -1424,22 +1424,22 @@ namespace VStd
         static basic_string<char, char_traits<char>, Allocator> format_arg(const char* formatStr, va_list argList)
         {
             basic_string<char, char_traits<char>, Allocator> result;
-            // On Windows, V_TRAIT_USE_SECURE_CRT_FUNCTIONS is set, so azvsnprintf calls _vsnprintf_s.
-            // _vsnprintf_s, unlike vsnprintfv, will fail and return -1 when the size argument is 0.
-            // azvscprintf uses the proper function(_vscprintf or vsnprintfv) on the given platform
+            // On Windows, V_TRAIT_USE_SECURE_CRT_FUNCTIONS is set, so v_vsnprintf calls _vsnprintf_s.
+            // _vsnprintf_s, unlike v_snprintf, will fail and return -1 when the size argument is 0.
+            // vvscprintf uses the proper function(_vscprintf or v_snprintf) on the given platform
             va_list argListCopy; //<- Depending on vprintf implementation va_list may be consumed, so send a copy
             va_copy(argListCopy, argList);
-            const int len = azvscprintf(formatStr, argListCopy);
+            const int len = v_vscprintf(formatStr, argListCopy);
             va_end(argListCopy);
             if (len > 0)
             {
                 result.resize(len);
                 va_copy(argListCopy, argList);
-                const int bytesPrinted = azvsnprintf(result.data(), result.size() + 1, formatStr, argListCopy);
+                const int bytesPrinted = v_vsnwprintf(result.data(), result.size() + 1, formatStr, argListCopy);
                 va_end(argListCopy);
                 V_UNUSED(bytesPrinted);
-                V_Assert(bytesPrinted >= 0, "azvsnprintf error! Format string: \"%s\"", formatStr);
-                V_Assert(static_cast<size_t>(bytesPrinted) == result.size(), "azvsnprintf failed to print all bytes! Format string: \"%s\", bytesPrinted=%i/%i",
+                V_Assert(bytesPrinted >= 0, "v_vsnwprintf error! Format string: \"%s\"", formatStr);
+                V_Assert(static_cast<size_t>(bytesPrinted) == result.size(), "v_vsnwprintf failed to print all bytes! Format string: \"%s\", bytesPrinted=%i/%i",
                     formatStr, bytesPrinted, len);
             }
             return result;
@@ -1449,29 +1449,29 @@ namespace VStd
         {
             basic_string<wchar_t, char_traits<wchar_t>, Allocator> result;
 #if defined(V_COMPILER_MSVC)
-            // On Windows, V_TRAIT_USE_SECURE_CRT_FUNCTIONS is set, so azvsnwprintf calls _vsnwprintf_s.
-            // _vsnwprintf_s, unlike vsnwprintf, will fail and return -1 when the size argument is 0.
-            // azvscwprintf uses the proper function(_vscwprintf or vsnwprintf) on the given platform
+            // On Windows, V_TRAIT_USE_SECURE_CRT_FUNCTIONS is set, so vvsnwprintf calls v_vsnwprintf.
+            // v_vsnwprintf, unlike vsnwprintf, will fail and return -1 when the size argument is 0.
+            // vvscwprintf uses the proper function(_vscwprintf or vsnwprintf) on the given platform
             va_list argListCopy; //<- Depending on vprintf implementation va_list may be consumed, so send a copy
             va_copy(argListCopy, argList);
-            const int len = azvscwprintf(formatStr, argListCopy);
+            const int len = v_vscwprintf(formatStr, argListCopy);
             va_end(argListCopy);
             if (len > 0)
             {
                 result.resize(len);
                 va_copy(argListCopy, argList);
-                const int bytesPrinted = azvsnwprintf(result.data(), result.size() + 1, formatStr, argListCopy);
+                const int bytesPrinted = v_vsnwprintf(result.data(), result.size() + 1, formatStr, argListCopy);
                 va_end(argListCopy);
                 V_UNUSED(bytesPrinted);
-                V_Assert(bytesPrinted >= 0, "azvsnwprintf error! Format string: \"%ws\"", formatStr);
-                V_Assert(static_cast<size_t>(bytesPrinted) == result.size(), "azvsnwprintf failed to print all bytes! Format string: \"%ws\", bytesPrinted=%i/%i",
+                V_Assert(bytesPrinted >= 0, "v_vsnwprintf error! Format string: \"%ws\"", formatStr);
+                V_Assert(static_cast<size_t>(bytesPrinted) == result.size(), "v_vsnwprintf failed to print all bytes! Format string: \"%ws\", bytesPrinted=%i/%i",
                     formatStr, bytesPrinted, len);
             }
 #else
             constexpr int maxBufferLength = 2048;
             wchar_t buffer[maxBufferLength];
-            [[maybe_unused]] const int len = azvsnwprintf(buffer, maxBufferLength, formatStr, argList);
-            V_Assert(len != -1, "azvsnwprintf failed increase the buffer size!");
+            [[maybe_unused]] const int len = v_vsnwprintf(buffer, maxBufferLength, formatStr, argList);
+            V_Assert(len != -1, "v_vsnwprintf failed increase the buffer size!");
             result += buffer;
 #endif
             return result;

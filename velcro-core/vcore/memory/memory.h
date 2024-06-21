@@ -564,7 +564,7 @@ namespace V
         public:
             static IAllocator& GetAllocator()
             {
-                if (!s_allocator)
+                if (!_allocator)
                 {
                     // Assert here before attempting to resolve. Otherwise a module-local
                     // environment will be created which will result in a much more difficult to
@@ -572,40 +572,40 @@ namespace V
                     V_Assert(V::Environment::IsReady(), "Environment has not been attached yet, allocator cannot be created/resolved");
                     if (V::Environment::IsReady())
                     {
-                        s_allocator = Environment::FindVariable<Allocator>(AzTypeInfo<Allocator>::Name());
-                        V_Assert(s_allocator, "Allocator '%s' NOT ready for use! Call Create first!", AzTypeInfo<Allocator>::Name());
+                        _allocator = Environment::FindVariable<Allocator>(Allocator::TYPEINFO_Name());
+                        V_Assert(_allocator, "Allocator '%s' NOT ready for use! Call Create first!", Allocator::TYPEINFO_Name());
                     }
                 }
-                return *s_allocator;
+                return *_allocator;
             }
 
             static void Create(const typename Allocator::Descriptor& desc)
             {
-                if (!s_allocator)
+                if (!_allocator)
                 {
-                    s_allocator = Environment::CreateVariable<Allocator>(AzTypeInfo<Allocator>::Name());
-                    if (s_allocator->IsReady()) // already created in a different module
+                    _allocator = Environment::CreateVariable<Allocator>(AzTypeInfo<Allocator>::Name());
+                    if (_allocator->IsReady()) // already created in a different module
                     {
                         return;
                     }
                 }
                 else
                 {
-                    V_Assert(s_allocator->IsReady(), "Allocator '%s' already created!", AzTypeInfo<Allocator>::Name());
+                    V_Assert(_allocator->IsReady(), "Allocator '%s' already created!", AzTypeInfo<Allocator>::Name());
                 }
 
-                StoragePolicyBase<Allocator>::Create(*s_allocator, desc, false);
+                StoragePolicyBase<Allocator>::Create(*_allocator, desc, false);
             }
 
             static void Destroy()
             {
-                if (s_allocator)
+                if (_allocator)
                 {
-                    if (s_allocator.IsOwner())
+                    if (_allocator.IsOwner())
                     {
-                        StoragePolicyBase<Allocator>::Destroy(*s_allocator);
+                        StoragePolicyBase<Allocator>::Destroy(*_allocator);
                     }
-                    s_allocator = nullptr;
+                    _allocator = nullptr;
                 }
                 else
                 {
@@ -617,11 +617,11 @@ namespace V
             {
                 if (Environment::IsReady())
                 {
-                    if (!s_allocator) // if not there check the environment (if available)
+                    if (!_allocator) // if not there check the environment (if available)
                     {
-                        s_allocator = Environment::FindVariable<Allocator>(AzTypeInfo<Allocator>::Name());
+                        _allocator = Environment::FindVariable<Allocator>(AzTypeInfo<Allocator>::Name());
                     }
-                    return s_allocator && s_allocator->IsReady();
+                    return _allocator && _allocator->IsReady();
                 }
                 else
                 {
@@ -629,11 +629,11 @@ namespace V
                 }
             }
 
-            static EnvironmentVariable<Allocator> s_allocator;
+            static EnvironmentVariable<Allocator> _allocator;
         };
 
         template<class Allocator>
-        EnvironmentVariable<Allocator> EnvironmentStoragePolicy<Allocator>::s_allocator;
+        EnvironmentVariable<Allocator> EnvironmentStoragePolicy<Allocator>::_allocator;
 
         /**
         * ModuleStoragePolicy stores the allocator in a static variable that is local to the module using it.
@@ -657,16 +657,16 @@ namespace V
             // before the users of it are destroyed. The primary use case for this is allocators that need to support the CRT, as they cannot allocate from the heap.
             static Allocator& GetModuleAllocatorInstance()
             {
-                static Allocator* s_allocator = nullptr;
+                static Allocator* _allocator = nullptr;
                 static typename VStd::aligned_storage<sizeof(Allocator), VStd::alignment_of<Allocator>::value>::type s_storage;
 
-                if (!s_allocator)
+                if (!_allocator)
                 {
-                    s_allocator = new (&s_storage) Allocator;
-                    StoragePolicyBase<Allocator>::Create(*s_allocator, typename Allocator::Descriptor(), true);
+                    _allocator = new (&s_storage) Allocator;
+                    StoragePolicyBase<Allocator>::Create(*_allocator, typename Allocator::Descriptor(), true);
                 }
 
-                return *s_allocator;
+                return *_allocator;
             }
         };
 
@@ -677,15 +677,15 @@ namespace V
             // Store-on-heap implementation uses the LazyAllocatorRef to create and destroy an allocator using heap-space so there isn't a problem with destruction order within the module.
             static Allocator& GetModuleAllocatorInstance()
             {
-                static LazyAllocatorRef s_allocator;
+                static LazyAllocatorRef _allocator;
 
-                if (!s_allocator.m_allocator)
+                if (!_allocator.m_allocator)
                 {
-                    s_allocator.Init(sizeof(Allocator), VStd::alignment_of<Allocator>::value, [](void* mem) -> IAllocator* { return new (mem) Allocator; }, &StoragePolicyBase<Allocator>::Destroy);
-                    StoragePolicyBase<Allocator>::Create(*static_cast<Allocator*>(s_allocator.m_allocator), typename Allocator::Descriptor(), true);
+                    _allocator.Init(sizeof(Allocator), VStd::alignment_of<Allocator>::value, [](void* mem) -> IAllocator* { return new (mem) Allocator; }, &StoragePolicyBase<Allocator>::Destroy);
+                    StoragePolicyBase<Allocator>::Create(*static_cast<Allocator*>(_allocator.m_allocator), typename Allocator::Descriptor(), true);
                 }
 
-                return *static_cast<Allocator*>(s_allocator.m_allocator);
+                return *static_cast<Allocator*>(_allocator.m_allocator);
             }
         };
 

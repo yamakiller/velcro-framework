@@ -131,6 +131,7 @@ SET(FILES
     vcore/outcome/outcome.h
     vcore/platform_id/platform_id.h
     vcore/platform_id/platform_id.cc
+    vcore/rtti/type.h
     vcore/settings/command_line.h
     vcore/settings/command_line.cc
     vcore/settings/setting.h
@@ -214,8 +215,6 @@ SET(FILES
     vcore/std/string/memory_to_ascii.h
     vcore/std/string/memory_to_ascii.cc
     vcore/std/string/osstring.h
-    vcore/std/string/regex.h
-    vcore/std/string/regex.cc
     vcore/std/string/string_view.h
     vcore/std/string/string.h
     vcore/std/string/string.cc
@@ -322,7 +321,6 @@ SET(FILES
     vcore/std/reference_wrapper.h
     vcore/std/time.h
     vcore/std/tuple.h
-    vcore/std/typeinfo.h
     vcore/std/utils.h
     vcore/string_func/string_func.h
     vcore/string_func/string_func.cc

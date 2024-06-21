@@ -357,7 +357,7 @@ namespace VStd {
     {
         using base = Internal::OptionalMoveAssignBase<T>;
     public:
-        AZ_CLASS_ALLOCATOR(optional, AZ::SystemAllocator, 0);
+        V_CLASS_ALLOCATOR(optional, V::SystemAllocator, 0);
 
         using value_type = T;
 
@@ -1009,7 +1009,7 @@ namespace VStd {
         return optional<T>(in_place, il, forward<Args>(args)...);
     }
 
-    // 23.6.10 Hash support
+    // Hash support
     template<class T>
     struct hash<optional<T>> {
         constexpr size_t operator()(const optional<T>& opt) const {

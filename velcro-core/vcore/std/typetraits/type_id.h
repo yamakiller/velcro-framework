@@ -17,7 +17,7 @@
 #endif
 
 #ifdef VSTD_TYPE_ID_SUPPORT
-#include <typeinfo>
+//#include <typeinfo>
 
 namespace VStd {
     #if defined(V_COMPILER_MSVC)

@@ -42,13 +42,13 @@ namespace V {
             };
         public:
             // 注册一个指向接口的实例指针. 一次只允许注册一个实例.
-            static void Register(const char*name, T* type);
+            static void Register(T* type);
             // 注销接口
-            static void Unregister(const char* name);
+            static void Unregister(T* type);
             // 获取对象接口
-            static T* Get(const char* name);
+            static T* Get();
         private:
-            static uint32_t GetVariableName(const char* name);
+            static uint32_t GetVariableName();
         private:
             static EnvironmentVariable<T*> _instance;
             static VStd::shared_mutex      _mutex;
@@ -58,31 +58,31 @@ namespace V {
     EnvironmentVariable<T*> Interface<T>::_instance;
 
     template <typename T>
-    void Interface<T>::Register(const char*name, T* type) {
+    void Interface<T>::Register(T* type) {
         if (!type) {
             V_Assert(false, "Interface '%s' registering a null pointer!", name);
             return;
         }
 
-        if (T* foundType = Get(name)) {
-            V_Assert(false, "Interface '%s' already registered! [Found: %p]", name, foundType);
+        if (T* foundType = Get(T::TYPEINFO_Name())) {
+            V_Assert(false, "Interface '%s' already registered! [Found: %p]", T::TYPEINFO_Name(), foundType);
             return;
         }
 
         VStd::unique_lock<VStd::shared_mutex> lock(_mutex);
-        _instance = Environment::CreateVariable<T*>(GetVariableName(name));
-        _instance.Get(name) = type;
+        _instance = Environment::CreateVariable<T*>(GetVariableName(T::TYPEINFO_Name()));
+        _instance.Get(T::TYPEINFO_Name()) = type;
     }
 
     template <typename T>
-    void Interface<T>::Unregister(const char* name) {
-        if (!_instance || !_instance.Get(name)) {
+    void Interface<T>::Unregister(T* type) {
+        if (!_instance || !_instance.Get(T::TYPEINFO_Name())) {
             V_Assert(false, "Interface '%s' not registered on this module!", name);
             return;
         }
 
-        if (_instance.Get(name) != type) {
-            V_Assert(false, "Interface '%s' is not the same instance that was registered! [Expected '%p', Found '%p']", name, type, _instance.Get());
+        if (_instance.Get(T::TYPEINFO_Name()) != type) {
+            V_Assert(false, "Interface '%s' is not the same instance that was registered! [Expected '%p', Found '%p']", T::TYPEINFO_Name(), type, _instance.Get());
             return;
         }
 
@@ -93,27 +93,27 @@ namespace V {
     }
 
     template <typename T>
-    T* Interface<T>::Get(const char* name) {
+    T* Interface<T>::Get() {
         // First attempt to use the module-static reference; take a read lock to check it.
         // This is the fast path which won't block.
         {
             VStd::shared_lock<VStd::shared_mutex> lock(_mutex);
             if (_instance) {
-                return _instance.Get();
+                return _instance.Get(T::TYPEINFO_Name());
             }
         }
 
         // If the instance doesn't exist (which means we could be in a different module),
         // take the full lock and request it.
         VStd::unique_lock<VStd::shared_mutex> lock(_mutex);
-        _instance = Environment::FindVariable<T*>(GetVariableName(name));
+        _instance = Environment::FindVariable<T*>(GetVariableName());
         return _instance ? _instance.Get() : nullptr;
     }
 
     template <typename T>
-    uint32_t Interface<T>::GetVariableName(const char* name) {
+    uint32_t Interface<T>::GetVariableName() {
         // Environment variable name is taken from the hash of the Uuid (truncated to 32 bits).
-        return static_cast<uint32_t>(TypeHash32(name));
+        return static_cast<uint32_t>(TypeHash32(T::TYPEINFO_Name()));
     }
 
     template <typename T>

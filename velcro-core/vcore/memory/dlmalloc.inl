@@ -1376,7 +1376,7 @@ LONG __cdecl _InterlockedExchange(LONG volatile* Target, LONG Value);
 #endif /* USE_LOCKS */
 
 /* Declarations for bit scanning on win32 */
-#if defined(AZ_PLATFORM_WINDOWS)
+#if defined(V_PLATFORM_WINDOWS)
 #ifndef BitScanForward  /* Try to avoid pulling in WinNT.h */
 #ifdef __cplusplus
 extern "C" {
@@ -2808,7 +2808,7 @@ static size_t traverse_and_check(mstate m);
         }                                                                       \
     }
 
-#elif defined(AZ_PLATFORM_WINDOWS)
+#elif defined(V_PLATFORM_WINDOWS)
 #define compute_tree_index(S, I)                                                \
     {                                                                           \
         size_t X = S >> TREEBIN_SHIFT;                                          \
@@ -2899,7 +2899,7 @@ static size_t traverse_and_check(mstate m);
         I = (bindex_t)J;           \
     }
 
-#elif defined(AZ_PLATFORM_WINDOWS)
+#elif defined(V_PLATFORM_WINDOWS)
 #define compute_bit2idx(X, I)            \
     {                                    \
         unsigned int J;                  \

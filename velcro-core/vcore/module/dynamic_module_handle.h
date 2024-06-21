@@ -2,7 +2,7 @@
 #define V_FRAMEWORK_CORE_MODULE_DYNAMIC_MODULE_HANDLE_H
 
 #include <vcore/std/smart_ptr/unique_ptr.h>
-#include <vcore/std/string/fixed_string.h>
+#include <vcore/std/string/osstring.h>
 #include <vcore/io/path/path_fwd.h>
 #include <vcore/module/environment.h>
 
@@ -30,7 +30,7 @@ namespace V {
         bool Load(bool isInitializeFunctionRequired);
         bool Unload();
         virtual bool IsLoaded() const = 0;
-        const char*  GetFilename() const { return m_fileName.c_str(); }
+        const OSString&  GetFilename() const { return m_fileName; }
 
         template<typename Function>
         Function GetFunction(const char* functionName) const {
@@ -48,7 +48,7 @@ namespace V {
         virtual bool       unloadModule() = 0;
         virtual void*      getFunctionAddress(const char* functionName) const = 0;
     protected:
-        V::IO::FixedMaxPathString    m_fileName;
+        OSString                     m_fileName;
         V::EnvironmentVariable<bool> m_initialized;
     };
 

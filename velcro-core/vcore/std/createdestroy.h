@@ -14,6 +14,7 @@
 #include <vcore/std/typetraits/is_assignable.h>
 #include <vcore/std/typetraits/is_constructible.h>
 #include <vcore/std/typetraits/is_destructible.h>
+#include <vcore/std/typetraits/is_function.h>
 #include <vcore/std/typetraits/is_trivially_copyable.h>
 #include <vcore/std/typetraits/is_void.h>
 #include <vcore/std/utils.h>

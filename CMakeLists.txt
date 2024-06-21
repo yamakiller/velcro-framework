@@ -1,6 +1,6 @@
 CMAKE_MINIMUM_REQUIRED(VERSION 3.10)
+PROJECT(VelcroFramework)
 
-#SET(PROJ_NAME VelcroFramework)
 
 #调试版本增加后缀
 SET(CMAKE_DEBUG_POSTFIX "_debug")
@@ -23,5 +23,6 @@ INCLUDE_DIRECTORIES(${PROJECT_SOURCE_DIR}/velcro-test)
 
     
 add_subdirectory(velcro-core)
+#add_subdirectory(velcro-test)
 add_subdirectory(version)
 

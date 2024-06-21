@@ -1,9 +1,10 @@
 #ifndef V_FRAMEWORK_CORE_IO_PATH_PATH_H
-#define V_FRAMEWORK_CORE_IO
+#define V_FRAMEWORK_CORE_IO_PATH_PATH_H
 
 #include <vcore/io/path/path_fwd.h>
 #include <vcore/std/string/fixed_string.h>
 #include <vcore/std/string/string.h>
+#include <vcore/std/hash.h>
 
 namespace V::IO
 {

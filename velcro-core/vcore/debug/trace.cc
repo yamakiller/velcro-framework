@@ -245,7 +245,7 @@ namespace V
 
         va_list mark;
         va_start(mark, format);
-        vvsnprintf(message, g_maxMessageLength-1, format, mark); // -1 to make room for the "/n" that will be appended below 
+        v_vsnprintf(message, g_maxMessageLength-1, format, mark); // -1 to make room for the "/n" that will be appended below 
         va_end(mark);
 
         if (auto logger = Interface<IEventLogger>::Get("IEventLogger"); logger)
@@ -264,7 +264,7 @@ namespace V
         }
 
         Output(window, "\n==================================================================\n");
-        vsnprintfv(header, g_maxMessageLength, "Trace::Error\n %s(%d): '%s'\n", fileName, line, funcName);
+        v_snprintf(header, g_maxMessageLength, "Trace::Error\n %s(%d): '%s'\n", fileName, line, funcName);
         Output(window, header);
         vstrcat(message, g_maxMessageLength, "\n");
         Output(window, message);
@@ -296,7 +296,7 @@ namespace V
 
         va_list mark;
         va_start(mark, format);
-        vvsnprintf(message, g_maxMessageLength - 1, format, mark); // -1 to make room for the "/n" that will be appended below 
+        v_vsnprintf(message, g_maxMessageLength - 1, format, mark); // -1 to make room for the "/n" that will be appended below 
         va_end(mark);
 
         if (auto logger = Interface<IEventLogger>::Get(); logger)
@@ -314,7 +314,7 @@ namespace V
         }
 
         Output(window, "\n==================================================================\n");
-        vsnprintfv(header, g_maxMessageLength, "Trace::Warning\n %s(%d): '%s'\n", fileName, line, funcName);
+        v_snprintf(header, g_maxMessageLength, "Trace::Warning\n %s(%d): '%s'\n", fileName, line, funcName);
         Output(window, header);
         vstrcat(message, g_maxMessageLength, "\n");
         Output(window, message);
@@ -339,7 +339,7 @@ namespace V
 
         va_list mark;
         va_start(mark, format);
-        vvsnprintf(message, g_maxMessageLength, format, mark);
+        v_vsnprintf(message, g_maxMessageLength, format, mark);
         va_end(mark);
 
         if (auto logger = Interface<IEventLogger>::Get("IEventLogger"); logger)

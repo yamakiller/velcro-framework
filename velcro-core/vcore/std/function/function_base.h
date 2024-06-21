@@ -18,6 +18,7 @@
 #include <vcore/std/typetraits/alignment_of.h>
 #include <vcore/std/typetraits/is_member_pointer.h>
 #include <vcore/std/typetraits/is_const.h>
+#include <vcore/std/typetraits/is_pointer.h>
 #include <vcore/std/typetraits/remove_cvref.h>
 #include <vcore/std/typetraits/is_volatile.h>
 #include <vcore/std/createdestroy.h>

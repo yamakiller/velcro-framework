@@ -1371,7 +1371,7 @@ namespace V {
                 const V::Crc32 branchTokenCrc(normalized.c_str(), normalized.size(), true);
                 char branchToken[12];
  
-                vsnprintfv(branchToken, V_ARRAY_SIZE(branchToken), "0x%08X", static_cast<V::u32>(branchTokenCrc));
+                v_snprintf(branchToken, V_ARRAY_SIZE(branchToken), "0x%08X", static_cast<V::u32>(branchTokenCrc));
                 token = VStd::string(branchToken);
             }
         }

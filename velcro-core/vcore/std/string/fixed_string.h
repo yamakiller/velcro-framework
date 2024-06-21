@@ -338,7 +338,7 @@ namespace VStd
         constexpr auto leak_and_reset() -> void;
 
         static decltype(auto) format_arg(const char* format, va_list argList);
-        static decltype(auto) format(const char* format, ...) AZ_FORMAT_ATTRIBUTE(1, 2);
+        static decltype(auto) format(const char* format, ...) V_FORMAT_ATTRIBUTE(1, 2);
         static decltype(auto) format_arg(const wchar_t* format, va_list argList);
         static decltype(auto) format(const wchar_t* format, ...);
 

@@ -97,7 +97,7 @@ namespace V
             using MultiHandler = V::Internal::MultiHandler<Interface, Traits, ContainerType>;
             using BusPtr = VStd::intrusive_ptr<HandlerHolder>;
 
-            EBusContainer() = default;
+            EventBusContainer() = default;
 
             // EBus will extend this class to gain the Event*/Broadcast* functions
             template <typename Bus>
@@ -777,7 +777,7 @@ namespace V
             using MultiHandler = V::Internal::MultiHandler<Interface, Traits, ContainerType>;
             using BusPtr = VStd::intrusive_ptr<HandlerHolder>;
 
-            EBusContainer() = default;
+            EventBusContainer() = default;
 
             // EBus will extend this class to gain the Event*/Broadcast* functions
             template <typename Bus>
@@ -1318,7 +1318,7 @@ namespace V
             struct BusPtr { };
             using Handler = NonIdHandler<Interface, Traits, ContainerType>;
 
-            EBusContainer() = default;
+            EventBusContainer() = default;
 
             // EBus will extend this class to gain the Event*/Broadcast* functions
             template <typename Bus>
@@ -1512,7 +1512,7 @@ namespace V
             using Handler = NonIdHandler<Interface, Traits, ContainerType>;
             struct BusPtr { };
 
-            EBusContainer() = default;
+            EventBusContainer() = default;
 
             // EBus will extend this class to gain the Event*/Broadcast* functions
             template <typename Bus>

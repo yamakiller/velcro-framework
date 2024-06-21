@@ -35,7 +35,7 @@ namespace Utf8::Unchecked {
     class octet_iterator
     {
         using iterator_category = VStd::bidirectional_iterator_tag;
-        using value_type = AZ::u32;
+        using value_type = V::u32;
         using difference_type = ptrdiff_t;
         using pointer = value_type*;
         using reference = value_type&;
@@ -90,21 +90,21 @@ namespace Utf8::Unchecked {
             return temp;
         }
 
-        static Iterator to_utf8_sequence(AZ::u32 cp, Iterator& result, size_t& resultMaxSize)
+        static Iterator to_utf8_sequence(V::u32 cp, Iterator& result, size_t& resultMaxSize)
         {
             if (cp < 0x80)
             {
                 // one octet
                 resultMaxSize -= 1; // no need to check the calling function will exit the loop
-                *(result++) = static_cast<AZ::u8>(cp);
+                *(result++) = static_cast<V::u8>(cp);
             }
             else if (cp < 0x800)
             {
                 // two octets
                 if (resultMaxSize >= 2)
                 {
-                    *(result++) = static_cast<AZ::u8>((cp >> 6) | 0xc0);
-                    *(result++) = static_cast<AZ::u8>((cp & 0x3f) | 0x80);
+                    *(result++) = static_cast<V::u8>((cp >> 6) | 0xc0);
+                    *(result++) = static_cast<V::u8>((cp & 0x3f) | 0x80);
                     resultMaxSize -= 2;
                 }
                 else
@@ -117,9 +117,9 @@ namespace Utf8::Unchecked {
                 // three octets
                 if (resultMaxSize >= 3)
                 {
-                    *(result++) = static_cast<AZ::u8>((cp >> 12) | 0xe0);
-                    *(result++) = static_cast<AZ::u8>(((cp >> 6) & 0x3f) | 0x80);
-                    *(result++) = static_cast<AZ::u8>((cp & 0x3f) | 0x80);
+                    *(result++) = static_cast<V::u8>((cp >> 12) | 0xe0);
+                    *(result++) = static_cast<V::u8>(((cp >> 6) & 0x3f) | 0x80);
+                    *(result++) = static_cast<V::u8>((cp & 0x3f) | 0x80);
                     resultMaxSize -= 3;
                 }
                 else
@@ -132,10 +132,10 @@ namespace Utf8::Unchecked {
                 // four octets
                 if (resultMaxSize >= 4)
                 {
-                    *(result++) = static_cast<AZ::u8>((cp >> 18) | 0xf0);
-                    *(result++) = static_cast<AZ::u8>(((cp >> 12) & 0x3f) | 0x80);
-                    *(result++) = static_cast<AZ::u8>(((cp >> 6) & 0x3f) | 0x80);
-                    *(result++) = static_cast<AZ::u8>((cp & 0x3f) | 0x80);
+                    *(result++) = static_cast<V::u8>((cp >> 18) | 0xf0);
+                    *(result++) = static_cast<V::u8>(((cp >> 12) & 0x3f) | 0x80);
+                    *(result++) = static_cast<V::u8>(((cp >> 6) & 0x3f) | 0x80);
+                    *(result++) = static_cast<V::u8>((cp & 0x3f) | 0x80);
                     resultMaxSize -= 4;
                 }
                 else
@@ -146,9 +146,9 @@ namespace Utf8::Unchecked {
             return result;
         }
 
-        static AZ::u32 from_utf8_sequence(Iterator it)
+        static V::u32 from_utf8_sequence(Iterator it)
         {
-            AZ::u32 cp = Utf8::Internal::mask8(*it);
+            V::u32 cp = Utf8::Internal::mask8(*it);
             switch (Utf8::Internal::sequence_length(it))
             {
             case 1:
@@ -182,11 +182,11 @@ namespace Utf8::Unchecked {
     {
         while (start != end && resultMaxSize > 0)
         {
-            AZ::u32 cp = Utf8::Internal::mask16(*start++);
+            V::u32 cp = Utf8::Internal::mask16(*start++);
             // Take care of surrogate pairs first
             if (Utf8::Internal::is_lead_surrogate(cp))
             {
-                AZ::u32 trail_surrogate = Utf8::Internal::mask16(*start++);
+                V::u32 trail_surrogate = Utf8::Internal::mask16(*start++);
                 cp = (cp << 10) + trail_surrogate + Internal::SURROGATE_OFFSET;
             }
             octet_iterator<Utf8Iterator>::to_utf8_sequence(cp, result, resultMaxSize);
@@ -201,14 +201,14 @@ namespace Utf8::Unchecked {
         octet_iterator utf8Last(end);
         while (utf8Start != utf8Last && resultMaxSize > 0)
         {
-            AZ::u32 cp = *utf8Start++;
+            V::u32 cp = *utf8Start++;
             if (cp > 0xffff)
             {
                 //make a surrogate pair
                 if (resultMaxSize >= 2)
                 {
-                    *result++ = static_cast<AZ::u16>((cp >> 10) + Internal::LEAD_OFFSET);
-                    *result++ = static_cast<AZ::u16>((cp & 0x3ff) + Internal::TRAIL_SURROGATE_MIN);
+                    *result++ = static_cast<V::u16>((cp >> 10) + Internal::LEAD_OFFSET);
+                    *result++ = static_cast<V::u16>((cp & 0x3ff) + Internal::TRAIL_SURROGATE_MIN);
                     resultMaxSize -= 2;
                 }
                 else
@@ -218,7 +218,7 @@ namespace Utf8::Unchecked {
             }
             else
             {
-                *result++ = static_cast<AZ::u16>(cp);
+                *result++ = static_cast<V::u16>(cp);
                 resultMaxSize -= 1;
             }
         }
@@ -250,7 +250,7 @@ namespace Utf8::Unchecked {
         return result;
     }
 
-    static constexpr size_t utf8_codepoint_length(AZ::u32 cp)
+    static constexpr size_t utf8_codepoint_length(V::u32 cp)
     {
         if (cp < 0x80)
         {
@@ -273,11 +273,11 @@ namespace Utf8::Unchecked {
         size_t bytesRequired = 0;
         while (start != end)
         {
-            AZ::u32 cp = Utf8::Internal::mask16(*start++);
+            V::u32 cp = Utf8::Internal::mask16(*start++);
             // Take care of surrogate pairs first
             if (Utf8::Internal::is_lead_surrogate(cp))
             {
-                AZ::u32 trail_surrogate = Utf8::Internal::mask16(*start++);
+                V::u32 trail_surrogate = Utf8::Internal::mask16(*start++);
                 cp = (cp << 10) + trail_surrogate + Internal::SURROGATE_OFFSET;
             }
             bytesRequired += utf8_codepoint_length(cp);

@@ -21,7 +21,7 @@ namespace V
         //! @param arguments the value instance to convert to a string
         //! @return boolean true on success, false if there was a conversion error
         template <typename TYPE>
-        bool StringSetToValue(TYPE& outValue, const AZ::ConsoleCommandContainer& arguments);
+        bool StringSetToValue(TYPE& outValue, const V:ConsoleCommandContainer& arguments);
 
         //! Helper function for converting a typed value to a string representation.
         //! @param outValue the value instance to write to

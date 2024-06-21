@@ -160,7 +160,7 @@ namespace nedalloc
 // End if nedmalloc.h
 //////////////////////////////////////////////////////////////////////////
 
-#if defined(AZ_PLATFORM_WINDOWS)
+#if defined(V_PLATFORM_WINDOWS)
     #include <malloc.h>
 #endif
 //#define MSPACES 1
@@ -215,7 +215,7 @@ namespace nedalloc
 #endif
 
 
-#if defined(AZ_PLATFORM_WINDOWS)
+#if defined(V_PLATFORM_WINDOWS)
  #define TLSVAR         DWORD
  #define TLSALLOC(k)    (*(k) = TlsAlloc(), TLS_OUT_OF_INDEXES == *(k))
  #define TLSFREE(k)     (!TlsFree(k))
@@ -325,7 +325,7 @@ namespace nedalloc {
 
 #if defined(__GNUC__)
         topbit = sizeof(size) * __CHAR_BIT__ - 1 - __builtin_clz(size);
-#elif defined(AZ_PLATFORM_WINDOWS)
+#elif defined(V_PLATFORM_WINDOWS)
         {
             unsigned long bsrTopBit;
 

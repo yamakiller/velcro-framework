@@ -1,8 +1,9 @@
 
+CMAKE_MINIMUM_REQUIRED(VERSION 3.10)
+
 SET(PROJ_NAME_CORE VelcroCore)
 
 SET(LIB_LINKS)
-
 
 #设置不同平台的编辑参数
 IF (CMAKE_SYSTEM_NAME MATCHES "Windows")
@@ -17,16 +18,17 @@ IF (CMAKE_SYSTEM_NAME MATCHES "Windows")
     
         SET(CMAKE_CXX_FLAGS_DEBUG	"-std=c++17 -O0 -Wall -march=pentium4 -mmmx -g2 -ggdb")
         SET(CMAKE_CXX_FLAGS_RELEASE	"-std=c++17 -Wall -o3")
-
-        LIST(APPEND LIB_LINKS "-lzlib")
     ELSE()
         MESSAGE(STATUS "Compile Tool msvc")
-        ADD_DEFINITIONS(-D_CRT_SECURE_NOWARNINGS)
+        #ADD_DEFINITIONS(-D_CRT_SECURE_NOWARNINGS)
+        #ADD_DEFINITIONS(-D__STDC_WANT_SECURELIB__=1)
+        add_definitions(-D_CRT_SECURE_NO_DEPRECATE)
+        add_definitions(-D_CRT_NONSTDC_NO_DEPRECATE)
         #这是为UNICODE编码模式
         ADD_DEFINITIONS(-DUNICODE -D_UNICODE)
         
-        SET(CMAKE_CXX_STANDARD 17)
-        SET(CMAKE_C_STANDARD 17)
+        SET(CMAKE_CXX_STANDARD 20)
+        SET(CMAKE_C_STANDARD 20)
         SET(CMAKE_CXX_FLAGS_DEBUG	"/D_DEBUG /MDd /Zi /Ob0 /Od /RTC1")
         SET(CMAKE_CXX_FLAGS_RELEASE	"/MD /O2 /Ob2 /D NDEBUG")
 
@@ -36,7 +38,7 @@ IF (CMAKE_SYSTEM_NAME MATCHES "Windows")
         ADD_COMPILE_OPTIONS("$<$<CXX_COMPILER_ID:MSVC>:/utf-8>")
 
         ADD_COMPILE_OPTIONS(/Zc:preprocessor /wd5105)
-
+        
     ENDIF()
     INCLUDE_DIRECTORIES(${LOCAL_CORE_SOURCE_DIR}/platforms/windows)
     INCLUDE(${LOCAL_CORE_SOURCE_DIR}/platforms/windows/platform_windows_files.cmake)
@@ -52,8 +54,6 @@ ELSEIF (CMAKE_SYSTEM_NAME MATCHES "Linux")
 
     SET(CMAKE_CXX_FLAGS_DEBUG	"-std=c++17 -O0 -Wall -march=pentium4 -mmmx -g2 -ggdb")
     SET(CMAKE_CXX_FLAGS_RELEASE	"-std=c++17 -Wall -o3")
-
-    LIST(APPEND LIB_LINKS "-lzlib")
 ELSEIF (CMAKE_SYSTEM_NAME MATCHES "FreeBSD")
     MESSAGE(STATUS "Platform FreeBSD")
     MESSAGE(STATUS "Compile Tool gcc/g++")
@@ -71,6 +71,7 @@ ENDIF (CMAKE_SYSTEM_NAME MATCHES "Windows")
 Message("-- Used Compressor is zlib")
 INCLUDE_DIRECTORIES(${THIRDPARTY_DIR}/zlib/include)
 IF (CMAKE_SYSTEM_NAME MATCHES "Windows")
+    SET(LIB_LINKS "stdlib") 
     LIST(APPEND LIB_LINKS "zlib")
     IF (CMAKE_CL_64)
         IF(CMAKE_BUILD_TYPE AND (CMAKE_BUILD_TYPE STREQUAL "Debug"))

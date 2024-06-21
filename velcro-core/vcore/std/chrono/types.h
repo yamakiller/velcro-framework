@@ -416,7 +416,7 @@ namespace std {
     template <class Rep1, class Period1, class Rep2, class Period2>
     struct common_type<VStd::chrono::duration<Rep1, Period1>, VStd::chrono::duration<Rep2, Period2> >
     {
-        using type = AZStd::chrono::duration<common_type_t<Rep1, Rep2>, typename VStd::Internal::ratio_gcd<Period1, Period2>::type>;
+        using type = VStd::chrono::duration<common_type_t<Rep1, Rep2>, typename VStd::Internal::ratio_gcd<Period1, Period2>::type>;
     };
 
     template <class Clock, class Duration1, class Duration2>

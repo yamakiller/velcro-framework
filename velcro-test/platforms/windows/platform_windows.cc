@@ -139,7 +139,7 @@ namespace V
 
             va_list mark;
             va_start(mark, format);
-            vvsnprintf(message, MAX_PRINT_MSG, format, mark);
+            v_vsnprintf(message, MAX_PRINT_MSG, format, mark);
             va_end(mark);
             V::Debug::Platform::OutputToDebugger({}, message);
         }

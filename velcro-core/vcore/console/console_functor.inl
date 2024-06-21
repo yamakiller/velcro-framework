@@ -41,8 +41,8 @@ namespace V
     // This is forcibly inlined because we must guarantee this is compiled into and invoked from the calling module rather than the .exe that links AzCore
     V_FORCE_INLINE ConsoleFunctorBase*& ConsoleFunctorBase::GetDeferredHead()
     {
-        s_deferredHeadInvoked = true;
-        return s_deferredHead;
+        _deferredHeadInvoked = true;
+        return _deferredHead;
     }
 
     template <typename _TYPE, bool _REPLICATES_VALUE>
@@ -59,7 +59,7 @@ namespace V
         , m_object(&object)
         , m_function(VStd::move(function))
     {
-        ;
+        V_COMPILER_MSVC
     }
 
     template <typename _TYPE, bool _REPLICATES_VALUE>

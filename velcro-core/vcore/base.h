@@ -39,94 +39,94 @@
  */
 #if V_TRAIT_USE_SECURE_CRT_FUNCTIONS
 
-#   define vsnprintfv(_buffer, _size, ...)                  _snprintf_s(_buffer, _size, _size-1, __VA_ARGS__)
-#   define vvsnprintf(_buffer, _size, _format, _va_list)   _vsnprintf_s(_buffer, _size, _size-1, _format, _va_list)
-#   define vsnwprintf(_buffer, _size, ...)                 _snwprintf_s(_buffer, _size, _size-1, __VA_ARGS__)
-#   define vvsnwprintf(_buffer, _size, _format, _va_list)  _vsnwprintf_s(_buffer, _size, _size-1, _format, _va_list)
-#   define vscprintf                                       _scprintf
-#   define vvscprintf(_format, _va_list)                   _vscprintf(_format, _va_list)
-#   define vscwprintf                                      _scwprintf
-#   define vvscwprintf                                     _vscwprintf
-#   define vstrtok(_buffer, _size, _delim, _context)       strtok_s(_buffer, _delim, _context)
-#   define vstrcat(_dest, _destSize, _src)                 strcat_s(_dest, _destSize, _src)
-#   define vstrncat(_dest, _destSize, _src, _count)        strncat_s(_dest, _destSize, _src, _count)
-#   define strtoll                                          _strtoi64
-#   define strtoull                                         _strtoui64
-#   define vsscanf                                         sscanf_s
-#   define vstrcpy(_dest, _destSize, _src)                 strcpy_s(_dest, _destSize, _src)
-#   define vstrncpy(_dest, _destSize, _src, _count)        strncpy_s(_dest, _destSize, _src, _count)
-#   define vstricmp                                        _stricmp
-#   define vstrnicmp                                       _strnicmp
-#   define visfinite                                       _finite
-#   define vltoa                                           _ltoa_s
-#   define vitoa                                           _itoa_s
-#   define vui64toa                                        _ui64toa_s
-#   define vswscanf                                        swscanf_s
-#   define vwcsicmp                                        _wcsicmp
-#   define vwcsnicmp                                       _wcsnicmp
+#   define v_snprintf(_buffer, _size, ...)                  _snprintf_s(_buffer, _size, _size-1, __VA_ARGS__)
+#   define v_vsnprintf(_buffer, _size, _format, _va_list)   _vsnprintf_s(_buffer, _size, _size-1, _format, _va_list)
+#   define v_snwprintf(_buffer, _size, ...)                 _snwprintf_s(_buffer, _size, _size-1, __VA_ARGS__)
+#   define v_vsnwprintf(_buffer, _size, _format, _va_list)  _vsnwprintf_s(_buffer, _size, _size-1, _format, _va_list)
+#   define v_scprintf                                       _scprintf
+#   define v_vscprintf(_format, _va_list)                   _vscprintf(_format, _va_list)
+#   define v_scwprintf                                      _scwprintf
+#   define v_vscwprintf                                     _vscwprintf
+#   define v_strtok(_buffer, _size, _delim, _context)       strtok_s(_buffer, _delim, _context)
+#   define v_strcat(_dest, _destSize, _src)                 strcat_s(_dest, _destSize, _src)
+#   define v_strncat(_dest, _destSize, _src, _count)        strncat_s(_dest, _destSize, _src, _count)
+#   define v_strtoll                                        _strtoi64
+#   define v_strtoull                                       _strtoui64
+#   define v_sscanf                                         sscanf_s
+#   define v_strcpy(_dest, _destSize, _src)                 strcpy_s(_dest, _destSize, _src)
+#   define v_strncpy(_dest, _destSize, _src, _count)        strncpy_s(_dest, _destSize, _src, _count)
+#   define v_stricmp                                        _stricmp
+#   define v_strnicmp                                       _strnicmp
+#   define v_isfinite                                       _finite
+#   define v_ltoa                                           _ltoa_s
+#   define v_itoa                                           _itoa_s
+#   define v_ui64toa                                        _ui64toa_s
+#   define v_swscanf                                        swscanf_s
+#   define v_wcsicmp                                        _wcsicmp
+#   define v_wcsnicmp                                       _wcsnicmp
 
 // note: for cross-platform compatibility, do not use the return value of vfopen. On Windows, it's an errno_t and 0 indicates success. On other platforms, the return value is a FILE*, and a 0 value indicates failure.
-#   define vfopen(_fp, _filename, _attrib)                 fopen_s(_fp, _filename, _attrib)
-#   define vfscanf                                         fscanf_s
+#   define v_fopen(_fp, _filename, _attrib)                 fopen_s(_fp, _filename, _attrib)
+#   define v_fscanf                                         fscanf_s
 
-#   define vsprintf(_buffer, ...)                          sprintf_s(_buffer, V_ARRAY_SIZE(_buffer), __VA_ARGS__)
-#   define vstrlwr                                         _strlwr_s
-#   define vvsprintf                                       vsprintf_s
-#   define vwcscpy                                         wcscpy_s
-#   define vstrtime                                        _strtime_s
-#   define vstrdate                                        _strdate_s
-#   define vlocaltime(time, result)                        localtime_s(result, time)
+#   define v_sprintf(_buffer, ...)                          sprintf_s(_buffer, V_ARRAY_SIZE(_buffer), __VA_ARGS__)
+#   define v_strlwr                                         _strlwr_s
+#   define v_vsprintf                                       vsprintf_s
+#   define v_wcscpy                                         wcscpy_s
+#   define v_strtime                                        _strtime_s
+#   define v_strdate                                        _strdate_s
+#   define v_localtime(time, result)                        localtime_s(result, time)
 #else
-#   define vsnprintfv                                       snprintf
-#   define vvsnprintf                                      vsnprintfv
+#   define v_snprintfv                                      snprintf
+#   define v_vsnprintf                                      vsnprintf
 #   if V_TRAIT_COMPILER_DEFINE_VSWNPRINTF_AS_SWPRINTF
-#       define vsnwprintf                                  swprintf
-#       define vvsnwprintf                                 vswprintf
+#       define v_snwprintf                                  swprintf
+#       define v_vsnwprintf                                 vswprintf
 #   else
-#       define vsnwprintf                                  snwprintf
-#       define vvsnwprintf                                 vsnwprintf
+#       define v_snwprintf                                  snwprintf
+#       define v_vsnwprintf                                 vsnwprintf
 #   endif
-#   define vscprintf(...)                                  vsnprintfv(nullptr, static_cast<size_t>(0), __VA_ARGS__);
-#   define vvscprintf(_format, _va_list)                   vvsnprintf(nullptr, static_cast<size_t>(0), _format, _va_list);
-#   define vscwprintf(...)                                 vsnwprintf(nullptr, static_cast<size_t>(0), __VA_ARGS__);
-#   define vvscwprintf(_format, _va_list)                  vvsnwprintf(nullptr, static_cast<size_t>(0), _format, _va_list);
-#   define vstrtok(_buffer, _size, _delim, _context)       strtok(_buffer, _delim)
-#   define vstrcat(_dest, _destSize, _src)                 strcat(_dest, _src)
-#   define vstrncat(_dest, _destSize, _src, _count)        strncat(_dest, _src, _count)
-#   define vsscanf                                         sscanf
-#   define vstrcpy(_dest, _destSize, _src)                 strcpy(_dest, _src)
-#   define vstrncpy(_dest, _destSize, _src, _count)        strncpy(_dest, _src, _count)
-#   define vstricmp                                        strcasecmp
-#   define vstrnicmp                                       strncasecmp
+#   define v_scprintf(...)                                  v_snprintfv(nullptr, static_cast<size_t>(0), __VA_ARGS__);
+#   define v_vscprintf(_format, _va_list)                   v_vsnprintf(nullptr, static_cast<size_t>(0), _format, _va_list);
+#   define v_scwprintf(...)                                 v_snwprintf(nullptr, static_cast<size_t>(0), __VA_ARGS__);
+#   define v_vscwprintf(_format, _va_list)                  v_vsnwprintf(nullptr, static_cast<size_t>(0), _format, _va_list);
+#   define v_strtok(_buffer, _size, _delim, _context)       strtok(_buffer, _delim)
+#   define v_strcat(_dest, _destSize, _src)                 strcat(_dest, _src)
+#   define v_strncat(_dest, _destSize, _src, _count)        strncat(_dest, _src, _count)
+#   define v_sscanf                                         sscanf
+#   define v_strcpy(_dest, _destSize, _src)                 strcpy(_dest, _src)
+#   define v_strncpy(_dest, _destSize, _src, _count)        strncpy(_dest, _src, _count)
+#   define v_stricmp                                        strcasecmp
+#   define v_strnicmp                                       strncasecmp
 #   if defined(NDK_REV_MAJOR) && NDK_REV_MAJOR < 16
-#       define visfinite                                   __isfinitef
+#       define v_isfinite                                   __isfinitef
 #   else
-#       define visfinite                                   isfinite
+#       define v_isfinite                                   isfinite
 #   endif
-#   define vltoa(_value, _buffer, _size, _radix)           ltoa(_value, _buffer, _radix)
-#   define vitoa(_value, _buffer, _size, _radix)           itoa(_value, _buffer, _radix)
-#   define vui64toa(_value, _buffer, _size, _radix)        _ui64toa(_value, _buffer, _radix)
-#   define vswscanf                                        swscanf
-#   define vwcsicmp                                        wcscasecmp
-#   define vwcsnicmp                                       wcsnicmp
+#   define v_ltoa(_value, _buffer, _size, _radix)           ltoa(_value, _buffer, _radix)
+#   define v_itoa(_value, _buffer, _size, _radix)           itoa(_value, _buffer, _radix)
+#   define v_ui64toa(_value, _buffer, _size, _radix)        _ui64toa(_value, _buffer, _radix)
+#   define v_swscanf                                        swscanf
+#   define v_wcsicmp                                        wcscasecmp
+#   define v_wcsnicmp                                       wcsnicmp
 
 // note: for cross-platform compatibility, do not use the return value of vfopen. On Windows, it's an errno_t and 0 indicates success. On other platforms, the return value is a FILE*, and a 0 value indicates failure.
-#   define vfopen(_fp, _filename, _attrib)                 *(_fp) = fopen(_filename, _attrib)
-#   define vfscanf                                         fscanf
+#   define v_fopen(_fp, _filename, _attrib)                 *(_fp) = fopen(_filename, _attrib)
+#   define v_fscanf                                         fscanf
 
-#   define vsprintf                                        sprintf
-#   define vstrlwr(_buffer, _size)                         strlwr(_buffer)
-#   define vvsprintf                                       vsprintf
-#   define vwcscpy(_dest, _size, _buffer)                  wcscpy(_dest, _buffer)
-#   define vstrtime                                        _strtime
-#   define vstrdate                                        _strdate
-#   define vlocaltime                                      localtime_r
+#   define v_sprintf                                        sprintf
+#   define v_strlwr(_buffer, _size)                         strlwr(_buffer)
+#   define v_vsprintf                                       vsprintf
+#   define v_wcscpy(_dest, _size, _buffer)                  wcscpy(_dest, _buffer)
+#   define v_strtime                                        _strtime
+#   define v_strdate                                        _strdate
+#   define v_localtime                                      localtime_r
 #endif
 
 #if V_TRAIT_USE_POSIX_STRERROR_R
-#   define vstrerror_s(_dst, _num, _err)                   strerror_r(_err, _dst, _num)
+#   define v_strerror_s(_dst, _num, _err)                   strerror_r(_err, _dst, _num)
 #else
-#   define vstrerror_s                                     strerror_s
+#   define v_strerror_s                                     strerror_s
 #endif
 
 #define V_INVALID_POINTER  reinterpret_cast<void*>(0x0badf00dul)

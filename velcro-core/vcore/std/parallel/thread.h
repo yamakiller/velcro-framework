@@ -5,6 +5,7 @@
 #include <vcore/std/allocator.h>
 #include <vcore/std/typetraits/alignment_of.h>
 #include <vcore/std/chrono/types.h>
+#include <vcore/std/utils.h>
 
 #define AFFINITY_MASK_ALL          V_TRAIT_THREAD_AFFINITY_MASK_ALLTHREADS
 #define AFFINITY_MASK_MAINTHREAD   V_TRAIT_THREAD_AFFINITY_MASK_MAINTHREAD
@@ -178,8 +179,7 @@ namespace VStd {
         };
 
         template<typename F>
-        class thread_info_impl<VStd::reference_wrapper<F> >
-            : public thread_info {
+        class thread_info_impl<VStd::reference_wrapper<F> > : public thread_info {
         public:
             thread_info_impl(VStd::reference_wrapper<F> f)
                 :  m_f(f)  {}
@@ -228,7 +228,7 @@ namespace VStd {
         }
     }
     
-    template <>
+    /*template <>
     struct hash<thread_id> {
         size_t operator()(const thread_id& value) const {
             static_assert(sizeof(thread_id) <= sizeof(size_t), "thread_id should less than size_t");
@@ -236,7 +236,7 @@ namespace VStd {
             *reinterpret_cast<thread_id*>(&hash) = value;
             return hash;
         }
-    };
+    };*/
 
 } // VStd
 

@@ -334,38 +334,38 @@ namespace VStd {
     //////////////////////////////////////////////////////////////////////////
 
     template<class T, bool isEnum = VStd::is_enum<T>::value>
-    struct RemoveEnum {
+    struct remove_enum {
         typedef typename VStd::underlying_type<T>::type type;
     };
 
     template<class T>
-    struct RemoveEnum<T, false> {
+    struct remove_enum<T, false> {
         typedef T type;
     };
 
     template<class T>
-    using RemoveEnumT = typename RemoveEnum<T>::type;
+    using remove_enum_t = typename remove_enum<T>::type;
 
     template<class T>
-    struct HandleLambdaPointer;
+    struct handle_lambda_pointer;
 
     template<class R, class L, class... Args>
-    struct HandleLambdaPointer<R(L::*)(Args...)> {
+    struct handle_lambda_pointer<R(L::*)(Args...)> {
         typedef R(type)(Args...);
     };
 
     template<class R, class L, class... Args>
-    struct HandleLambdaPointer<R(L::*)(Args...) const> {
+    struct handle_lambda_pointer<R(L::*)(Args...) const> {
         typedef R(type)(Args...);
     };
 
     template<class T>
-    struct RemoveFunctionConst {
-        typedef typename HandleLambdaPointer<decltype(&T::operator())>::type type; // lambda matching handling
+    struct remove_function_const {
+        typedef typename handle_lambda_pointer<decltype(&T::operator())>::type type; // lambda matching handling
     };
 
     template<class R, class... Args>
-    struct RemoveFunctionConst<R(Args...)> {
+    struct remove_function_const<R(Args...)> {
         typedef R(type)(Args...);
     };
 
@@ -373,13 +373,13 @@ namespace VStd {
     // C++17 makes exception specifications as part of the type in paper P0012R1
     // Therefore noexcept overloads must distinguished from non-noexcept overloads
     template<class R, class... Args>
-    struct RemoveFunctionConst<R(Args...) noexcept> {
+    struct remove_function_const<R(Args...) noexcept> {
         typedef R(type)(Args...) noexcept;
     };
 #endif
 
     template<class R, class C, class... Args>
-    struct RemoveFunctionConst<R(C::*)(Args...)> {
+    struct remove_function_const<R(C::*)(Args...)> {
         using type = R(C::*)(Args...);
     };
 
@@ -387,13 +387,13 @@ namespace VStd {
     // C++17 makes exception specifications as part of the type in paper P0012R1
     // Therefore noexcept overloads must distinguished from non-noexcept overloads
     template<class R, class C, class... Args>
-    struct RemoveFunctionConst<R(C::*)(Args...) noexcept> {
+    struct remove_function_const<R(C::*)(Args...) noexcept> {
         using type = R(C::*)(Args...) noexcept;
     };
 #endif
 
     template<class R, class C, class... Args>
-    struct RemoveFunctionConst<R(C::*)(Args...) const> {
+    struct remove_function_const<R(C::*)(Args...) const> {
         using type = R(C::*)(Args...);
     };
 
@@ -401,7 +401,7 @@ namespace VStd {
     // C++17 makes exception specifications as part of the type in paper P0012R1
     // Therefore noexcept overloads must distinguished from non-noexcept overloads
     template<class R, class C, class... Args>
-    struct RemoveFunctionConst<R(C::*)(Args...) const noexcept> {
+    struct remove_function_const<R(C::*)(Args...) const noexcept> {
         using type = R(C::*)(Args...) noexcept;
     };
 #endif

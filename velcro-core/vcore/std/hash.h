@@ -17,8 +17,8 @@
 #include <vcore/std/typetraits/negation.h>
 #include <vcore/std/typetraits/remove_cv.h>
 
-#include <typetraits/has_member_function.h>
-#include <typetraits/is_abstract.h>
+#include <vcore/std/typetraits/has_member_function.h>
+#include <vcore/std/typetraits/is_abstract.h>
 
 namespace VStd
 {
@@ -39,7 +39,7 @@ namespace VStd
     };
 
     /// define your own struct VStd::hash<T> and HasherInvocable<T>::type will be VStd::true_type
-    //V_HAS_STATIC_MEMBER(DefaultHash, OnlyUnspecializedTypesShouldHaveThis, bool, ());
+    V_HAS_STATIC_MEMBER(DefaultHash, OnlyUnspecializedTypesShouldHaveThis, bool, ());
 
     template<class T, bool isConstructible = VStd::is_constructible<T>::value && !VStd::is_abstract<T>::value>
     struct IsNumber

@@ -17,7 +17,7 @@ namespace V {
 
         auto initFunc = GetFunction<InitializeDynamicModuleFunction>(InitializeDynamicModuleFunctionName);
         if (initFunc) {
-            V::IO::FixedMaxPathString variableName = V::IO::FixedMaxPathString::format("module_init_token: %s", m_fileName.c_str());
+            OSString variableName = OSString::format("module_init_token: %s", m_fileName.c_str());
             m_initialized = V::Environment::FindVariable<bool>(variableName.c_str());
             if (!m_initialized) {
                 // if we get here, it means nobody has initialized this module yet.  We will initialize it and create the variable.

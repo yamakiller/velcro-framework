@@ -12,6 +12,7 @@
 #include <vcore/std/algorithm.h>
 #include <vcore/std/createdestroy.h>
 #include <vcore/std/typetraits/typetraits.h>
+#include <vcore/std/typetraits/aligned_storage.h>
 
 namespace VStd::Internal {
     template <size_t N>
@@ -103,7 +104,7 @@ namespace VStd::Internal {
 
     template<typename T, size_t Capacity>
     struct fixed_trivial_storage {
-        static_assert(is_trivial_v<T>, "T should be trivial type. Use fixed_non_trivial storage instead");
+        static_assert(std::is_trivial_v<T>, "T should be trivial type. Use fixed_non_trivial storage instead");
         static_assert(Capacity, "Capacity cannot be zero. Use fixed_zero_size_storage instead");
 
         using size_type = fixed_storage_size_t<Capacity>;
@@ -220,7 +221,7 @@ namespace VStd::Internal {
     template<typename T, size_t Capacity>
     struct fixed_non_trivial_storage
     {
-        static_assert(!is_trivial_v<T>, "T should not be trivial type. Use fixed_trivial storage instead");
+        static_assert(!std::is_trivial_v<T>, "T should not be trivial type. Use fixed_trivial storage instead");
         static_assert(Capacity, "Capacity cannot be zero. Use fixed_zero_size_storage instead");
 
         using size_type = fixed_storage_size_t<Capacity>;
@@ -345,7 +346,7 @@ namespace VStd::Internal {
     template<class T, size_t Capacity>
     using fixed_vector_storage = conditional_t<Capacity == 0,
         Internal::fixed_zero_size_storage<T>,
-        conditional_t<is_trivial_v<T>, Internal::fixed_trivial_storage<T, Capacity>,
+        conditional_t<std::is_trivial_v<T>, Internal::fixed_trivial_storage<T, Capacity>,
         Internal::fixed_non_trivial_storage<T, Capacity>
         >>;
 }
