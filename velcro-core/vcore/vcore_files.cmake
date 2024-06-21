@@ -1,11 +1,11 @@
 SET(FILES
     vcore/base.h
-    vcore/variadic.h
-    vcore/platform_incl.h
-    vcore/platform.h
-    vcore/platform.cc
     vcore/platform_default.h
+    vcore/platform_incl.h
     vcore/platform_restricted_file_default.h
+    vcore/platform.h
+    vcore/platform.cc    
+    vcore/variadic.h
     vcore/casting/lossy_cast.h
     vcore/casting/numeric_cast_internal.h
     vcore/casting/numeric_cast.h
@@ -263,6 +263,7 @@ SET(FILES
     vcore/std/typetraits/is_lvalue_reference.h
     vcore/std/typetraits/is_member_function_pointer.h
     vcore/std/typetraits/is_member_object_pointer.h
+    vcore/std/typetraits/is_member_pointer.h
     vcore/std/typetraits/is_object.h
     vcore/std/typetraits/is_pod.h
     vcore/std/typetraits/is_pointer.h
@@ -326,6 +327,17 @@ SET(FILES
     vcore/std/utils.h
     vcore/string_func/string_func.h
     vcore/string_func/string_func.cc
+    vcore/threading/thread_safe_deque.h
+    vcore/threading/thread_safe_object.h
+    vcore/time/itime.h
+    vcore/unit_test/mocks/mock_file_io_base.h
+    vcore/unit_test/test_types.h
+    vcore/unit_test/unit_test.h
+    vcore/utilitys/city.h
+    vcore/utilitys/city.cc
+    vcore/utilitys/citycrc.h
+    vcore/utilitys/type_hash.h
+    vcore/utilitys/type_hash.cc
     vcore/utilitys/utility.h
     vcore/utilitys/utility.cc
 )
