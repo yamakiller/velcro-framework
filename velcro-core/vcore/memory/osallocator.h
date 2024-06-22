@@ -19,7 +19,7 @@ namespace V {
         , public IAllocatorAllocate
     {
     public:
-        VELCRO_TYPE_INFO(OSAllocator, "{79106fb2-631a-4e0e-8c47-7521ee5e5544}");
+        VOBJECT(OSAllocator, "{79106fb2-631a-4e0e-8c47-7521ee5e5544}");
         
         OSAllocator();
         ~OSAllocator() override;

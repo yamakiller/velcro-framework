@@ -12,7 +12,7 @@ namespace V::Debug {
         struct BudgetTrackerImpl;
 
     public:
-        VELCRO_TYPE_INFO(BudgetTracker, "{7fc31c18-f52f-4570-9c56-41b9b5047f17}");
+        VOBJECT(BudgetTracker, "{7fc31c18-f52f-4570-9c56-41b9b5047f17}");
 
         static Budget* GetBudgetFromEnvironment(const char* budgetName, uint32_t crc);
 

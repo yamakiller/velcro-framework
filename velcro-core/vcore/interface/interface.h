@@ -60,12 +60,12 @@ namespace V {
     template <typename T>
     void Interface<T>::Register(T* type) {
         if (!type) {
-            V_Assert(false, "Interface '%s' registering a null pointer!", T::TYPEINFO_Name());
+            V_Assert(false, "Interface '%s' registering a null pointer!", VObject<T>::Name());
             return;
         }
 
         if (T* foundType = Get()) {
-            V_Assert(false, "Interface '%s' already registered! [Found: %p]", T::TYPEINFO_Name(), foundType);
+            V_Assert(false, "Interface '%s' already registered! [Found: %p]", T::VObject<T>::Name(), foundType);
             return;
         }
 
@@ -77,12 +77,13 @@ namespace V {
     template <typename T>
     void Interface<T>::Unregister(T* type) {
         if (!_instance || !_instance.Get()) {
-            V_Assert(false, "Interface '%s' not registered on this module!", T::TYPEINFO_Name());
+            V_Assert(false, "Interface '%s' not registered on this module!", VObject<T>::Name());
             return;
         }
 
         if (_instance.Get() != type) {
-            V_Assert(false, "Interface '%s' is not the same instance that was registered! [Expected '%p', Found '%p']", T::TYPEINFO_Name(), type, _instance.Get());
+            V_Assert(false, "Interface '%s' is not the same instance that was registered! [Expected '%p', Found '%p']",
+                    VObject<T>::Name(), type, _instance.Get());
             return;
         }
 
@@ -113,7 +114,7 @@ namespace V {
     template <typename T>
     uint32_t Interface<T>::GetVariableName() {
         // Environment variable name is taken from the hash of the Uuid (truncated to 32 bits).
-        return static_cast<uint32_t>(TypeHash32(T::TYPEINFO_Name()));
+        return static_cast<uint32_t>(TypeHash32(VObject<T>::Name()));
     }
 
     template <typename T>

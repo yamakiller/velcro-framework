@@ -20,7 +20,7 @@ namespace V {
     class ILogger
     {
     public:
-        VELCRO_TYPE_INFO(ILogger, "{e5f5d1f2-fd9b-416b-9380-9e29e11910a1}");
+        VOBJECT(ILogger, "{e5f5d1f2-fd9b-416b-9380-9e29e11910a1}");
         
         // LogLevel, message, file, function, line
         using LogEvent = V::Event<LogLevel, const char*, const char*, const char*, int32_t>;

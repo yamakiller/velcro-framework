@@ -14,7 +14,7 @@ namespace V::Statistics
     class StatisticalProfilerProxy
     {
     public:
-        VELCRO_TYPE_INFO(StatisticalProfilerProxy, "{0a736fec-70c0-47a8-83c4-96680b137afd}");
+        VOBJECT(StatisticalProfilerProxy, "{0a736fec-70c0-47a8-83c4-96680b137afd}");
         using StatIdType = V::Crc32;
         using StatisticalProfilerType = StatisticalProfiler<StatIdType, VStd::shared_spin_mutex>;
 

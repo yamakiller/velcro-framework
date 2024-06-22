@@ -572,8 +572,8 @@ namespace V
                     V_Assert(V::Environment::IsReady(), "Environment has not been attached yet, allocator cannot be created/resolved");
                     if (V::Environment::IsReady())
                     {
-                        _allocator = Environment::FindVariable<Allocator>(Allocator::TYPEINFO_Name());
-                        V_Assert(_allocator, "Allocator '%s' NOT ready for use! Call Create first!", Allocator::TYPEINFO_Name());
+                        _allocator = Environment::FindVariable<Allocator>(VObject<Allocator>::Name());
+                        V_Assert(_allocator, "Allocator '%s' NOT ready for use! Call Create first!", VObject<Allocator>::Name());
                     }
                 }
                 return *_allocator;
@@ -583,7 +583,7 @@ namespace V
             {
                 if (!_allocator)
                 {
-                    _allocator = Environment::CreateVariable<Allocator>(Allocator::TYPEINFO_Name());
+                    _allocator = Environment::CreateVariable<Allocator>(VObject<Allocator>::Name());
                     if (_allocator->IsReady()) // already created in a different module
                     {
                         return;
@@ -591,7 +591,7 @@ namespace V
                 }
                 else
                 {
-                    V_Assert(_allocator->IsReady(), "Allocator '%s' already created!", Allocator::TYPEINFO_Name());
+                    V_Assert(_allocator->IsReady(), "Allocator '%s' already created!", VObject<Allocator>::Name());
                 }
 
                 StoragePolicyBase<Allocator>::Create(*_allocator, desc, false);
@@ -609,7 +609,7 @@ namespace V
                 }
                 else
                 {
-                    V_Assert(false, "Allocator '%s' NOT ready for use! Call Create first!", Allocator::TYPEINFO_Name());
+                    V_Assert(false, "Allocator '%s' NOT ready for use! Call Create first!", VObject<Allocator>::Name());
                 }
             }
 
@@ -619,7 +619,7 @@ namespace V
                 {
                     if (!_allocator) // if not there check the environment (if available)
                     {
-                        _allocator = Environment::FindVariable<Allocator>(Allocator::TYPEINFO_Name());
+                        _allocator = Environment::FindVariable<Allocator>(VObject<Allocator>::Name());
                     }
                     return _allocator && _allocator->IsReady();
                 }
@@ -871,7 +871,7 @@ namespace V
             }
             else
             {
-                m_name = Allocator::TYPEINFO_Name();
+                m_name = VObject<Allocator>::Name();
             }
         }
         V_FORCE_INLINE VStdAlloc(const char* name)

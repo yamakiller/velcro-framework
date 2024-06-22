@@ -16,7 +16,7 @@ namespace V {
     class IConsole
     {
     public:
-        VELCRO_TYPE_INFO(IConsole, "{77fbb393-05ef-4b9c-85bd-80279e7199e1}");
+        VOBJECT(IConsole, "{77fbb393-05ef-4b9c-85bd-80279e7199e1}");
         
         using FunctorVisitor = VStd::function<void(ConsoleFunctorBase*)>;
 
