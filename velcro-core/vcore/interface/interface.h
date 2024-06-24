@@ -65,7 +65,7 @@ namespace V {
         }
 
         if (T* foundType = Get()) {
-            V_Assert(false, "Interface '%s' already registered! [Found: %p]", T::VObject<T>::Name(), foundType);
+            V_Assert(false, "Interface '%s' already registered! [Found: %p]", VObject<T>::Name(), foundType);
             return;
         }
 

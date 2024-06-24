@@ -5,7 +5,7 @@ namespace V {
     namespace IO
     {        
         class FileIOStream;
-        enum  OpenMode;
+        //enum  OpenMode;
 
         int TranslateOpenModeToSystemFileMode(const char* path, OpenMode mode);
 

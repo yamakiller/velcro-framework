@@ -11,7 +11,7 @@
 #include <vcore/std/createdestroy.h>
 #include <vcore/std/iterator.h>
 #include <vcore/std/limits.h>
-
+#include <vcore/casting/numeric_cast.h>
 
 namespace VStd {
     namespace StringInternal {

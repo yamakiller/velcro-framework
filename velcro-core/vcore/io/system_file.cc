@@ -46,7 +46,7 @@ void SystemFile::CreatePath(const char* fileName)
     const char* delimiter = delimiter2 > delimiter1 ? delimiter2 : delimiter1;
     if (delimiter > fileName)
     {
-        vstrncpy(folderPath, V_ARRAY_SIZE(folderPath), fileName, delimiter - fileName);
+        v_strncpy(folderPath, V_ARRAY_SIZE(folderPath), fileName, delimiter - fileName);
         if (!Exists(folderPath))
         {
             CreateDir(folderPath);

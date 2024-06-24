@@ -184,7 +184,7 @@ V_POP_DISABLE_WARNING
                 {
                     BusDisconnect();
                 }
-                EBUS_ASSERT(!BusIsConnected(), "Internal error: Bus was not properly disconnected!");
+                EVENTBUS_DEBUG(!BusIsConnected(), "Internal error: Bus was not properly disconnected!");
             }
 
             void BusConnect();
@@ -261,7 +261,7 @@ V_POP_DISABLE_WARNING
                 {
                     BusDisconnect();
                 }
-                EBUS_ASSERT(!BusIsConnected(), "Internal error: Bus was not properly disconnected!");
+                EVENTBUS_DEBUG(!BusIsConnected(), "Internal error: Bus was not properly disconnected!");
             }
 
             void BusConnect(const IdType& id);
@@ -340,7 +340,7 @@ V_POP_DISABLE_WARNING
                 {
                     BusDisconnect();
                 }
-                EBUS_ASSERT(!BusIsConnected(), "Internal error: Bus was not properly disconnected!");
+                EVENTBUS_DEBUG(!BusIsConnected(), "Internal error: Bus was not properly disconnected!");
             }
 
             void BusConnect(const IdType& id);

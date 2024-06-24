@@ -14,6 +14,7 @@
 
 
 namespace VStd {
+    
     template<class Mutex>
     class upgrade_lock;
 

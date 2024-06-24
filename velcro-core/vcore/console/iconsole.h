@@ -7,6 +7,7 @@
 #include <vcore/event_bus/event.h>
 #include <vcore/std/containers/vector.h>
 #include <vcore/std/functional.h>
+#include <vcore/vobject/vobject.h>
 
 namespace V {
     class CommandLine;
@@ -16,7 +17,8 @@ namespace V {
     class IConsole
     {
     public:
-        VOBJECT(IConsole, "{77fbb393-05ef-4b9c-85bd-80279e7199e1}");
+        
+        VOBJECT_RTTI(IConsole, "{77fbb393-05ef-4b9c-85bd-80279e7199e1}");
         
         using FunctorVisitor = VStd::function<void(ConsoleFunctorBase*)>;
 

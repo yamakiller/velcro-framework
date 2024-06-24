@@ -267,8 +267,8 @@ namespace VStd::Internal
         VStd::size_t numElements = last - first;
         if (numElements > 0)
         {
-            AZ_Assert((static_cast<const void*>(&*result) < static_cast<const void*>(&*first)) || (static_cast<const void*>(&*result) >= static_cast<const void*>(&*first + numElements)), "VStd::copy memory overlaps use VStd::copy_backward!");
-            AZ_Assert((static_cast<const void*>(&*result + numElements) <= static_cast<const void*>(&*first)) || (static_cast<const void*>(&*result + numElements) > static_cast<const void*>(&*first + numElements)), "VStd::copy memory overlaps use VStd::copy_backward!");
+            V_Assert((static_cast<const void*>(&*result) < static_cast<const void*>(&*first)) || (static_cast<const void*>(&*result) >= static_cast<const void*>(&*first + numElements)), "VStd::copy memory overlaps use VStd::copy_backward!");
+            V_Assert((static_cast<const void*>(&*result + numElements) <= static_cast<const void*>(&*first)) || (static_cast<const void*>(&*result + numElements) > static_cast<const void*>(&*first + numElements)), "VStd::copy memory overlaps use VStd::copy_backward!");
             /*AZSTD_STL::*/ memcpy(&*result, &*first, numElements * sizeof(typename iterator_traits<InputIterator>::value_type));
         }
         return result + numElements;
@@ -298,9 +298,9 @@ namespace VStd::Internal
         if (numElements > 0)
         {
             result -= numElements;
-            AZ_Assert((&*result < &*first) || (&*result >= (&*first + numElements)), "VStd::copy_backward memory overlaps use VStd::copy!");
-            AZ_Assert(((&*result + numElements) <= &*first) || ((&*result + numElements) > (&*first + numElements)), "VStd::copy_backward memory overlaps use VStd::copy!");
-            /*AZSTD_STL::*/ memcpy(&*result, &*first, numElements * sizeof(typename iterator_traits<BidirectionalIterator1>::value_type));
+            V_Assert((&*result < &*first) || (&*result >= (&*first + numElements)), "VStd::copy_backward memory overlaps use VStd::copy!");
+            V_Assert(((&*result + numElements) <= &*first) || ((&*result + numElements) > (&*first + numElements)), "VStd::copy_backward memory overlaps use VStd::copy!");
+            /*VSTD_STL::*/ memcpy(&*result, &*first, numElements * sizeof(typename iterator_traits<BidirectionalIterator1>::value_type));
         }
         return result;
     }

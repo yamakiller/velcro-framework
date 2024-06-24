@@ -35,7 +35,7 @@ namespace V {
         template<typename Function>
         Function GetFunction(const char* functionName) const {
             if (IsLoaded()) {
-                return reinterpret_cast<Function>(GetFunctionAddress(functionName));
+                return reinterpret_cast<Function>(getFunctionAddress(functionName));
             } else {
                 return nullptr;
             }

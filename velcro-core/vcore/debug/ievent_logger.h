@@ -3,7 +3,7 @@
 
 #include <type_traits>
 #include <vcore/base.h>
-#include <vcore/vobject/type.h>
+#include <vcore/vobject/vobject.h>
 #include <vcore/std/limits.h>
 #include <vcore/std/string/string_view.h>
 #include <vcore/Casting/numeric_cast.h>

@@ -103,6 +103,9 @@ namespace V {
     using TypeId = V::Uuid;
     struct Adl {};
 
+    template <class T, bool IsEnum = VStd::is_enum<T>::value>
+    struct VObject;
+
     inline namespace TypeIdResolverTags {
         //  PointerRemovedTypeId 用于查找在生成模板 typeid 时考虑指针 typeid typeid 之前创建的模板特化的 TypeId.
         //  可能 VStd::vector<V::Entity> 和 VStd::vector<V::Entity*> 具有相同的 typeid, 这会导致为其中一种类型
@@ -191,9 +194,7 @@ namespace V {
     namespace Internal {
         V_HAS_MEMBER(VObjectIntrusive, VOBJECT_Enable, void, ());
 
-        template<class T, bool IsEnum = VStd::is_enum<T>::value>
-        struct VObject;
-
+     
         template<typename T, typename = void>
         struct HasVObjectSpecialized
             : VStd::false_type
@@ -335,7 +336,7 @@ namespace V {
             static V::TypeId uuid = V::TypeId::CreateName(GetTypeName<N>());
             return uuid;
         }
-    }
+    } // namespace Internal
 
     enum class TypeTraits : V::u64
     {
@@ -351,8 +352,7 @@ namespace V {
 
     V_DEFINE_ENUM_BITWISE_OPERATORS(V::TypeTraits);
 
-    template <class T, bool IsEnum = VStd::is_enum<T>::value>
-    struct VObject;
+  
 
     // 非Enum数据类型
     template<class T>
@@ -901,11 +901,11 @@ namespace V {
 } // namespace V 
 
 
-#define VOBJECT(_ClassName, _ClassUuid)                                                               \
+/*#define VOBJECT(_ClassName, _ClassUuid)                                                               \
     void  VOBJECT_Enable() {}                                                                         \
     static const char* VOBJECT_Name() { return #_ClassName; }                                         \
     static const V::TypeId& VOBJECT_Id() { static V::TypeId _uuid(_ClassUuid); return _uuid; }        \
-    VOBJECT_INFO_INTERNAL_SPECIALIZE(_ClassName, _ClassUuid) 
+    VOBJECT_INFO_INTERNAL_SPECIALIZE(_ClassName, _ClassUuid)*/
 
 
 

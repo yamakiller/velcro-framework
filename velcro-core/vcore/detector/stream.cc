@@ -9,7 +9,7 @@
 #endif // VCORE_EXCLUDE_ZLIB
 
 #if defined(V_FILE_STREAM_COMPRESSION)
-#   include <core/compression/compression.h>
+#   include <vcore/compression/compression.h>
 #endif // V_FILE_STREAM_COMPRESSION
 
 namespace V

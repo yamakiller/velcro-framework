@@ -63,16 +63,16 @@ namespace V
                 : CallstackEntryBase<Interface, Traits>(busId)
                 , m_threadId(VStd::this_thread::get_id().m_id)
             {
-                EBUS_ASSERT(context, "Internal error: context deleted while execution still in progress.");
+                EVENTBUS_DEBUG(context, "Internal error: context deleted while execution still in progress.");
                 m_context = context;
 
-                this->m_prev = m_context->s_callstack->m_prev;
+                this->m_prev = m_context->_callstack->m_prev;
 
                 // We don't use the V_Assert macro here because it places the assert call (unlikely) before the
                 // actual work to do (likely) which results in inlining shenanigans and icache misses.
                 if (!this->m_prev || static_cast<CallstackEntry*>(this->m_prev)->m_threadId == m_threadId)
                 {
-                    m_context->s_callstack->m_prev = this;
+                    m_context->_callstack->m_prev = this;
 
                     m_context->m_dispatches++;
                 }
@@ -93,7 +93,7 @@ namespace V
             {
                 m_context->m_dispatches--;
 
-                m_context->s_callstack->m_prev = this->m_prev;
+                m_context->_callstack->m_prev = this->m_prev;
             }
 
             BusContextPtr m_context = nullptr;
@@ -102,7 +102,7 @@ namespace V
 
         // One of these will be allocated per thread. It acts as the bottom of any callstack during dispatch within
         // that thread. It has to be stored in the context so that it is shared across DLLs. We accelerate this by
-        // caching the root into a thread_local pointer (Context::s_callstack) on first access. Since global bus contexts
+        // caching the root into a thread_local pointer (Context::_callstack) on first access. Since global bus contexts
         // never die, the TLS pointer does not need to be lifetime managed.
         template <typename Interface, typename Traits>
         struct CallstackEntryRoot

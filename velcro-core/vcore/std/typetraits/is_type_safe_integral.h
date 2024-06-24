@@ -1,6 +1,9 @@
 #ifndef V_FRAMEWORK_CORE_STD_TYPETRAITS_IS_TYPE_SAFE_INTEGRAL_H
 #define V_FRAMEWORK_CORE_STD_TYPETRAITS_IS_TYPE_SAFE_INTEGRAL_H
 
+#include <vcore/std/typetraits/is_integral.h>
+#include <vcore/std/typetraits/underlying_type.h>
+
 namespace VStd
 {
     template <typename TYPE>

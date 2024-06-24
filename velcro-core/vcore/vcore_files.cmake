@@ -134,7 +134,7 @@ SET(FILES
     vcore/vobject/type_safe_integral.h
     vcore/vobject/type_simple.h
     vcore/vobject/type.h
-    vcore/vobject/rtti.h
+    vcore/vobject/vobject.h
     vcore/settings/command_line.h
     vcore/settings/command_line.cc
     vcore/settings/setting.h

@@ -141,7 +141,7 @@ namespace V::Utilitys
         IO::FileIOStream file;
         if (!file.Open(filePath.data(), IO::OpenMode::ModeRead))
         {
-            return V::Failure(VStd::string::format("Failed to open '%.*s'.", AZ_STRING_ARG(filePath)));
+            return V::Failure(VStd::string::format("Failed to open '%.*s'.", V_STRING_ARG(filePath)));
         }
 
         V::IO::SizeType length = file.GetLength();
@@ -152,7 +152,7 @@ namespace V::Utilitys
         }
         else if (length == 0)
         {
-            return V::Failure(VStd::string::format("Failed to load '%.*s'. File is empty.", AZ_STRING_ARG(filePath)));
+            return V::Failure(VStd::string::format("Failed to load '%.*s'. File is empty.", V_STRING_ARG(filePath)));
         }
 
         Container fileContent;

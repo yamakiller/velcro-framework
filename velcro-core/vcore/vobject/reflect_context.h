@@ -1,7 +1,7 @@
 #ifndef V_FRAMEWORK_CORE_VOBJECT_REFLECT_CONTEXT_H
 #define V_FRAMEWORK_CORE_VOBJECT_REFLECT_CONTEXT_H
 
-#include <vcore/vobject/rtti.h>
+#include <vcore/vobject/vobject.h>
 
 // For attributes
 #include <vcore/memory/system_allocator.h>

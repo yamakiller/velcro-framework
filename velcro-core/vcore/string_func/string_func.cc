@@ -463,11 +463,11 @@ namespace V {
             {
                 if (n)
                 {
-                    return !vstrnicmp(inA, inB, n);
+                    return !v_strnicmp(inA, inB, n);
                 }
                 else
                 {
-                    return !vstricmp(inA, inB);
+                    return !v_stricmp(inA, inB);
                 }
             }
         }
@@ -477,7 +477,7 @@ namespace V {
 
             return inA.size() == inB.size() && (bCaseSensitive
                 ? strncmp(inA.data(), inB.data(), maxCharsToCompare) == 0
-                : vstrnicmp(inA.data(), inB.data(), maxCharsToCompare) == 0);
+                : v_strnicmp(inA.data(), inB.data(), maxCharsToCompare) == 0);
         }
 
         bool StartsWith(VStd::string_view sourceValue, VStd::string_view prefixValue, bool bCaseSensitive)
@@ -610,7 +610,7 @@ namespace V {
                 }
                 else
                 {
-                    if (!vstrnicmp(pCur, s.data(), slen))
+                    if (!v_strnicmp(pCur, s.data(), slen))
                     {
                         return static_cast<size_t>(pCur - in.data());
                     }
@@ -1094,7 +1094,7 @@ namespace V {
                 return false;
             }
 
-            if (!vstricmp(in, "true") || !vstricmp(in, "1"))
+            if (!v_stricmp(in, "true") || !v_stricmp(in, "1"))
             {
                 if (pBool)
                 {
@@ -1103,7 +1103,7 @@ namespace V {
                 return true;
             }
 
-            if (!vstricmp(in, "false") || !vstricmp(in, "0"))
+            if (!v_stricmp(in, "false") || !v_stricmp(in, "0"))
             {
                 if (pBool)
                 {

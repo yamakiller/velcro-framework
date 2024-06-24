@@ -18,6 +18,7 @@ namespace V
     class IEventScheduler
     {
     public:
+        VOBJECT_RTTI(IEventScheduler, "{9805fbb9-2ef0-4c72-886d-b1b0fa1d13f5}");
 
         using ScheduledEventHandlePtr = VStd::unique_ptr<ScheduledEventHandle>;
 

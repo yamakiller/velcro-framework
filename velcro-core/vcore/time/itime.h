@@ -3,7 +3,9 @@
 
 #include <vcore/std/time.h>
 #include <vcore/std/chrono/chrono.h>
+#include <vcore/interface/interface.h>
 #include <vcore/std/typetraits/is_type_safe_integral.h>
+
 
 
 namespace V {
@@ -12,6 +14,8 @@ namespace V {
 
     class ITime {
         public:
+            VOBJECT_RTTI(ITime, "{65b0b054-14de-4b2f-89b7-d38500bbb7e9}");
+
             ITime() = default;
             virtual ~ITime() = default;
 
@@ -26,13 +30,13 @@ namespace V {
     };
 
     inline TimeMs GetElapsedTimeMs() {
-        return V::Interface<ITime>::Get("ITime")->GetElapsedTimeMs();
+        return V::Interface<ITime>::Get()->GetElapsedTimeMs();
     }
 
      //! This is a simple convenience wrapper
     inline TimeUs GetElapsedTimeUs()
     {
-        return V::Interface<ITime>::Get("ITime")->GetElapsedTimeUs();
+        return V::Interface<ITime>::Get()->GetElapsedTimeUs();
     }
 
     //! Converts from milliseconds to microseconds

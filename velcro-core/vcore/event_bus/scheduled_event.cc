@@ -18,7 +18,7 @@ namespace V
 
     void ScheduledEvent::Enqueue(TimeMs durationMs, bool autoRequeue)
     {
-        IEventScheduler* eventScheduler = Interface<IEventScheduler>::Get("IEventScheduler");
+        IEventScheduler* eventScheduler = Interface<IEventScheduler>::Get();
         if (eventScheduler)
         {
             RemoveFromQueue();
@@ -43,7 +43,7 @@ namespace V
     void ScheduledEvent::Requeue(TimeMs durationMs)
     {
         m_durationMs = durationMs;
-        IEventScheduler* eventScheduler = Interface<IEventScheduler>::Get("IEventScheduler");
+        IEventScheduler* eventScheduler = Interface<IEventScheduler>::Get();
         if (eventScheduler)
         {
             m_handle = eventScheduler->AddEvent(this, m_durationMs);

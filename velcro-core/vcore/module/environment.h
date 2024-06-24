@@ -265,7 +265,8 @@ namespace V {
                 self->m_moduleOwner = nullptr;
                 if constexpr(!VStd::is_trivially_destructible_v<T>)
                 {
-                    reinterpret_cast<T*>(&self->m_value)->~T();
+                    // TODO: 需要修改
+                    //reinterpret_cast<T*>(&self->m_value)->~T();
                 }
             }
         public:

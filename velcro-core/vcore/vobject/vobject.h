@@ -1,5 +1,5 @@
-#ifndef V_FRAMEWORK_CORE_RTTI_RTTI_H
-#define V_FRAMEWORK_CORE_RTTI_RTTI_H
+#ifndef V_FRAMEWORK_CORE_RTTI_VOBJECT_H
+#define V_FRAMEWORK_CORE_RTTI_VOBJECT_H
 
 #include <vcore/vobject/type.h>
 #include <vcore/module/environment.h>
@@ -30,7 +30,7 @@ namespace V {
     virtual inline const char*      RTTI_GetTypeName() const { return RTTI_TypeName();} \
     virtual inline bool             RTTI_IsTypeOf(const V::TypeId &typeId) const { return RTTI_IsContainType(typeId);} \
     virtual void                    RTTI_EnumTypes(V::RTTI_EnumCallback cb, void* userData) { RTTI_EnumHierarchy(cb, userData); } \
-    static inline const char*       RTTI_Name() { return VOBJECT_Name(); } \
+    static inline const char*       RTTI_TypeName() { return VOBJECT_Name(); } \
     static inline const V::TypeId   RTTI_Type() { return VOBJECT_Id();} \
     V_POP_DISABLE_WARNING
 
@@ -47,20 +47,20 @@ namespace V {
     #define VOBJECT_RTTI_2(_1) VOBJECT_RTTI_COMMON() \
     static bool                     RTTI_IsContainType(const V::TypeId &typeId)  { \
         if (typeId == RTTI_Type()) return true;  \
-        return V::Internal::rtti_caller::Id<_1>::RTTI_IsContainType(typeId); \
+        return V::Internal::rtti_caller<_1>::RTTI_IsContainType(typeId); \
     } \
     static void                     RTTI_EnumHierarchy(V::RTTI_EnumCallback cb, void* userData) {\
         cb(RTTI_Type(), userData); \
-        V::Internal::rtti_caller::Id<_1>::RTTI_EnumHierarchy(cb, userData); \
+        V::Internal::rtti_caller<_1>::RTTI_EnumHierarchy(cb, userData); \
     } \
     V_PUSH_DISABLE_WARNING(26433, "-Winconsistent-missing-override") \
     virtual inline const void*      RTTI_AddressOf(const V::TypeId& typeId) const { \
         if (typeId == RTTI_Type()) return this; \
-        return V::Internal::rtti_caller::Id<_1>::RTTI_AddressOf(this, typeId); \
+        return V::Internal::rtti_caller<_1>::RTTI_AddressOf(this, typeId); \
     } \
     virtual inline void*            RTTI_AddressOf(const V::TypeId& typeId) { \
         if (typeId == RTTI_Type()) return this; \
-        return V::Internal::rtti_caller::Id<_1>::RTTI_AddressOf(this, typeId); \
+        return V::Internal::rtti_caller<_1>::RTTI_AddressOf(this, typeId); \
     } \
     V_POP_DISABLE_WARNING
 
@@ -68,26 +68,26 @@ namespace V {
     #define VOBJECT_RTTI_3(_1, _2) VOBJECT_RTTI_COMMON() \
     static bool                     RTTI_IsContainType(const V::TypeId &typeId)  { \
         if (typeId == RTTI_Type()) return true;  \
-        if (V::Internal::rtti_caller::Id<_1>::RTTI_IsContainType(typeId)) return true; \
-        return V::Internal::rtti_caller::Id<_2>::RTTI_IsContainType(typeId); \
+        if (V::Internal::rtti_caller<_1>::RTTI_IsContainType(typeId)) return true; \
+        return V::Internal::rtti_caller<_2>::RTTI_IsContainType(typeId); \
     } \
     static void                     RTTI_EnumHierarchy(V::RTTI_EnumCallback cb, void* userData) {\
         cb(RTTI_Type(), userData); \
-        V::Internal::rtti_caller::Id<_1>::RTTI_EnumHierarchy(cb, userData); \
-        V::Internal::rtti_caller::Id<_2>::RTTI_EnumHierarchy(cb, userData); \
+        V::Internal::rtti_caller<_1>::RTTI_EnumHierarchy(cb, userData); \
+        V::Internal::rtti_caller<_2>::RTTI_EnumHierarchy(cb, userData); \
     } \
     V_PUSH_DISABLE_WARNING(26433, "-Winconsistent-missing-override") \
     virtual inline const void*      RTTI_AddressOf(const V::TypeId& typeId) const { \
         if (typeId == RTTI_Type()) return this; \
-        const void* r =  V::Internal::rtti_caller::Id<_1>::RTTI_AddressOf(this, typeId); \
+        const void* r =  V::Internal::rtti_caller<_1>::RTTI_AddressOf(this, typeId); \
         if (r) return r; \
-        return V::Internal::rtti_caller::Id<_2>::RTTI_AddressOf(this, typeId); \
+        return V::Internal::rtti_caller<_2>::RTTI_AddressOf(this, typeId); \
     } \
     virtual inline void*            RTTI_AddressOf(const V::TypeId& typeId) { \
         if (typeId == RTTI_Type()) return this; \
-        void* r = V::Internal::rtti_caller::Id<_1>::RTTI_AddressOf(this, typeId); \
+        void* r = V::Internal::rtti_caller<_1>::RTTI_AddressOf(this, typeId); \
         if (r) return r; \
-        return V::Internal::rtti_caller::Id<_2>::RTTI_AddressOf(this, typeId); \
+        return V::Internal::rtti_caller<_2>::RTTI_AddressOf(this, typeId); \
     } \
     V_POP_DISABLE_WARNING
 
@@ -95,32 +95,32 @@ namespace V {
     #define VOBJECT_RTTI_4(_1, _2, _3) VOBJECT_RTTI_COMMON() \
     static bool                     RTTI_IsContainType(const V::TypeId &typeId)  { \
         if (typeId == RTTI_Type()) return true;  \
-        if (V::Internal::rtti_caller::Id<_1>::RTTI_IsContainType(typeId)) return true; \
-        if (V::Internal::rtti_caller::Id<_2>::RTTI_IsContainType(typeId)) return true; \
-        return V::Internal::rtti_caller::Id<_3>::RTTI_IsContainType(typeId); \
+        if (V::Internal::rtti_caller<_1>::RTTI_IsContainType(typeId)) return true; \
+        if (V::Internal::rtti_caller<_2>::RTTI_IsContainType(typeId)) return true; \
+        return V::Internal::rtti_caller<_3>::RTTI_IsContainType(typeId); \
     } \
     static void                     RTTI_EnumHierarchy(V::RTTI_EnumCallback cb, void* userData) {\
         cb(RTTI_Type(), userData); \
-        V::Internal::rtti_caller::Id<_1>::RTTI_EnumHierarchy(cb, userData); \
-        V::Internal::rtti_caller::Id<_2>::RTTI_EnumHierarchy(cb, userData); \
-        V::Internal::rtti_caller::Id<_3>::RTTI_EnumHierarchy(cb, userData); \
+        V::Internal::rtti_caller<_1>::RTTI_EnumHierarchy(cb, userData); \
+        V::Internal::rtti_caller<_2>::RTTI_EnumHierarchy(cb, userData); \
+        V::Internal::rtti_caller<_3>::RTTI_EnumHierarchy(cb, userData); \
     } \
     V_PUSH_DISABLE_WARNING(26433, "-Winconsistent-missing-override") \
     virtual inline const void*      RTTI_AddressOf(const V::TypeId& typeId) const { \
         if (typeId == RTTI_Type()) return this; \
-        const void* r =  V::Internal::rtti_caller::Id<_1>::RTTI_AddressOf(this, typeId); \
+        const void* r =  V::Internal::rtti_caller<_1>::RTTI_AddressOf(this, typeId); \
         if (r) return r; \
-        r = V::Internal::rtti_caller::Id<_2>::RTTI_AddressOf(this, typeId); \
+        r = V::Internal::rtti_caller<_2>::RTTI_AddressOf(this, typeId); \
         if (r) return r; \
-        return V::Internal::rtti_caller::Id<_3>::RTTI_AddressOf(this, typeId); \
+        return V::Internal::rtti_caller<_3>::RTTI_AddressOf(this, typeId); \
     } \
     virtual inline void*            RTTI_AddressOf(const V::TypeId& typeId) { \
         if (typeId == RTTI_Type()) return this; \
-        void* r = V::Internal::rtti_caller::Id<_1>::RTTI_AddressOf(this, typeId); \
+        void* r = V::Internal::rtti_caller<_1>::RTTI_AddressOf(this, typeId); \
         if (r) return r; \
-        r = V::Internal::rtti_caller::Id<_2>::RTTI_AddressOf(this, typeId); \
+        r = V::Internal::rtti_caller<_2>::RTTI_AddressOf(this, typeId); \
         if (r) return r; \
-        return V::Internal::rtti_caller::Id<_3>::RTTI_AddressOf(this, typeId); \
+        return V::Internal::rtti_caller<_3>::RTTI_AddressOf(this, typeId); \
     } \
     V_POP_DISABLE_WARNING
 
@@ -128,38 +128,38 @@ namespace V {
     #define VOBJECT_RTTI_5(_1, _2, _3, _4) VOBJECT_RTTI_COMMON() \
     static bool                     RTTI_IsContainType(const V::TypeId &typeId)  { \
         if (typeId == RTTI_Type()) return true;  \
-        if (V::Internal::rtti_caller::Id<_1>::RTTI_IsContainType(typeId)) return true; \
-        if (V::Internal::rtti_caller::Id<_2>::RTTI_IsContainType(typeId)) return true; \
-        if (V::Internal::rtti_caller::Id<_3>::RTTI_IsContainType(typeId)) return true; \
-        return V::Internal::rtti_caller::Id<_4>::RTTI_IsContainType(typeId); \
+        if (V::Internal::rtti_caller<_1>::RTTI_IsContainType(typeId)) return true; \
+        if (V::Internal::rtti_caller<_2>::RTTI_IsContainType(typeId)) return true; \
+        if (V::Internal::rtti_caller<_3>::RTTI_IsContainType(typeId)) return true; \
+        return V::Internal::rtti_caller<_4>::RTTI_IsContainType(typeId); \
     } \
     static void                     RTTI_EnumHierarchy(V::RTTI_EnumCallback cb, void* userData) {\
         cb(RTTI_Type(), userData); \
-        V::Internal::rtti_caller::Id<_1>::RTTI_EnumHierarchy(cb, userData); \
-        V::Internal::rtti_caller::Id<_2>::RTTI_EnumHierarchy(cb, userData); \
-        V::Internal::rtti_caller::Id<_3>::RTTI_EnumHierarchy(cb, userData); \
-        V::Internal::rtti_caller::Id<_4>::RTTI_EnumHierarchy(cb, userData); \
+        V::Internal::rtti_caller<_1>::RTTI_EnumHierarchy(cb, userData); \
+        V::Internal::rtti_caller<_2>::RTTI_EnumHierarchy(cb, userData); \
+        V::Internal::rtti_caller<_3>::RTTI_EnumHierarchy(cb, userData); \
+        V::Internal::rtti_caller<_4>::RTTI_EnumHierarchy(cb, userData); \
     } \
     V_PUSH_DISABLE_WARNING(26433, "-Winconsistent-missing-override") \
     virtual inline const void*      RTTI_AddressOf(const V::TypeId& typeId) const { \
         if (typeId == RTTI_Type()) return this; \
-        const void* r =  V::Internal::rtti_caller::Id<_1>::RTTI_AddressOf(this, typeId); \
+        const void* r =  V::Internal::rtti_caller<_1>::RTTI_AddressOf(this, typeId); \
         if (r) return r; \
-        r = V::Internal::rtti_caller::Id<_2>::RTTI_AddressOf(this, typeId); \
+        r = V::Internal::rtti_caller<_2>::RTTI_AddressOf(this, typeId); \
         if (r) return r; \
-        r = V::Internal::rtti_caller::Id<_3>::RTTI_AddressOf(this, typeId); \
+        r = V::Internal::rtti_caller<_3>::RTTI_AddressOf(this, typeId); \
         if (r) return r; \
-        return V::Internal::rtti_caller::Id<_4>::RTTI_AddressOf(this, typeId); \
+        return V::Internal::rtti_caller<_4>::RTTI_AddressOf(this, typeId); \
     } \
     virtual inline void*            RTTI_AddressOf(const V::TypeId& typeId) { \
         if (typeId == RTTI_Type()) return this; \
-        void* r = V::Internal::rtti_caller::Id<_1>::RTTI_AddressOf(this, typeId); \
+        void* r = V::Internal::rtti_caller<_1>::RTTI_AddressOf(this, typeId); \
         if (r) return r; \
-        r = V::Internal::rtti_caller::Id<_2>::RTTI_AddressOf(this, typeId); \
+        r = V::Internal::rtti_caller<_2>::RTTI_AddressOf(this, typeId); \
         if (r) return r; \
-        r = V::Internal::rtti_caller::Id<_3>::RTTI_AddressOf(this, typeId); \
+        r = V::Internal::rtti_caller<_3>::RTTI_AddressOf(this, typeId); \
         if (r) return r; \
-        return V::Internal::rtti_caller::Id<_4>::RTTI_AddressOf(this, typeId); \
+        return V::Internal::rtti_caller<_4>::RTTI_AddressOf(this, typeId); \
     } \
     V_POP_DISABLE_WARNING
 
@@ -167,44 +167,44 @@ namespace V {
     #define VOBJECT_RTTI_6(_1, _2, _3, _4, _5) VOBJECT_RTTI_COMMON() \
     static bool                     RTTI_IsContainType(const V::TypeId &typeId)  { \
         if (typeId == RTTI_Type()) return true;  \
-        if (V::Internal::rtti_caller::Id<_1>::RTTI_IsContainType(typeId)) return true; \
-        if (V::Internal::rtti_caller::Id<_2>::RTTI_IsContainType(typeId)) return true; \
-        if (V::Internal::rtti_caller::Id<_3>::RTTI_IsContainType(typeId)) return true; \
-        if (V::Internal::rtti_caller::Id<_4>::RTTI_IsContainType(typeId)) return true; \
-        return V::Internal::rtti_caller::Id<_5>::RTTI_IsContainType(typeId); \
+        if (V::Internal::rtti_caller<_1>::RTTI_IsContainType(typeId)) return true; \
+        if (V::Internal::rtti_caller<_2>::RTTI_IsContainType(typeId)) return true; \
+        if (V::Internal::rtti_caller<_3>::RTTI_IsContainType(typeId)) return true; \
+        if (V::Internal::rtti_caller<_4>::RTTI_IsContainType(typeId)) return true; \
+        return V::Internal::rtti_caller<_5>::RTTI_IsContainType(typeId); \
     } \
     static void                     RTTI_EnumHierarchy(V::RTTI_EnumCallback cb, void* userData) {\
         cb(RTTI_Type(), userData); \
-        V::Internal::rtti_caller::Id<_1>::RTTI_EnumHierarchy(cb, userData); \
-        V::Internal::rtti_caller::Id<_2>::RTTI_EnumHierarchy(cb, userData); \
-        V::Internal::rtti_caller::Id<_3>::RTTI_EnumHierarchy(cb, userData); \
-        V::Internal::rtti_caller::Id<_4>::RTTI_EnumHierarchy(cb, userData); \
-        V::Internal::rtti_caller::Id<_5>::RTTI_EnumHierarchy(cb, userData); \
+        V::Internal::rtti_caller<_1>::RTTI_EnumHierarchy(cb, userData); \
+        V::Internal::rtti_caller<_2>::RTTI_EnumHierarchy(cb, userData); \
+        V::Internal::rtti_caller<_3>::RTTI_EnumHierarchy(cb, userData); \
+        V::Internal::rtti_caller<_4>::RTTI_EnumHierarchy(cb, userData); \
+        V::Internal::rtti_caller<_5>::RTTI_EnumHierarchy(cb, userData); \
     } \
     V_PUSH_DISABLE_WARNING(26433, "-Winconsistent-missing-override") \
     virtual inline const void*      RTTI_AddressOf(const V::TypeId& typeId) const { \
         if (typeId == RTTI_Type()) return this; \
-        const void* r =  V::Internal::rtti_caller::Id<_1>::RTTI_AddressOf(this, typeId); \
+        const void* r =  V::Internal::rtti_caller<_1>::RTTI_AddressOf(this, typeId); \
         if (r) return r; \
-        r = V::Internal::rtti_caller::Id<_2>::RTTI_AddressOf(this, typeId); \
+        r = V::Internal::rtti_caller<_2>::RTTI_AddressOf(this, typeId); \
         if (r) return r; \
-        r = V::Internal::rtti_caller::Id<_3>::RTTI_AddressOf(this, typeId); \
+        r = V::Internal::rtti_caller<_3>::RTTI_AddressOf(this, typeId); \
         if (r) return r; \
-        r = V::Internal::rtti_caller::Id<_4>::RTTI_AddressOf(this, typeId); \
+        r = V::Internal::rtti_caller<_4>::RTTI_AddressOf(this, typeId); \
         if (r) return r; \
-        return V::Internal::rtti_caller::Id<_5>::RTTI_AddressOf(this, typeId); \
+        return V::Internal::rtti_caller<_5>::RTTI_AddressOf(this, typeId); \
     } \
     virtual inline void*            RTTI_AddressOf(const V::TypeId& typeId) { \
         if (typeId == RTTI_Type()) return this; \
-        void* r = V::Internal::rtti_caller::Id<_1>::RTTI_AddressOf(this, typeId); \
+        void* r = V::Internal::rtti_caller<_1>::RTTI_AddressOf(this, typeId); \
         if (r) return r; \
-        r = V::Internal::rtti_caller::Id<_2>::RTTI_AddressOf(this, typeId); \
+        r = V::Internal::rtti_caller<_2>::RTTI_AddressOf(this, typeId); \
         if (r) return r; \
-        r = V::Internal::rtti_caller::Id<_3>::RTTI_AddressOf(this, typeId); \
+        r = V::Internal::rtti_caller<_3>::RTTI_AddressOf(this, typeId); \
         if (r) return r; \
-        r = V::Internal::rtti_caller::Id<_4>::RTTI_AddressOf(this, typeId); \
+        r = V::Internal::rtti_caller<_4>::RTTI_AddressOf(this, typeId); \
         if (r) return r; \
-        return V::Internal::rtti_caller::Id<_4>::RTTI_AddressOf(this, typeId); \
+        return V::Internal::rtti_caller<_5>::RTTI_AddressOf(this, typeId); \
     } \
     V_POP_DISABLE_WARNING
 
@@ -227,9 +227,9 @@ namespace V {
     #define VOBJECT_RTTI_I_MACRO_SPECIALIZE_I(MACRO_NAME, NPARAMS, PARAMS) VOBJECT_RTTI_I_MACRO_SPECIALIZE_II(MACRO_NAME, NPARAMS, PARAMS)
     #define VOBJECT_RTTI_I_MACRO_SPECIALIZE(MACRO_NAME, NPARAMS, PARAMS) VOBJECT_RTTI_I_MACRO_SPECIALIZE_I(MACRO_NAME, NPARAMS, PARAMS)
 
-    #define VOBJECT_RTTI_HELPER_1(_Name, ...) VOBJECT_TYPE_INFO_INTERNAL_2(_Name, VOBJECT_INTERNAL_USE_FIRST_ELEMENT(__VA_ARGS__)); VOBJECT_RTTI_I_MACRO_SPECIALIZE(VOBJECT_RTTI_, V_VA_NUM_ARGS(__VA_ARGS__), (VOBJECT_INTERNAL_SKIP_FIRST(__VA_ARGS__)))
+    #define VOBJECT_RTTI_HELPER_1(_Name, ...) VOBJECT_INTERNAL_2(_Name, VOBJECT_INTERNAL_USE_FIRST_ELEMENT(__VA_ARGS__)); VOBJECT_RTTI_I_MACRO_SPECIALIZE(VOBJECT_RTTI_, V_VA_NUM_ARGS(__VA_ARGS__), (VOBJECT_INTERNAL_SKIP_FIRST(__VA_ARGS__)))
 
-    #define VOBJECT_RTTI_HELPER_3(...)  VOBJECT_TYPE_INFO_INTERNAL(VOBJECT_INTERNAL_REMOVE_PARENTHESIS(VOBJECT_INTERNAL_USE_FIRST_ELEMENT(__VA_ARGS__))); VOBJECT_RTTI_I_MACRO_SPECIALIZE(VOBJECT_RTTI_, V_VA_NUM_ARGS(__VA_ARGS__), (VOBJECT_INTERNAL_SKIP_FIRST(__VA_ARGS__)))
+    #define VOBJECT_RTTI_HELPER_3(...)  VOBJECT_INTERNAL(VOBJECT_INTERNAL_REMOVE_PARENTHESIS(VOBJECT_INTERNAL_USE_FIRST_ELEMENT(__VA_ARGS__))); VOBJECT_RTTI_I_MACRO_SPECIALIZE(VOBJECT_RTTI_, V_VA_NUM_ARGS(__VA_ARGS__), (VOBJECT_INTERNAL_SKIP_FIRST(__VA_ARGS__)))
     #define VOBJECT_RTTI_HELPER_2(...)  VOBJECT_RTTI_HELPER_3(__VA_ARGS__)
     #define VOBJECT_RTTI_HELPER_4(...)  VOBJECT_RTTI_HELPER_3(__VA_ARGS__)
     #define VOBJECT_RTTI_HELPER_5(...)  VOBJECT_RTTI_HELPER_3(__VA_ARGS__)
@@ -867,7 +867,7 @@ namespace V {
         struct rtti_caller<T, RttiKind::None>
         {
             V_FORCE_INLINE static bool RTTI_IsContainType(const V::TypeId&)
-            {:
+            {
                 return false;
             }
 
@@ -1067,4 +1067,4 @@ namespace V {
 
 } // namespace V
 
-#endif // V_FRAMEWORK_CORE_RTTI_RTTI_H
+#endif // V_FRAMEWORK_CORE_RTTI_VOBJECT_H
