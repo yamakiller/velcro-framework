@@ -8,7 +8,7 @@
 #ifndef V_FRAMEWORK_CORE_STD_TUPLE_H
 #define V_FRAMEWORK_CORE_STD_TUPLE_H
 
-#include <vcore/rtti/type.h>
+#include <vcore/vobject/type.h>
 #include <vcore/std/containers/array.h>
 #include <vcore/std/function/invoke.h>
 #include <vcore/std/utils.h>
