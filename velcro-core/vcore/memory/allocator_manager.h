@@ -161,6 +161,9 @@ namespace V {
         AllocatorManager(const AllocatorManager&);
         AllocatorManager& operator=(const AllocatorManager&);
 
+        AllocatorManager();
+        ~AllocatorManager();
+    private:
         static const int m_maxNumAllocators = 100;
         IAllocator*         m_allocators[m_maxNumAllocators];
         volatile int        m_numAllocators;

@@ -1,7 +1,7 @@
 #include <vcore/ipc/shared_memory_windows.h>
 
 #include <vcore/ipc/shared_memory.h>
-#include <vcore/std/parallel/spin_mutex.h>
+//#include <vcore/std/parallel/spin_mutex.h>
 #include <vcore/std/string/conversions.h>
 #include <vcore/std/string/fixed_string.h>
 
@@ -22,7 +22,7 @@ namespace V {
 
     SharedMemory_Common::CreateResult SharedMemory_Windows::Create(const char* name, unsigned int size, bool openIfCreated)
     {
-        vstrncpy(m_name, V_ARRAY_SIZE(m_name), name, strlen(name));
+        v_strncpy(m_name, V_ARRAY_SIZE(m_name), name, strlen(name));
         VStd::fixed_wstring<256> fullName;
         ComposeName(fullName, name, L"Mutex");
 
@@ -59,7 +59,7 @@ namespace V {
 
     bool SharedMemory_Windows::Open(const char* name)
     {
-        vstrncpy(m_name, V_ARRAY_SIZE(m_name), name, strlen(name));
+        v_strncpy(m_name, V_ARRAY_SIZE(m_name), name, strlen(name));
         VStd::fixed_wstring<256> fullName;
         ComposeName(fullName, name, L"Mutex");
 

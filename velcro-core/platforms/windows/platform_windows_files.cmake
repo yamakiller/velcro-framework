@@ -17,11 +17,19 @@ SET (FILES
     platforms/windows/vcore/ipc/shared_memory_platform.h
     platforms/windows/vcore/ipc/shared_memory_windows.h
     platforms/windows/vcore/ipc/shared_memory_windows.cc
+    platforms/windows/vcore/std/parallel/internal/condition_variable_platform.h
+    platforms/windows/vcore/std/parallel/internal/mutex_platform.h
+    platforms/windows/vcore/std/parallel/internal/semaphore_platform.h
+    platforms/windows/vcore/std/parallel/internal/thread_platform.h
+    platforms/windows/vcore/std/parallel/config_platform.h
+    platforms/windows/vcore/std/string/fixed_string_platform.inl
+    platforms/common/winapi/vcore/std/time_windows.cc
     platforms/common/winapi/vcore/std/parallel/internal/condition_variable_winapi.inl
     platforms/common/winapi/vcore/std/parallel/internal/mutex_winapi.inl
     platforms/common/winapi/vcore/std/parallel/internal/semaphore_winapi.inl
     platforms/common/winapi/vcore/std/parallel/internal/thread_winapi.h
     platforms/common/winapi/vcore/std/parallel/internal/thread_winapi.cc
+    platforms/common/winapi/vcore/std/parallel/config_platform.h
     platforms/common/winapi/vcore/std/parallel/config_winapi.h
     platforms/common/winapi/vcore/memory/osallocator_winapi.inl
     platforms/common/winapi/vcore/io/system_file_winapi.h

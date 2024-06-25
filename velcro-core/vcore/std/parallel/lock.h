@@ -6,6 +6,7 @@
 #include <vcore/std/parallel/thread.h>
 
 namespace VStd {
+    
     template<class Mutex>
     class upgrade_lock;
 

@@ -63,7 +63,7 @@ namespace V
                 : CallstackEntryBase<Interface, Traits>(busId)
                 , m_threadId(VStd::this_thread::get_id().m_id)
             {
-                EVENTBUS_DEBUG(context, "Internal error: context deleted while execution still in progress.");
+                //EVENTBUS_DEBUG(context, "Internal error: context deleted while execution still in progress.");
                 m_context = context;
 
                 this->m_prev = m_context->_callstack->m_prev;

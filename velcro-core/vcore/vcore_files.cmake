@@ -197,8 +197,8 @@ SET(FILES
     vcore/std/parallel/semaphore.h
     vcore/std/parallel/shared_mutex.h
     vcore/std/parallel/shared_spin_mutex.h
-    vcore/std/parallel/spin_mutex.h
     vcore/std/parallel/thread.h
+    vcore/std/parallel/spin_mutex.h
     vcore/std/smart_ptr/checked_delete.h
     vcore/std/smart_ptr/intrusive_base.h
     vcore/std/smart_ptr/intrusive_ptr.h

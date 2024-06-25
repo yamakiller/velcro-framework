@@ -52,7 +52,7 @@ SharedMemory::Create(const char* name, unsigned int size, bool openIfCreated) {
     CreateResult result = Platform::Create(name, size, openIfCreated);
 
     if (result != CreatedExisting) {
-        MemoryGuard l(*this);
+        //MemoryGuard l(*this);
         if (Map()){
             Clear();
             UnMap();
@@ -201,7 +201,7 @@ SharedMemoryRingBuffer::Create(const char* name, unsigned int size, bool openIfC
 bool
 SharedMemoryRingBuffer::Map(AccessMode mode, unsigned int size) {
     if (SharedMemory::Map(mode, size)) {
-        MemoryGuard l(*this);
+        //MemoryGuard l(*this);
         m_info = reinterpret_cast<Internal::RingData*>(m_data);
         m_data = m_info + 1;
         m_dataSize -= sizeof(Internal::RingData);
