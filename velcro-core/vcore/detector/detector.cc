@@ -2,7 +2,6 @@
 #include <vcore/detector/detector_bus.h>
 
 #include <vcore/std/parallel/mutex.h>
-#include <vcore/std/parallel/lock.h>
 #include <vcore/math/crc.h>
 
 

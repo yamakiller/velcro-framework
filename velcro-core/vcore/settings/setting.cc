@@ -4,7 +4,7 @@
 namespace V {
     SettingInterface::CommandLineArgumentSettings::CommandLineArgumentSettings()
     {
-        DelimiterFunc = [](VStd::string_view line) -> JsonPathValue
+        DelimiterCB = [](VStd::string_view line) -> JsonPathValue
         {
             constexpr VStd::string_view CommandLineArgumentDelimiters{ "=:" };
             JsonPathValue pathValue;

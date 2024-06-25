@@ -8,6 +8,7 @@
 #include <vcore/std/typetraits/alignment_of.h>
 #include <vcore/std/typetraits/has_virtual_destructor.h>
 #include <vcore/std/typetraits/aligned_storage.h>
+#include <vcore/configuration.h>
 
 namespace V {
     namespace Internal {
@@ -248,8 +249,11 @@ namespace V {
             template<class... Args>
             void ConstructImpl(const VStd::false_type& /* VStd::has_trivial_constructor<T> */, Args&&... args)
             {
-                // Construction of non-trivial types is left up to the type's constructor.
-                new(&m_value) T(VStd::forward<Args>(args)...);
+            #if __cpp_lib_launder
+                VStd::construct_at(std::launder(reinterpret_cast<T*>(&m_value)), VStd::forward<Args>(args)...);
+            #else
+                VStd::construct_at(reinterpret_cast<T*>(&m_value), VStd::forward<Args>(args)...);
+            #endif
             }
             static void DestructDispatchNoLock(EnvironmentVariableHolderBase *base, DestroyTarget selfDestruct)
             {
@@ -263,11 +267,11 @@ namespace V {
                 V_Assert(self->m_isConstructed, "Variable is not constructed. Please check your logic and guard if needed!");
                 self->m_isConstructed = false;
                 self->m_moduleOwner = nullptr;
-                if constexpr(!VStd::is_trivially_destructible_v<T>)
-                {
-                    // TODO: 需要修改
-                    //reinterpret_cast<T*>(&self->m_value)->~T();
-                }
+            #if __cpp_lib_launder
+                VStd::destroy_at(std::launder(reinterpret_cast<T*>(&self->m_value)));
+            #else
+                VStd::destroy_at(reinterpret_cast<T*>(&self->m_value));
+            #endif
             }
         public:
             EnvironmentVariableHolder(u32 guid, bool isOwnershipTransfer, Environment::AllocatorInterface* allocator)
@@ -335,16 +339,16 @@ namespace V {
         * If you provide addedVariableLock you will receive lock if a variable has been created, so you can safely construct the object and then
         * release the lock.
         */
-        EnvironmentVariableResult AddAndAllocateVariable(u32 guid, size_t byteSize, size_t alignment, VStd::recursive_mutex** addedVariableLock = nullptr);
+        VELCRO_CORE_API EnvironmentVariableResult AddAndAllocateVariable(u32 guid, size_t byteSize, size_t alignment, VStd::recursive_mutex** addedVariableLock = nullptr);
 
         /// Returns the value of the variable if found, otherwise nullptr.
-        EnvironmentVariableResult GetVariable(u32 guid);
+        VELCRO_CORE_API EnvironmentVariableResult GetVariable(u32 guid);
 
         /// Returns the allocator used by the current environment.
-        Environment::AllocatorInterface* GetAllocator();
+        VELCRO_CORE_API Environment::AllocatorInterface* GetAllocator();
 
         /// Converts a string name to an ID (using Crc32 function)
-        u32  EnvironmentVariableNameToId(const char* uniqueName);
+        VELCRO_CORE_API u32  EnvironmentVariableNameToId(const char* uniqueName);
     } // namespace Internal
 
     /**

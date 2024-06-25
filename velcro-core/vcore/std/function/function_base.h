@@ -162,7 +162,7 @@ namespace VStd {
 
                         // Check whether we have the same type. We can add
                         // cv-qualifiers, but we can't take them away.
-                        if (vtypeid_cmp(check_type, vtypeid(F))
+                        if (v_typeid_cmp(check_type, v_typeid(F))
                             && (!in_buffer.obj_ref.is_const_qualified
                                 || out_buffer.type.const_qualified)
                             && (!in_buffer.obj_ref.is_volatile_qualified
@@ -175,7 +175,7 @@ namespace VStd {
                         return;
 
                     case get_functor_type_tag:
-                        out_buffer.type.type = vtypeid(F);
+                        out_buffer.type.type = v_typeid(F);
                         out_buffer.type.const_qualified = in_buffer.obj_ref.is_const_qualified;
                         out_buffer.type.volatile_qualified = in_buffer.obj_ref.is_volatile_qualified;
                         return;
@@ -224,13 +224,13 @@ namespace VStd {
                         out_buffer.func_ptr = 0;
                     } else if (op == check_functor_type_tag) {
                         const type_id& check_type = out_buffer.type.type;
-                        if (vtypeid_cmp(check_type, vtypeid(functor_type)))  {
+                        if (v_typeid_cmp(check_type, v_typeid(functor_type)))  {
                             out_buffer.obj_ptr = &in_buffer.func_ptr;
                         } else {
                             out_buffer.obj_ptr = 0;
                         }
                     }  else { /* op == get_functor_type_tag */
-                        out_buffer.type.type = vtypeid(functor_type);
+                        out_buffer.type.type = v_typeid(functor_type);
                         out_buffer.type.const_qualified = false;
                         out_buffer.type.volatile_qualified = false;
                     }
@@ -266,14 +266,14 @@ namespace VStd {
                         cast_functor->~functor_type();
                     } else if (op == check_functor_type_tag) {
                         const type_id& check_type = out_buffer.type.type;
-                        if (vtypeid_cmp(check_type, vtypeid(functor_type))) {
+                        if (v_typeid_cmp(check_type, v_typeid(functor_type))) {
                             out_buffer.obj_ptr = &in_buffer.data;
                         }  else {
                             out_buffer.obj_ptr = 0;
                         }
                     }
                     else { /* op == get_functor_type_tag */
-                        out_buffer.type.type = vtypeid(functor_type);
+                        out_buffer.type.type = v_typeid(functor_type);
                         out_buffer.type.const_qualified = false;
                         out_buffer.type.volatile_qualified = false;
                     }
@@ -324,13 +324,13 @@ namespace VStd {
                         out_buffer.obj_ptr = 0;
                     }  else if (op == check_functor_type_tag) {
                         const type_id& check_type = out_buffer.type.type;
-                        if (vtypeid_cmp(check_type, vtypeid(functor_type))) {
+                        if (v_typeid_cmp(check_type, v_typeid(functor_type))) {
                             out_buffer.obj_ptr = in_buffer.obj_ptr;
                         } else {
                             out_buffer.obj_ptr = 0;
                         }
                     }  else { /* op == get_functor_type_tag */
-                        out_buffer.type.type = vtypeid(functor_type);
+                        out_buffer.type.type = v_typeid(functor_type);
                         out_buffer.type.const_qualified = false;
                         out_buffer.type.volatile_qualified = false;
                     }
@@ -362,7 +362,7 @@ namespace VStd {
                     typedef typename get_function_tag<functor_type>::type tag_type;
                     switch (op) {
                     case get_functor_type_tag:
-                        out_buffer.type.type = vtypeid(functor_type);
+                        out_buffer.type.type = v_typeid(functor_type);
                         out_buffer.type.const_qualified = false;
                         out_buffer.type.volatile_qualified = false;
                         return;
@@ -419,7 +419,7 @@ namespace VStd {
                         out_buffer.obj_ptr = 0;
                     } else if (op == check_functor_type_tag) {
                         const type_id& check_type = out_buffer.type.type;
-                        if (vtypeid_cmp(check_type, vtypeid(functor_type)))
+                        if (v_typeid_cmp(check_type, v_typeid(functor_type)))
                         {
                             out_buffer.obj_ptr = in_buffer.obj_ptr;
                         }
@@ -428,7 +428,7 @@ namespace VStd {
                             out_buffer.obj_ptr = 0;
                         }
                     } else { /* op == get_functor_type_tag */
-                        out_buffer.type.type = vtypeid(functor_type);
+                        out_buffer.type.type = v_typeid(functor_type);
                         out_buffer.type.const_qualified = false;
                         out_buffer.type.volatile_qualified = false;
                     }
@@ -452,7 +452,7 @@ namespace VStd {
                     typedef typename get_function_tag<functor_type>::type tag_type;
                     switch (op) {
                     case get_functor_type_tag:
-                        out_buffer.type.type = vtypeid(functor_type);
+                        out_buffer.type.type = v_typeid(functor_type);
                         out_buffer.type.const_qualified = false;
                         out_buffer.type.volatile_qualified = false;
                         return;
@@ -494,11 +494,11 @@ namespace VStd {
         /** Determine if the function is empty (i.e., has no target). */
         bool empty() const { return !vtable; }
 
-        /** Retrieve the type of the stored function object, or vtypeid(void)
+        /** Retrieve the type of the stored function object, or v_typeid(void)
             if this is empty. */
         type_id target_type() const  {
             if (!vtable) {
-                return vtypeid(void);
+                return v_typeid(void);
             }
 
             Internal::function_util::function_buffer type;
@@ -513,7 +513,7 @@ namespace VStd {
             }
 
             Internal::function_util::function_buffer type_result;
-            type_result.type.type = vtypeid(Functor);
+            type_result.type.type = v_typeid(Functor);
             type_result.type.const_qualified = VStd::is_const<Functor>::value;
             type_result.type.volatile_qualified = VStd::is_volatile<Functor>::value;
             vtable->manager(functor, type_result, Internal::function_util::check_functor_type_tag);
@@ -527,7 +527,7 @@ namespace VStd {
             }
 
             Internal::function_util::function_buffer type_result;
-            type_result.type.type = vtypeid(Functor);
+            type_result.type.type = v_typeid(Functor);
             type_result.type.const_qualified = true;
             type_result.type.volatile_qualified = VStd::is_volatile<Functor>::value;
             vtable->manager(functor, type_result, Internal::function_util::check_functor_type_tag);
@@ -673,8 +673,8 @@ namespace VStd {
 } // end namespace VStd
 
 #undef VSTD_FUNCTION_ENABLE_IF_NOT_INTEGRAL
-//#undef vtypeid
-//#undef vtypeid_cmp
+//#undef v_typeid
+//#undef v_typeid_cmp
 
 #endif // V_FRAMEWORK_CORE_STD_FUNCTION_BASE_HEADER
 #pragma once

@@ -27,7 +27,7 @@ namespace V {
             //! Callback function which is invoked to determine how to split a command line argument
             //! into a JSON path and a JSON value
             using DelimiterFunc = VStd::function<JsonPathValue(VStd::string_view line)>;
-            DelimiterFunc DelimiterFunc;
+            DelimiterFunc DelimiterCB;
         };
     };
 }

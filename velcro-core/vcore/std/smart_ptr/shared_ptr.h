@@ -435,7 +435,7 @@ namespace VStd {
     template<class D, class T>
     D* get_deleter(shared_ptr<T> const& p)
     {
-        return static_cast<D*>(p._internal_get_deleter(aztypeid(D)));
+        return static_cast<D*>(p._internal_get_deleter(v_typeid(D)));
     }
 } // namespace VStd
 

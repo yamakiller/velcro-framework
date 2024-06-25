@@ -9,7 +9,7 @@
 #define V_FRAMEWORK_CORE_STD_PARALLEL_CONDITION_VARIABLE_H
 
 #include <vcore/std/parallel/mutex.h>
-#include <vcore/std/parallel/lock.h>
+//#include <vcore/std/parallel/lock.h>
 #include <vcore/std/chrono/chrono.h>
 
 namespace VStd {

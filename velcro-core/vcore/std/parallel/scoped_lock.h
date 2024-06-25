@@ -8,7 +8,7 @@
 #ifndef V_FRAMEWORK_CORE_STD_PARALLEL_SCOPED_LOCK_H
 #define V_FRAMEWORK_CORE_STD_PARALLEL_SCOPED_LOCK_H
 
-#include <vcore/std/parallel/lock.h>
+//#include <vcore/std/parallel/lock.h>
 #include <vcore/std/tuple.h>
 
 namespace VStd {

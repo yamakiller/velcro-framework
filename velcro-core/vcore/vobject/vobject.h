@@ -31,7 +31,7 @@ namespace V {
     virtual inline bool             RTTI_IsTypeOf(const V::TypeId &typeId) const { return RTTI_IsContainType(typeId);} \
     virtual void                    RTTI_EnumTypes(V::RTTI_EnumCallback cb, void* userData) { RTTI_EnumHierarchy(cb, userData); } \
     static inline const char*       RTTI_TypeName() { return VOBJECT_Name(); } \
-    static inline const V::TypeId   RTTI_Type() { return VOBJECT_Id();} \
+    static inline const V::TypeId&  RTTI_Type() { return VOBJECT_Id();} \
     V_POP_DISABLE_WARNING
 
     /// VOBJECT_RTTI()

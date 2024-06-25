@@ -1,7 +1,6 @@
 #include <vcore/math/sfmt.h>
 
 #include <vcore/math/random.h>
-#include <vcore/std/parallel/lock.h>
 #include <vcore/module/environment.h>
 
 #include <string.h> // for memset

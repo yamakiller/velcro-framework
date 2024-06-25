@@ -67,7 +67,7 @@ void AllocationRecords::lock() {
 // try_lock
 //=========================================================================
 bool AllocationRecords::try_lock() {
-    m_recordsMutex.try_lock();
+    return m_recordsMutex.try_lock();
 }
 
 //=========================================================================

@@ -184,9 +184,6 @@ namespace V {
 
         VStd::unique_ptr<V::MallocSchema, void(*)(V::MallocSchema*)> m_mallocSchema;
 
-        AllocatorManager();
-        ~AllocatorManager();
-
         static AllocatorManager g_allocMgr;    ///< The single instance of the allocator manager
     };
 }

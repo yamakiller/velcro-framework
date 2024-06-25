@@ -149,7 +149,7 @@ namespace V
 
                 if (m_ownMemoryBlock[i])
                 {
-                    vfree(m_desc.m_memoryBlocks[i], SystemAllocator);
+                    vfree(m_desc.MemoryBlocks[i], SystemAllocator);
                 }
             }
         }

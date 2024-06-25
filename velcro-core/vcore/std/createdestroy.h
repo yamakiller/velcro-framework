@@ -32,7 +32,7 @@ namespace VStd {
     //! are now brought into scope of the VStd namespace
     using std::uninitialized_value_construct;
     using std::uninitialized_value_construct_n;
-}
+} // namespace VStd
 
 namespace VStd::Internal {
     template <typename T, typename = void>
@@ -62,7 +62,7 @@ namespace VStd {
  
         return VStd::to_address(ptr.operator->());
     }
-}
+} // namespace VStd
 
 namespace VStd::Internal
 {
@@ -82,8 +82,8 @@ namespace VStd::Internal
         static constexpr void single(InputIterator iter) { (void)iter; }
     };
     /**
-        * Calls the destructor on a range of objects, defined by start and end forward iterators.
-        */
+    * Calls the destructor on a range of objects, defined by start and end forward iterators.
+    */
     template<class InputIterator, class ValueType>
     struct destroy<InputIterator, ValueType, false>
     {
@@ -101,7 +101,7 @@ namespace VStd::Internal
             iter->~ValueType();
         }
     };
-}
+} // namespace VStd::Internal
 
 namespace VStd {
     //! Implements the C++20 version of destroy_at
@@ -139,7 +139,7 @@ namespace VStd {
         }
         return first;
     }
-}
+} // namespace VStd
 
 namespace VStd::Internal {
     /**
@@ -202,7 +202,7 @@ namespace VStd::Internal {
         }
     };
     //////////////////////////////////////////////////////////////////////////
-}
+} // namespace VStd::Internal
 
 namespace VStd
 {
@@ -216,7 +216,7 @@ namespace VStd
     {
         return ::new (ptr) T(VStd::forward<Args>(args)...);
     }
-}
+} // namespace VStd
 
 
 namespace VStd::Internal
@@ -269,7 +269,7 @@ namespace VStd::Internal
         {
             V_Assert((static_cast<const void*>(&*result) < static_cast<const void*>(&*first)) || (static_cast<const void*>(&*result) >= static_cast<const void*>(&*first + numElements)), "VStd::copy memory overlaps use VStd::copy_backward!");
             V_Assert((static_cast<const void*>(&*result + numElements) <= static_cast<const void*>(&*first)) || (static_cast<const void*>(&*result + numElements) > static_cast<const void*>(&*first + numElements)), "VStd::copy memory overlaps use VStd::copy_backward!");
-            /*AZSTD_STL::*/ memcpy(&*result, &*first, numElements * sizeof(typename iterator_traits<InputIterator>::value_type));
+            /*VSTD_STL::*/ memcpy(&*result, &*first, numElements * sizeof(typename iterator_traits<InputIterator>::value_type));
         }
         return result + numElements;
     }
@@ -317,7 +317,7 @@ namespace VStd::Internal
         return dest;
     }
     //////////////////////////////////////////////////////////////////////////
-}
+} // namespace
 
 namespace VStd
 {
@@ -345,7 +345,7 @@ namespace VStd
         VStd::size_t numElements = last - first;
         if (numElements > 0)
         {
-            /*AZSTD_STL::*/
+            /*VSTD_STL::*/
             memcpy(&*result, &*first, numElements * sizeof(typename iterator_traits<InputIterator>::value_type));
         }
         return result + numElements;
@@ -357,7 +357,7 @@ namespace VStd
         return uninitialized_copy(first, last, result, Internal::is_fast_copy<InputIterator, ForwardIterator>());
     }
 
-    // 25.3.1 Copy
+    // Copy
     template<class InputIterator, class OutputIterator>
     constexpr OutputIterator copy(InputIterator first, InputIterator last, OutputIterator result)
     {
@@ -375,7 +375,7 @@ namespace VStd
     {
         return VStd::Internal::copy_backward(first, last, result, VStd::Internal::is_fast_copy<BidirectionalIterator1, BidirectionalIterator2>());
     }
-}
+} // namespace VStd
 
 namespace VStd::Internal
 {
@@ -401,7 +401,7 @@ namespace VStd::Internal
         VStd::size_t numElements = last - first;
         if (numElements > 0)
         {
-            /*AZSTD_STL::*/
+            /*VSTD_STL::*/
             memmove(&*result, &*first, numElements * sizeof(typename iterator_traits<InputIterator>::value_type));
         }
         return result + numElements;
@@ -430,7 +430,7 @@ namespace VStd::Internal
         result -= numElements;
         if (numElements > 0)
         {
-            /*AZSTD_STL::*/
+            /*VSTD_STL::*/
             memmove(&*result, &*first, numElements * sizeof(typename iterator_traits<BidirectionalIterator1>::value_type));
         }
         return result;
@@ -456,7 +456,7 @@ namespace VStd::Internal
         VStd::size_t numElements = last - first;
         if (numElements > 0)
         {
-            /*AZSTD_STL::*/
+            /*VSTD_STL::*/
             memcpy(&*result, &*first, numElements * sizeof(typename iterator_traits<InputIterator>::value_type));
         }
         return result + numElements;
@@ -464,7 +464,7 @@ namespace VStd::Internal
 
     // end of sequence move.
     //////////////////////////////////////////////////////////////////////////
-}
+} // namespace VStd::Internal
 
 namespace VStd
 {
@@ -477,7 +477,7 @@ namespace VStd
     {
         return VStd::Internal::uninitialized_move(first, last, result, VStd::Internal::is_fast_copy<InputIt, InputIt>{});
     }
-    // 25.3.2 Move
+    // Move
     template<class InputIterator, class OutputIterator>
     OutputIterator move(InputIterator first, InputIterator last, OutputIterator result)
     {
@@ -489,7 +489,7 @@ namespace VStd
     {
         return VStd::Internal::move_backward(first, last, result, VStd::Internal::is_fast_copy<BidirectionalIterator1, BidirectionalIterator2>());
     }
-}
+} // namespace VStd
 
 namespace VStd::Internal
 {
@@ -533,7 +533,7 @@ namespace VStd::Internal
         VStd::size_t numElements = last - first;
         if (numElements > 0)
         {
-            /*AZSTD_STL::*/
+            /*VSTD_STL::*/
             memset((void*)&*first, *reinterpret_cast<const unsigned char*>(&value), numElements);
         }
     }
@@ -554,11 +554,11 @@ namespace VStd::Internal
     {
         if (numElements > 0)
         {
-            /*AZSTD_STL::*/
+            /*VSTD_STL::*/
             memset(&*first, *reinterpret_cast<const unsigned char*>(&value), numElements);
         }
     }
-}
+} // namespace VStd::Internal
 
 namespace VStd
 {
@@ -637,6 +637,6 @@ namespace VStd
     {
         return uninitialized_fill_n(first, numElements, value, Internal::is_fast_fill<ForwardIterator>());
     }
-}
+} // namespace VStd
 
 #endif // V_FRAMEWORK_CORE_STD_CREATEDESTROY_H

@@ -229,7 +229,8 @@ namespace VStd {
     }
     
     /*template <>
-    struct hash<thread_id> {
+    struct hash<thread_id>
+    {
         size_t operator()(const thread_id& value) const {
             static_assert(sizeof(thread_id) <= sizeof(size_t), "thread_id should less than size_t");
             size_t hash{};
@@ -238,7 +239,7 @@ namespace VStd {
         }
     };*/
 
-} // VStd
+} // namespace VStd
 
 #include <vcore/std/parallel/internal/thread_platform.h>
 

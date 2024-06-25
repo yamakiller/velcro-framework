@@ -27,8 +27,8 @@ namespace VStd {
     #endif
 }
 
-#define vtypeid(T) (&typeid(T))
-#define vtypeid_cmp(A, B) (*A) == (*B)
+#define v_typeid(T) (&typeid(T))
+#define v_typeid_cmp(A, B) (*A) == (*B)
 #else // VSTD_TYPE_ID_SUPPORT
 
 namespace VStd {
@@ -50,8 +50,8 @@ namespace VStd {
         : type_id_holder< T >{};
 }
 
-#define vtypeid(T) (&VStd::type_id_holder<T>::v_)
-#define vtypeid_cmp(A, B) (A) == (B)
+#define v_typeid(T) (&VStd::type_id_holder<T>::v_)
+#define v_typeid_cmp(A, B) (A) == (B)
 
 #endif //  VSTD_TYPE_ID_SUPPORT
 

@@ -4,7 +4,7 @@
 
 #include <vcore/base.h>
 #include <vcore/std/containers/deque.h>
-#include <vcore/std/parallel/lock.h>
+//#include <vcore/std/parallel/lock.h>
 
 namespace V
 {

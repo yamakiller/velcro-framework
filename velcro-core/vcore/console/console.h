@@ -15,6 +15,7 @@ namespace V
         friend struct ConsoleCommandKeyNotificationHandler;
         friend class ConsoleFunctorBase;
     public:
+      
         VOBJECT_RTTI(Console, "{a501459d-a922-46d3-ad6d-d14aefbc4774}", IConsole);
         V_CLASS_ALLOCATOR(Console, V::OSAllocator, 0);
 
