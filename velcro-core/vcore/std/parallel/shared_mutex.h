@@ -12,11 +12,6 @@
 #include <vcore/std/parallel/exponential_backoff.h>
 
 namespace VStd {
-      /**
-    * Light weight Read Write spin lock (based on C++17 standard std::shared_mutex)
-    * TODO: Since this mode uses relaxed more if we care about debug performance we can handcraft using the intrinsics
-    * here instead of the function overhead that atomics have.
-    */
     class shared_mutex {
         VStd::atomic<V::u32>  m_value; // last bit for exclusive lock, the rest shared locks counter.
         static const V::u32 m_exclusiveLockBit = 0x80000000;

@@ -1,11 +1,12 @@
 /*
- * Copyright (c) Contributors to the Open 3D Engine Project.
+ * Copyright (c) Contributors to the VelcroFramework Project.
  * For complete copyright and license terms please see the LICENSE at the root of this distribution.
  *
  * SPDX-License-Identifier: Apache-2.0 OR MIT
  *
  */
-#pragma once
+#ifndef V_FRAMEWORK_CORE_EVENT_BUS_ENVIRONMENT_H
+#define V_FRAMEWORK_CORE_EVENT_BUS_ENVIRONMENT_H
 
 #include <vcore/module/environment.h>
 
@@ -296,3 +297,5 @@ namespace V
         return NameCrc;
     }
 } // namespace V
+
+#endif // V_FRAMEWORK_CORE_EVENT_BUS_ENVIRONMENT_H

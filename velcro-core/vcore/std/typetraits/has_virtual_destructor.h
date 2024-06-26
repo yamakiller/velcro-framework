@@ -10,10 +10,10 @@
 
 #include <vcore/std/typetraits/intrinsics.h>
 
-namespace VStd {
-    using std::has_virtual_destructor;
+/*namespace VStd {
     using std::has_virtual_destructor_v;
-}
+    using std::has_virtual_destructor;
+}*/
 
 
 #endif // V_FRAMEWORK_CORE_STD_TYPETRAITS_HAS_VIRTUAL_DESTRUCTOR_H

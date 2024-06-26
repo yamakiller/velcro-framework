@@ -29,6 +29,7 @@
 //          click->DoSomething();
 //      }
 //@endcode
+//
 
 namespace V {
     template <typename T>

@@ -3,11 +3,12 @@
 
 #include <vcore/std/smart_ptr/sp_convertible.h>
 #include <vcore/std/parallel/mutex.h>
+#include <vcore/std/parallel/shared_mutex.h>
 #include <vcore/std/parallel/spin_mutex.h>
-#include <vcore/std/parallel/lock.h>
-#include <vcore/std/typetraits/alignment_of.h>
-#include <vcore/std/typetraits/has_virtual_destructor.h>
-#include <vcore/std/typetraits/aligned_storage.h>
+//#include <vcore/std/parallel/lock.h>
+//#include <vcore/std/typetraits/alignment_of.h>
+//#include <vcore/std/typetraits/has_virtual_destructor.h>
+//#include <vcore/std/typetraits/aligned_storage.h>
 
 namespace V {
     namespace Internal {
@@ -233,7 +234,8 @@ namespace V {
             u32 m_guid;
             Environment::AllocatorInterface* m_allocator;
             int m_useCount;
-            VStd::spin_mutex m_mutex;
+            VStd::shared_mutex m_mutex;;
+            //VStd::spin_mutex m_mutex;
         };
 
         template<typename T>
@@ -264,7 +266,7 @@ namespace V {
                 self->m_isConstructed = false;
                 self->m_moduleOwner = nullptr;
                 if constexpr(!VStd::is_trivially_destructible_v<T>) {
-                    reinterpret_cast<T*>(&self->m_value)->~T();
+                    //reinterpret_cast<T*>(&self->m_value)->~T();
                 }
             }
         public:
@@ -279,7 +281,7 @@ namespace V {
             }
             void AddRef()
             {
-                VStd::lock_guard<VStd::spin_mutex> lock(m_mutex);
+                VStd::lock_guard<VStd::shared_mutex> lock(m_mutex);
                 ++m_useCount;
                 ++_moduleUseCount;
             }

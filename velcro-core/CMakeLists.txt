@@ -16,14 +16,15 @@ IF (CMAKE_SYSTEM_NAME MATCHES "Windows")
         SET(CMAKE_CXX_COMPILER g++)
         SET(CMAKE_C_COMPILER gcc)
     
-        SET(CMAKE_CXX_FLAGS_DEBUG	"-std=c++17 -O0 -Wall -march=pentium4 -mmmx -g2 -ggdb")
-        SET(CMAKE_CXX_FLAGS_RELEASE	"-std=c++17 -Wall -o3")
+        SET(CMAKE_CXX_FLAGS_DEBUG	"-std=c++11 -O0 -Wall -march=pentium4 -mmmx -g2 -ggdb")
+        SET(CMAKE_CXX_FLAGS_RELEASE	"-std=c++11 -Wall -o3")
     ELSE()
         MESSAGE(STATUS "Compile Tool msvc")
         #ADD_DEFINITIONS(-D_CRT_SECURE_NOWARNINGS)
         #ADD_DEFINITIONS(-D__STDC_WANT_SECURELIB__=1)
         add_definitions(-D_CRT_SECURE_NO_DEPRECATE)
         add_definitions(-D_CRT_NONSTDC_NO_DEPRECATE)
+        add_definitions(-D_SILENCE_CXX20_IS_POD_DEPRECATION_WARNING)
         #这是为UNICODE编码模式
         ADD_DEFINITIONS(-DUNICODE -D_UNICODE)
         
@@ -53,8 +54,8 @@ ELSEIF (CMAKE_SYSTEM_NAME MATCHES "Linux")
     SET(CMAKE_CXX_COMPILER g++)
     SET(CMAKE_C_COMPILER gcc)
 
-    SET(CMAKE_CXX_FLAGS_DEBUG	"-std=c++17 -O0 -Wall -march=pentium4 -mmmx -g2 -ggdb")
-    SET(CMAKE_CXX_FLAGS_RELEASE	"-std=c++17 -Wall -o3")
+    SET(CMAKE_CXX_FLAGS_DEBUG	"-std=c++20 -O0 -Wall -march=pentium4 -mmmx -g2 -ggdb")
+    SET(CMAKE_CXX_FLAGS_RELEASE	"-std=c++20 -Wall -o3")
 ELSEIF (CMAKE_SYSTEM_NAME MATCHES "FreeBSD")
     MESSAGE(STATUS "Platform FreeBSD")
     MESSAGE(STATUS "Compile Tool gcc/g++")
@@ -62,8 +63,8 @@ ELSEIF (CMAKE_SYSTEM_NAME MATCHES "FreeBSD")
     SET(CMAKE_CXX_COMPILER g++)
     SET(CMAKE_C_COMPILER gcc)
 
-    SET(CMAKE_CXX_FLAGS_DEBUG	"-std=c++17 -O0 -Wall -march=pentium4 -mmmx -g2 -ggdb")
-    SET(CMAKE_CXX_FLAGS_RELEASE	"-std=c++17 -Wall -o3")
+    SET(CMAKE_CXX_FLAGS_DEBUG	"-std=c++20 -O0 -Wall -march=pentium4 -mmmx -g2 -ggdb")
+    SET(CMAKE_CXX_FLAGS_RELEASE	"-std=c++20 -Wall -o3")
 ELSE()
     # 考虑支持 Mac 系统
     MESSAGE(STATUS "Platform: ${CMAKE_SYSTEM_NAME}")
@@ -114,7 +115,9 @@ ENDIF()
 
 
 
-INCLUDE(${LOCAL_CORE_SOURCE_DIR}/vcore/vcore_files.cmake)
+
+#INCLUDE(${LOCAL_CORE_SOURCE_DIR}/vcore/vcore_files.cmake)
+
 
 ADD_LIBRARY(${PROJ_NAME_CORE} SHARED ${FILES})
 TARGET_LINK_LIBRARIES(${PROJ_NAME_CORE} ${LIB_LINKS})

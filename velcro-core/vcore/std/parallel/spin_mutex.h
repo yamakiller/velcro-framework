@@ -4,7 +4,7 @@
 #include <vcore/std/parallel/atomic.h>
 #include <vcore/std/parallel/exponential_backoff.h>
 
-namespace VStd {
+/*namespace VStd {
     class spin_mutex
     {
     public:
@@ -42,4 +42,5 @@ namespace VStd {
         VStd::atomic<bool> m_flag;
     };
 }
+*/
 #endif // V_FRAMEWORK_CORE_STD_PARALLEL_SPIN_MUTEX2_H
