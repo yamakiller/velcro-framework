@@ -8,7 +8,7 @@
 #ifndef V_FRAMEWORK_CORE_STD_TUPLE_H
 #define V_FRAMEWORK_CORE_STD_TUPLE_H
 
-#include <vcore/vobject/vobject.h>
+//#include <vcore/vobject/vobject.h>
 #include <vcore/std/containers/array.h>
 #include <vcore/std/function/invoke.h>
 #include <vcore/std/utils.h>
@@ -16,6 +16,7 @@
 #include <vcore/std/typetraits/void_t.h>
 #include <tuple>
 #include <vcore/std/typetraits/conjunction.h>
+#include <vcore/std/hash.h>
 
 namespace VStd {
     

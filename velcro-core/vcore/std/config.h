@@ -5,8 +5,8 @@
  * SPDX-License-Identifier: Apache-2.0 OR MIT
  *
  */
-#ifndef VSTD_CONFIG_H
-#define VSTD_CONFIG_H 1
+#ifndef V_FRAMEWORK_CORE_STD_CONFIG_H
+#define V_FRAMEWORK_CORE_STD_CONFIG_H
 
 #ifndef VSTD_CONTAINER_ASSERT
     #define VSTD_CONTAINER_ASSERT V_Assert
@@ -80,4 +80,4 @@
 #define VSTD_ADL_FIX_FUNCTION_SPEC_2_4_RET(_Function, _Return, _Param1, _Param2) \
     V_FORCE_INLINE _Return _Function(_Param1 a, _Param1 b, _Param1 c, _Param2 d)  { return VStd::_Function(a, b, c, d); }
 
-#endif // VSTD_CONFIG_H
+#endif // V_FRAMEWORK_CORE_STD_CONFIG_H

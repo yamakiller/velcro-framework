@@ -24,7 +24,7 @@ namespace VStd
 {
     /**
      * \name HashFuntions Hash Functions
-     * Follow the standard 20.8.12
+     * Follow the standard
      * @{
      */
 
@@ -32,7 +32,7 @@ namespace VStd
     template<class T>
     struct hash
     {
-        typedef T               argument_type;
+        typedef T              argument_type;
         typedef VStd::size_t   result_type;
         constexpr result_type operator()(const argument_type& value) const { return static_cast<result_type>(value); }
         static bool OnlyUnspecializedTypesShouldHaveThis() { return true; }

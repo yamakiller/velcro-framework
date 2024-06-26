@@ -7,8 +7,8 @@
  */
 // Based on boost 1.39.0
 
-#ifndef V_FRAMEWORK_CORE_STD_FUNCTION_BASE_HEADER
-#define V_FRAMEWORK_CORE_STD_FUNCTION_BASE_HEADER
+#ifndef V_FRAMEWORK_CORE_STD_FUNCTION_BASE_H
+#define V_FRAMEWORK_CORE_STD_FUNCTION_BASE_H
 
 #include <vcore/std/allocator.h>
 #include <vcore/std/base.h>
@@ -676,5 +676,4 @@ namespace VStd {
 //#undef v_typeid
 //#undef v_typeid_cmp
 
-#endif // V_FRAMEWORK_CORE_STD_FUNCTION_BASE_HEADER
-#pragma once
+#endif // V_FRAMEWORK_CORE_STD_FUNCTION_BASE_H

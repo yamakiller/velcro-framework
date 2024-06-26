@@ -4,7 +4,7 @@
 #include <vcore/platform_default.h> ///< Platform/compiler specific defines
 #include <vcore/base_platform.h>
 
-#include <vcore/traits_platform.h>
+#include <vcore/vcore_traits_platform.h>
 
 #ifndef V_ARRAY_SIZE
 /// 返回静态数组的数组大小.

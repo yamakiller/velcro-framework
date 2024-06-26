@@ -3,4 +3,4 @@
 #include <tchar.h>
 #include <stdio.h>
 
-#include <NTSecAPI.h> // for LdrDllNotification dll load hook (UNICODE_STRING)
+//#include <NTSecAPI.h> // for LdrDllNotification dll load hook (UNICODE_STRING)

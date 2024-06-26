@@ -6,12 +6,9 @@
 #include <vcore/std/parallel/scoped_lock.h>
 
 
-namespace V {
+/*namespace V {
     namespace Internal {
-        /**
-        * VStd allocator wrapper for the global variables. Don't expose to external code, this allocation are NOT
-        * tracked, etc. These are only for global environment variables.
-        */
+
         class OSStdAllocator
         {
         public:
@@ -106,9 +103,7 @@ namespace V {
         // instance of the environment
         EnvironmentInterface* EnvironmentInterface::_environment = nullptr;
 
-        /**
-         *
-         */
+
         class EnvironmentImpl
             : public EnvironmentInterface
         {
@@ -337,9 +332,7 @@ namespace V {
         };
 
 
-        /**
-        * Destructor will be called when we unload the module.
-        */
+
         class CleanUp
         {
         public:
@@ -526,3 +519,4 @@ namespace V {
         }
     } // namespace Environment
 } // namespace V
+*/

@@ -1,6 +1,6 @@
 #ifndef V_FRAMEWORK_CORE_TRAITS_PLATFORM_H
 #define V_FRAMEWORK_CORE_TRAITS_PLATFORM_H
 
-#include "traits_windows.h"
+#include <vcore/vcore_traits_windows.h>
 
 #endif // V_FRAMEWORK_CORE_TRAITS_PLATFORM_H
