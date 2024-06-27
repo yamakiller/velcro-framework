@@ -183,7 +183,7 @@ AllocatorManager::RegisterAllocator(class IAllocator* alloc)
     VStd::lock_guard<VStd::mutex> lock(m_allocatorListMutex);
     V_Assert(m_numAllocators < m_maxNumAllocators, "Too many allocators %d! Max is %d", m_numAllocators, m_maxNumAllocators);
 
-    for (size_t i = 0; i < m_numAllocators; i++)
+    for (size_t i = 0; i < (size_t)m_numAllocators; i++)
     {
         V_Assert(m_allocators[i] != alloc, "Allocator %s (%s) registered twice!", alloc->GetName(), alloc->GetDescription());
     }

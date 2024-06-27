@@ -57,7 +57,7 @@ namespace V {
 
         bool ConvertToAbsolutePath(const char* path, char* absolutePath, V::u64 maxLength)
         {
-            char* result = _fullpath(absolutePath, path, maxLength);
+            char* result = _fullpath(absolutePath, path, (size_t)maxLength);
             return result != nullptr;
         }
     } // namespace Utilitys

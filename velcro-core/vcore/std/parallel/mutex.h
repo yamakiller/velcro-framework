@@ -67,4 +67,6 @@ namespace VStd {
     };
 }
 
+#include <vcore/std/parallel/internal/mutex_platform.h>
+
 #endif // V_FRAMEWORK_CORE_STD_PARALLEL_MUTEX_H

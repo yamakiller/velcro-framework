@@ -11,7 +11,7 @@
 
 
 #include <vcore/base.h>
-//#include <vcore/memory/allocator_records.h>
+#include <vcore/memory/allocator_records.h>
 #include <vcore/std/algorithm.h>
 #include <vcore/std/parallel/mutex.h>
 #include <vcore/std/string/string.h>
@@ -35,7 +35,7 @@ namespace V {
     class AllocatorManager {
         friend IAllocator;
         friend class AllocatorBase;
-        //friend class Debug::AllocationRecords;
+        friend class Debug::AllocationRecords;
         //friend class V::Internal::EnvironmentVariableHolder<AllocatorManager>;
 
     public:
@@ -182,7 +182,7 @@ namespace V {
         bool                m_configurationFinalized;
         VStd::atomic<int>  m_profilingRefcount;
 
-        //Debug::AllocationRecords::Mode m_defaultTrackingRecordMode;
+        Debug::AllocationRecords::Mode m_defaultTrackingRecordMode;
         
 
         VStd::unique_ptr<V::MallocSchema, void(*)(V::MallocSchema*)> m_mallocSchema;

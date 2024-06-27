@@ -41,6 +41,8 @@ SET(FILES
     vcore/memory/allocator_base.h
     vcore/memory/allocator_base.cc
     vcore/memory/allocator_manager.h
+    vcore/memory/allocator_records.h
+    vcore/memory/allocator_records.cc
     vcore/memory/allocator_manager.cc
     vcore/memory/allocator_override_shim.h
     vcore/memory/allocator_override_shim.cc
@@ -48,6 +50,8 @@ SET(FILES
     vcore/memory/config.h
     vcore/memory/heap_schema.h
     vcore/memory/heap_schema.cc
+    vcore/memory/hpha_schema.h
+    vcore/memory/hpha_schema.cc
     vcore/memory/iallocator.h
     vcore/memory/iallocator.cc
     vcore/memory/malloc_schema.h
@@ -65,6 +69,7 @@ SET(FILES
     vcore/vobject/type_safe_integral.h
     vcore/vobject/vobject.h
     vcore/debug/trace.h
+    vcore/debug/trace.cc
     vcore/std/base.h
     vcore/std/config.h
     vcore/std/algorithm.h

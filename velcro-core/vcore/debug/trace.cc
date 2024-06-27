@@ -4,8 +4,8 @@
 
 #include <vcore/debug/stack_tracer.h>
 #include <vcore/debug/ievent_logger.h>
-#include <vcore/debug/trace_message_bus.h>
-#include <vcore/debug/trace_message_detector_bus.h>
+//#include <vcore/debug/trace_message_bus.h>
+//#include <vcore/debug/trace_message_detector_bus.h>
 #include <vcore/interface/interface.h>
 #include <vcore/math/crc.h>
 
@@ -13,7 +13,7 @@
 
 #include <vcore/std/containers/unordered_set.h>
 #include <vcore/module/environment.h>
-#include <vcore/console/iconsole.h>
+//#include <vcore/console/iconsole.h>
 #include <vcore/std/chrono/chrono.h>
 
 
@@ -71,7 +71,7 @@ namespace V
 
     constexpr LogLevel DefaultLogLevel = LogLevel::Info;
 
-    V_CVAR_SCOPED(int, bg_traceLogLevel, DefaultLogLevel, nullptr, ConsoleFunctorFlags::Null, "Enable trace message logging in release mode.  0=disabled, 1=errors, 2=warnings, 3=info.");
+    //V_CVAR_SCOPED(int, bg_traceLogLevel, DefaultLogLevel, nullptr, ConsoleFunctorFlags::Null, "Enable trace message logging in release mode.  0=disabled, 1=errors, 2=warnings, 3=info.");
 
      /**
      * If any listener returns true, store the result so we don't outputs detailed information.
@@ -187,8 +187,7 @@ namespace V
     //=========================================================================
     // Break
     //=========================================================================
-    void
-    Trace::Break()
+    void Trace::Break()
     {
 #if defined(V_ENABLE_DEBUG_TOOLS)
 
@@ -215,7 +214,134 @@ namespace V
 
     bool Trace::IsTraceLoggingEnabledForLevel(LogLevel level)
     {
-        return bg_traceLogLevel >= level;
+        return true;
+        //return bg_traceLogLevel >= level;
+    }
+
+     //=========================================================================
+    // Assert
+    // [8/3/2009]
+    //=========================================================================
+    void Trace::Assert(const char* fileName, int line, const char* funcName, const char* format, ...)
+    {
+        using namespace DebugInternal;
+
+        char message[g_maxMessageLength];
+        char header[g_maxMessageLength];
+
+        // Check our set to see if this assert has been previously ignored and early out if so
+        size_t assertHash = line;
+        VStd::hash_combine(assertHash, V::Crc32(fileName));
+        // Find our list of ignored asserts since we probably aren't the same system that initialized it
+        g_ignoredAsserts = V::Environment::FindVariable<VStd::unordered_set<size_t>>(ignoredAssertUID);
+
+        if (g_ignoredAsserts)
+        {
+            auto ignoredAssertIt2 = g_ignoredAsserts->find(assertHash);
+            if (ignoredAssertIt2 != g_ignoredAsserts->end())
+            {
+                return;
+            }
+        }
+
+        if (g_alreadyHandlingAssertOrFatal)
+        {
+            return;
+        }
+
+        g_alreadyHandlingAssertOrFatal = true;
+
+        va_list mark;
+        va_start(mark, format);
+        v_vsnprintf(message, g_maxMessageLength - 1, format, mark); // -1 to make room for the "/n" that will be appended below 
+        va_end(mark);
+
+        if (auto logger = Interface<IEventLogger>::Get(); logger)
+        {
+            logger->RecordStringEvent(AssertEventId, message);
+            logger->Flush(); // Flush as an assert may indicate a crash is imminent.
+        }
+
+        //EBUS_EVENT(TraceMessageDrillerBus, OnPreAssert, fileName, line, funcName, message);
+
+        TraceMessageResult result;
+        //EBUS_EVENT_RESULT(result, TraceMessageBus, OnPreAssert, fileName, line, funcName, message);
+        if (result.m_value)
+        {
+            g_alreadyHandlingAssertOrFatal = false;
+            return;
+        }
+
+        int currentLevel = GetAssertVerbosityLevel();
+        if (currentLevel >= assertLevel_log)
+        {
+            Output(g_dbgSystemWnd, "\n==================================================================\n");
+            v_snprintf(header, g_maxMessageLength, "Trace::Assert\n %s(%d): (%tu) '%s'\n", fileName, line, (uintptr_t)(VStd::this_thread::get_id().m_id), funcName);
+            Output(g_dbgSystemWnd, header);
+            v_strcat(message, g_maxMessageLength, "\n");
+            Output(g_dbgSystemWnd, message);
+
+            //EBUS_EVENT(TraceMessageDrillerBus, OnAssert, message);
+            //EBUS_EVENT_RESULT(result, TraceMessageBus, OnAssert, message);
+            if (result.m_value)
+            {
+                Output(g_dbgSystemWnd, "==================================================================\n");
+                g_alreadyHandlingAssertOrFatal = false;
+                return;
+            }
+
+            Output(g_dbgSystemWnd, "------------------------------------------------\n");
+            PrintCallstack(g_dbgSystemWnd, 1);
+            Output(g_dbgSystemWnd, "==================================================================\n");
+
+            char dialogBoxText[g_maxMessageLength];
+            v_snprintf(dialogBoxText, g_maxMessageLength, "Assert \n\n %s(%d) \n %s \n\n %s", fileName, line, funcName, message);
+
+            // If we are logging only then ignore the assert after it logs once in order to prevent spam
+            if (currentLevel == 1 && !IsDebuggerPresent())
+            {
+                if (g_ignoredAsserts)
+                {
+                    Output(g_dbgSystemWnd, "====Assert added to ignore list by spec and verbosity setting.====\n");
+                    g_ignoredAsserts->insert(assertHash);
+                }
+            }
+            
+/*#if V_ENABLE_TRACE_ASSERTS
+            //display native UI dialogs at verbosity level 2
+            if (currentLevel == assertLevel_nativeUI)
+            {
+                V::NativeUI::AssertAction buttonResult;
+                EBUS_EVENT_RESULT(buttonResult, V::NativeUI::NativeUIRequestBus, DisplayAssertDialog, dialogBoxText);
+                switch (buttonResult)
+                {
+                case V::NativeUI::AssertAction::BREAK:
+                    g_tracer.Break();
+                    break;
+                case V::NativeUI::AssertAction::IGNORE_ALL_ASSERTS:
+                    SetAssertVerbosityLevel(1);
+                    g_alreadyHandlingAssertOrFatal = true;
+                    return;
+                case V::NativeUI::AssertAction::IGNORE_ASSERT:
+                    //if ignoring this assert then add it to our ignore list so it doesn't interrupt again this run
+                    if (g_ignoredAsserts)
+                    {
+                        g_ignoredAsserts->insert(assertHash);
+                    }
+                    break;
+                default:
+                    break;
+                }
+            }
+            else
+#endif //V_ENABLE_TRACE_ASSERTS*/
+            // Crash the application directly at assert level 3
+            if (currentLevel >= assertLevel_crash)
+            {
+                V_Crash();
+            }
+        }
+        g_alreadyHandlingAssertOrFatal = false;
     }
 
     //=========================================================================
@@ -253,10 +379,10 @@ namespace V
             logger->RecordStringEvent(ErrorEventId, message);
         }
 
-        EBUS_EVENT(TraceMessageDetectorBus, OnPreError, window, fileName, line, funcName, message);
+        //EBUS_EVENT(TraceMessageDetectorBus, OnPreError, window, fileName, line, funcName, message);
 
         TraceMessageResult result;
-        EBUS_EVENT_RESULT(result, TraceMessageBus, OnPreError, window, fileName, line, funcName, message);
+        //EBUS_EVENT_RESULT(result, TraceMessageBus, OnPreError, window, fileName, line, funcName, message);
         if (result.m_value)
         {
             g_alreadyHandlingAssertOrFatal = false;
@@ -269,8 +395,8 @@ namespace V
         v_strcat(message, g_maxMessageLength, "\n");
         Output(window, message);
 
-        EBUS_EVENT(TraceMessageDetectorBus, OnError, window, message);
-        EBUS_EVENT_RESULT(result, TraceMessageBus, OnError, window, message);
+        //EBUS_EVENT(TraceMessageDetectorBus, OnError, window, message);
+        //EBUS_EVENT_RESULT(result, TraceMessageBus, OnError, window, message);
         Output(window, "==================================================================\n");
         if (result.m_value)
         {
@@ -304,10 +430,10 @@ namespace V
             logger->RecordStringEvent(WarningEventId, message);
         }
 
-        EBUS_EVENT(TraceMessageDetectorBus, OnPreWarning, window, fileName, line, funcName, message);
+        //EBUS_EVENT(TraceMessageDetectorBus, OnPreWarning, window, fileName, line, funcName, message);
 
         TraceMessageResult result;
-        EBUS_EVENT_RESULT(result, TraceMessageBus, OnPreWarning, window, fileName, line, funcName, message);
+        //EBUS_EVENT_RESULT(result, TraceMessageBus, OnPreWarning, window, fileName, line, funcName, message);
         if (result.m_value)
         {
             return;
@@ -319,8 +445,8 @@ namespace V
         v_strcat(message, g_maxMessageLength, "\n");
         Output(window, message);
 
-        EBUS_EVENT(TraceMessageDetectorBus, OnWarning, window, message);
-        EBUS_EVENT_RESULT(result, TraceMessageBus, OnWarning, window, message);
+        //EBUS_EVENT(TraceMessageDetectorBus, OnWarning, window, message);
+        //EBUS_EVENT_RESULT(result, TraceMessageBus, OnWarning, window, message);
         Output(window, "==================================================================\n");
     }
 
@@ -347,10 +473,10 @@ namespace V
             logger->RecordStringEvent(PrintfEventId, message);
         }
 
-        EBUS_EVENT(TraceMessageDetectorBus, OnPrintf, window, message);
+        //EBUS_EVENT(TraceMessageDetectorBus, OnPrintf, window, message);
 
         TraceMessageResult result;
-        EBUS_EVENT_RESULT(result, TraceMessageBus, OnPrintf, window, message);
+        //EBUS_EVENT_RESULT(result, TraceMessageBus, OnPrintf, window, message);
         if (result.m_value)
         {
             return;
@@ -376,9 +502,9 @@ namespace V
             // only call into Ebusses if we are not in a recursive-exception situation as that
             // would likely just lead to even more exceptions.
             
-            EBUS_EVENT(TraceMessageDetectorBus, OnOutput, window, message);
+            //EBUS_EVENT(TraceMessageDetectorBus, OnOutput, window, message);
             TraceMessageResult result;
-            EBUS_EVENT_RESULT(result, TraceMessageBus, OnOutput, window, message);
+            //EBUS_EVENT_RESULT(result, TraceMessageBus, OnOutput, window, message);
             if (result.m_value)
             {
                 return;

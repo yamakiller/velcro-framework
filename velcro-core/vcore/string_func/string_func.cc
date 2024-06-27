@@ -893,7 +893,7 @@ namespace V {
 
             outIndex = 0;
             outOffset = VStd::string::npos;
-            for (int32_t i = 0; i < searchStrings.size(); ++i)
+            for (int32_t i = 0; i < (int32_t)searchStrings.size(); ++i)
             {
                 const VStd::string& search = searchStrings[i];
 
@@ -1248,7 +1248,7 @@ namespace V {
                     // Search for the final digit or separator while obtaining the string length
                     int lastDigitSeenPos = 0;
 
-                    while (stringEndPos < bufferSize)
+                    while (stringEndPos < (int)bufferSize)
                     {
                         char c = buffer[stringEndPos];
 
@@ -2473,7 +2473,7 @@ namespace V {
         {
             bool CheckNonAsciiChar(const VStd::string& in)
             {
-                for (int i = 0; i < in.length(); ++i)
+                for (int i = 0; i < (int)in.length(); ++i)
                 {
                     char byte = in[i];
                     if (byte & 0x80)

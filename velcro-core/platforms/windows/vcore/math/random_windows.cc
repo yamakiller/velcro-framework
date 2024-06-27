@@ -6,7 +6,7 @@
 namespace V
 {
     BetterPseudoRandom_Windows::BetterPseudoRandom_Windows() {
-        if (!CryptAcquireContext(&m_generatorHandle, 0, 0, PROV_RSA_FULL, CRYPT_VERIFYCONTEXT | CRYPT_SILENT)) {
+        if (!CryptAcquireContext((HCRYPTPROV*)&m_generatorHandle, 0, 0, PROV_RSA_FULL, CRYPT_VERIFYCONTEXT | CRYPT_SILENT)) {
             V_Warning("System", false, "CryptAcquireContext failed with 0x%08x\n", GetLastError());
             m_generatorHandle = 0;
         }
@@ -14,7 +14,7 @@ namespace V
 
     BetterPseudoRandom_Windows::~BetterPseudoRandom_Windows() {
         if (m_generatorHandle) {
-            CryptReleaseContext(m_generatorHandle, 0);
+            CryptReleaseContext((HCRYPTPROV)m_generatorHandle, 0);
         }
     }
 
@@ -22,7 +22,7 @@ namespace V
         if (!m_generatorHandle) {
             return false;
         }
-        if (!CryptGenRandom(m_generatorHandle, static_cast<DWORD>(dataSize), static_cast<PBYTE>(data))) {
+        if (!CryptGenRandom((HCRYPTPROV)m_generatorHandle, static_cast<DWORD>(dataSize), static_cast<PBYTE>(data))) {
             V_TracePrintf("System", "Failed to call CryptGenRandom!");
             return false;
         }

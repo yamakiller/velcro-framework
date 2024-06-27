@@ -3,7 +3,8 @@
 
 
 namespace VStd {
-    #define V_STD_MUTEX_CAST(m) reinterpret_cast<LPCRITICAL_SECTION>(&m)\   //////////////////////////////////////////////////////////////////////////
+    #define V_STD_MUTEX_CAST(m) reinterpret_cast<LPCRITICAL_SECTION>(&m)
+    
     // mutex
     inline mutex::mutex()
     {

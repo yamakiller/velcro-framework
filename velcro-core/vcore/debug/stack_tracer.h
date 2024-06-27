@@ -9,7 +9,7 @@
 #define V_FRAMEWORK_CORE_DEBUG_STACK_TRACER_H
 
 #include <vcore/base.h>
-#include <vcore/traits_platform.h>
+#include <vcore/vcore_traits_platform.h>
 
 namespace V {
     namespace Debug {

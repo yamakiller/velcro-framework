@@ -334,7 +334,7 @@ namespace V::IO {
 
     V::IO::SizeType StdoutStream::Write(V::IO::SizeType bytes, const void* iBuffer)
     {
-        return fwrite(iBuffer, 1, bytes, stdout);
+        return fwrite(iBuffer, 1, (size_t)bytes, stdout);
     }
 
     V::IO::SizeType StdoutStream::GetCurPos() const

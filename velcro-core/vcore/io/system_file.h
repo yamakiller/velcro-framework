@@ -7,7 +7,7 @@
 
 #include <vcore/io/path/path_fwd.h>
 #include <vcore/io/system_file_platform.h>
-#include <vcore/std/function/function_fwd.h>
+#include <vcore/std/functional.h>
 #include <vcore/std/string/fixed_string.h>
 
 
