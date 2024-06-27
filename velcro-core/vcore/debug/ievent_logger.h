@@ -44,7 +44,7 @@ namespace V::Debug
     class IEventLogger
     {
     public:
-        VOBJECT_RTTI(IEventLogger, "{4a247e75-fb0a-47d6-a24e-9a3f6201ed27}");
+        VOBJECT(IEventLogger, "{4a247e75-fb0a-47d6-a24e-9a3f6201ed27}");
 
         struct LogHeader
         {

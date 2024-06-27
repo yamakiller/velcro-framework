@@ -215,12 +215,12 @@ namespace V
     bool Trace::IsTraceLoggingEnabledForLevel(LogLevel level)
     {
         return true;
-        //return bg_traceLogLevel >= level;
+        // TODO: 
+        // return bg_traceLogLevel >= level;
     }
 
      //=========================================================================
     // Assert
-    // [8/3/2009]
     //=========================================================================
     void Trace::Assert(const char* fileName, int line, const char* funcName, const char* format, ...)
     {

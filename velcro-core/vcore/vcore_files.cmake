@@ -21,6 +21,9 @@ SET(FILES
     vcore/io/io_utils.cc
     vcore/io/system_file.h
     vcore/io/system_file.cc
+    vcore/ipc/shared_memory_common.h
+    vcore/ipc/shared_memory.h
+    vcore/ipc/shared_memory.cc
     vcore/math/internal/math_type.h
     vcore/math/internal/simd.h
     vcore/math/crc.h
@@ -36,6 +39,14 @@ SET(FILES
     vcore/math/uuid.cc
     vcore/module/environment.h
     vcore/module/environment.cc
+    vcore/module/dynamic_module_handle.h
+    vcore/module/dynamic_module_handle.cc
+    vcore/name/internal/name_data.h
+    vcore/name/internal/name_data.cc
+    vcore/name/name_dictionary.h
+    vcore/name/name_dictionary.cc
+    vcore/name/name.h
+    vcore/name/name.cc
     vcore/memory/system_allocator.h
     vcore/memory/system_allocator.cc
     vcore/memory/allocator_base.h
@@ -62,14 +73,46 @@ SET(FILES
     vcore/memory/osallocator.cc
     vcore/memory/platform_memory_instrumentation.h
     vcore/memory/simple_schema_allocator.h
+    vcore/event_bus/internal/bus_container.h
+    vcore/event_bus/internal/call_stack_entry.h
+    vcore/event_bus/internal/debug.h
+    vcore/event_bus/internal/handlers.h
+    vcore/event_bus/internal/storage_policies.h
+    vcore/event_bus/bus_impl.h
+    vcore/event_bus/environment.h
+    vcore/event_bus/event_bus_shared_dispatch_traits.h
+    vcore/event_bus/event_bus_environment.cc
+    vcore/event_bus/event_bus.h
+    vcore/event_bus/event.h
+    vcore/event_bus/ievent_scheduler.h
+    vcore/event_bus/ordered_event.h
+    vcore/event_bus/policies.h
+    vcore/event_bus/results.h
+    vcore/event_bus/scheduled_event_handle.h
+    vcore/event_bus/scheduled_event_handle.cc
+    vcore/event_bus/scheduled_event.h
+    vcore/event_bus/scheduled_event.cc
     vcore/outcome/internal/outcome_storage.h
     vcore/outcome/outcome.h
     vcore/vobject/type.h
     vcore/vobject/type_simple.h
     vcore/vobject/type_safe_integral.h
     vcore/vobject/vobject.h
+    vcore/debug/ievent_logger.h
     vcore/debug/trace.h
     vcore/debug/trace.cc
+    vcore/compression/compression.h
+    vcore/compression/compression.cc
+    vcore/compression/zstd_compression.h
+    vcore/compression/zstd_compression.cc
+    vcore/detector/default_string_pool.h
+    vcore/detector/detector_bus.h
+    vcore/detector/detector_bus.cc
+    vcore/detector/detector.h
+    vcore/detector/detector.cc
+    vcore/detector/stream.h
+    vcore/detector/stream.cc
+    vcore/time/itime.h
     vcore/std/base.h
     vcore/std/config.h
     vcore/std/algorithm.h
@@ -101,6 +144,33 @@ SET(FILES
     vcore/std/chrono/clocks.h
     vcore/std/chrono/types.h
     vcore/std/containers/array.h
+    vcore/std/containers/bitset.h
+    vcore/std/containers/compressed_pair.h
+    vcore/std/containers/deque.h
+    vcore/std/containers/fixed_forward_list.h
+    vcore/std/containers/fixed_list.h
+    vcore/std/containers/fixed_unordered_map.h
+    vcore/std/containers/fixed_unordered_set.h
+    vcore/std/containers/fixed_vector.h
+    vcore/std/containers/forward_list.h
+    vcore/std/containers/intrusive_list.h
+    vcore/std/containers/intrusive_set.h
+    vcore/std/containers/intrusive_slist.h
+    vcore/std/containers/list.h
+    vcore/std/containers/map.h
+    vcore/std/containers/node_handle.h
+    vcore/std/containers/queue.h
+    vcore/std/containers/rbtree.h
+    vcore/std/containers/set.h
+    vcore/std/containers/stack.h
+    vcore/std/containers/unordered_map.h
+    vcore/std/containers/unordered_set.h
+    vcore/std/containers/vector.h
+    vcore/std/containers/variant_impl.h
+    vcore/std/containers/variant.h
+    vcore/std/delegate/delegate_bind.h
+    vcore/std/delegate/delegate_fwd.h
+    vcore/std/delegate/delegate.h
     vcore/std/function/function_base.h
     vcore/std/function/function_fwd.h
     vcore/std/function/function_template.h

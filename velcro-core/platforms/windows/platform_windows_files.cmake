@@ -6,6 +6,8 @@ SET (FILES
     platforms/windows/vcore/vcore_traits_platform.h
     platforms/windows/vcore/vcore_traits_windows.h
     platforms/windows/vcore/debug/stack_tracer_windows.cc
+    platforms/windows/vcore/memory/heap_schema_windows.cc
+    platforms/windows/vcore/memory/osallocator_platform.h
     platforms/windows/vcore/std/parallel/internal/condition_variable_platform.h
     platforms/windows/vcore/std/parallel/internal/mutex_platform.h
     platforms/windows/vcore/std/parallel/internal/semaphore_platform.h
@@ -14,13 +16,19 @@ SET (FILES
     platforms/windows/vcore/std/time_windows.cc
     platforms/windows/vcore/platform_id/platform_id_platform.h
     platforms/windows/vcore/io/system_file_platform.h
+    platforms/windows/vcore/ipc/shared_memory_platform.h
+    platforms/windows/vcore/ipc/shared_memory_windows.h
+    platforms/windows/vcore/ipc/shared_memory_windows.cc
     platforms/windows/vcore/math/internal/math_types_platform.h
     platforms/windows/vcore/math/internal/math_types_windows.h
     platforms/windows/vcore/math/random_platform.h
     platforms/windows/vcore/math/random_windows.h
     platforms/windows/vcore/math/random_windows.cc
+    platforms/windows/vcore/utilitys/utility_windows.cc
     platforms/common/winapi/vcore/debug/trace_winapi.cc
     platforms/common/winapi/vcore/utilitys/utility_winapi.cc
+    platforms/common/winapi/vcore/io/streamer/streamer_context_winapi.h
+    platforms/common/winapi/vcore/io/streamer/streamer_context_winapi.cc
     platforms/common/winapi/vcore/io/system_file_winapi.h
     platforms/common/winapi/vcore/io/system_file_winapi.cc
     platforms/common/winapi/vcore/std/parallel/internal/thread_winapi.h

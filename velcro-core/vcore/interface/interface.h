@@ -59,6 +59,9 @@ namespace V {
     EnvironmentVariable<T*> Interface<T>::_instance;
 
     template <typename T>
+    VStd::shared_mutex Interface<T>::_mutex;
+
+    template <typename T>
     void Interface<T>::Register(T* type) {
         if (!type) {
             V_Assert(false, "Interface '%s' registering a null pointer!", VObject<T>::Name());
@@ -95,7 +98,8 @@ namespace V {
     }
 
     template <typename T>
-    T* Interface<T>::Get() {
+    T* Interface<T>::Get() 
+    {
         // First attempt to use the module-static reference; take a read lock to check it.
         // This is the fast path which won't block.
         {

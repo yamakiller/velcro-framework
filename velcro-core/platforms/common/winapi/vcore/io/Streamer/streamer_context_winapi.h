@@ -1,7 +1,7 @@
 #ifndef V_FRAMEWOKR_CORE_PLATFORM_COMMON_IO_STREAMER_CONTEXT_WINAPI_H
 #define V_FRAMEWOKR_CORE_PLATFORM_COMMON_IO_STREAMER_CONTEXT_WINAPI_H
 
-#include <vcore/platform_default.h>
+#include <vcore/platform_incl.h>
 #include <vcore/base.h>
 
 namespace V::Platform {

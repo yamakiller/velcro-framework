@@ -937,7 +937,6 @@ cleanup:
 
     //=========================================================================
     // Load DbgHelp.dll and the functions we need from it.
-    // [7/29/2009]
     //=========================================================================
     void    LoadDbgHelp()
     {
@@ -1074,20 +1073,25 @@ cleanup:
             STACKFRAME64 sf;
             memset(&sf, 0, sizeof(STACKFRAME64));
             DWORD imageType;
-
-            //imageType = IMAGE_FILE_MACHINE_AMD64;
-            imageType = IMAGE_FILE_MACHINE_AMD64;
+            
+            // 优先使用AMD64
             #ifdef _AMD64_
+            imageType = IMAGE_FILE_MACHINE_AMD64;
             sf.AddrPC.Offset = context.Rip;
+            sf.AddrPC.Mode = AddrModeFlat;
+            sf.AddrFrame.Offset = context.Rsp;
+            sf.AddrFrame.Mode = AddrModeFlat;
+            sf.AddrStack.Offset = context.Rsp;
+            sf.AddrStack.Mode = AddrModeFlat;
             #else
+            imageType = IMAGE_FILE_MACHINE_IA64;
             sf.AddrPC.Offset = context.Eip;
+            sf.AddrPC.Mode = AddrModeFlat;
+            sf.AddrFrame.Offset = context.Esp;
+            sf.AddrFrame.Mode = AddrModeFlat;
+            sf.AddrStack.Offset = context.Esp;
+            sf.AddrStack.Mode = AddrModeFlat;
             #endif    
-
-            //sf.AddrPC.Mode = AddrModeFlat;
-            //sf.AddrFrame.Offset = context.Rsp;
-            //sf.AddrFrame.Mode = AddrModeFlat;
-            //sf.AddrStack.Offset = context.Rsp;
-            //sf.AddrStack.Mode = AddrModeFlat;
 
             EnterCriticalSection(&g_csDbgHelpDll);
             s32 frame = -(s32)suppressCount;
@@ -1175,7 +1179,6 @@ cleanup:
 
     //=========================================================================
     // GetModuleInfo
-    // [7/29/2009]
     //=========================================================================
     const SymbolStorage::ModuleInfo*
     SymbolStorage::GetModuleInfo(unsigned int moduleIndex)
@@ -1195,7 +1198,6 @@ cleanup:
 
     //=========================================================================
     // SetMapFilename
-    // [7/29/2009]
     //=========================================================================
     void
     SymbolStorage::SetMapFilename(const char* fileName)
@@ -1214,7 +1216,6 @@ cleanup:
 
     //=========================================================================
     // GetMapFilename
-    // [7/29/2009]
     //=========================================================================
     const char*
     SymbolStorage::GetMapFilename()
@@ -1250,7 +1251,6 @@ cleanup:
 
     //=========================================================================
     // DecodeFrames
-    // [7/29/2009]
     //=========================================================================
     void
     SymbolStorage::DecodeFrames(const StackFrame* frames, unsigned int numFrames, StackLine* textLines)
@@ -1280,7 +1280,6 @@ cleanup:
 
     //=========================================================================
     // FindFunctionFromIP
-    // [4/25/2018]
     //=========================================================================
     void
     SymbolStorage::FindFunctionFromIP(void* address, StackLine* func, StackLine* file, StackLine* module, int& line, void*& baseAddr)
