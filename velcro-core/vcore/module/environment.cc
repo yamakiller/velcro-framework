@@ -5,8 +5,7 @@
 #include <vcore/math/crc.h>
 #include <vcore/std/parallel/scoped_lock.h>
 
-
-/*namespace V {
+namespace V {
     namespace Internal {
 
         class OSStdAllocator
@@ -519,4 +518,3 @@
         }
     } // namespace Environment
 } // namespace V
-*/

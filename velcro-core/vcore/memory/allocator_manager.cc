@@ -3,10 +3,10 @@
 #include <vcore/memory/iallocator.h>
 
 #include <vcore/memory/osallocator.h>
-#include <vcore/memory/allocator_records.h>
+//#include <vcore/memory/allocator_records.h>
 #include <vcore/memory/allocator_override_shim.h>
 #include <vcore/memory/malloc_schema.h>
-#include <vcore/memory/memory_detector_bus.h>
+//#include <vcore/memory/memory_detector_bus.h>
 
 #include <vcore/std/parallel/lock.h>
 #include <vcore/std/smart_ptr/make_shared.h>
@@ -49,13 +49,13 @@ namespace V {
 struct V::AllocatorManager::InternalData
 {
     explicit InternalData(const VStdIAllocator& alloc)
-        : m_allocatorMap(alloc)
+        /*: m_allocatorMap(alloc)
         , m_remappings(alloc)
-        , m_remappingsReverse(alloc)
+        , m_remappingsReverse(alloc)*/
     {}
-    Internal::AllocatorNameMap m_allocatorMap;
-    Internal::AllocatorRemappings m_remappings;
-    Internal::AllocatorRemappings m_remappingsReverse;
+    //Internal::AllocatorNameMap m_allocatorMap;
+    //Internal::AllocatorRemappings m_remappings;
+    //Internal::AllocatorRemappings m_remappingsReverse;
 };
 
 static V::EnvironmentVariable<AllocatorManager> _allocManager = nullptr;
@@ -114,7 +114,7 @@ AllocatorManager& AllocatorManager::Instance()
     if (!_allocManager)
     {
         V_Assert(Environment::IsReady(), "Environment must be ready before calling Instance()");
-        _allocManager = V::Environment::CreateVariable<AllocatorManager>(V_CRC("V::AllocatorManager::_allocManager", 0x6bdd908c));
+        //_allocManager = V::Environment::CreateVariable<AllocatorManager>(V_CRC("V::AllocatorManager::_allocManager", 0x6bdd908c));
 
         // Register any allocators that were created in this module before we attached to the environment
         auto& data = GetPreEnvironmentAttachData();
@@ -162,7 +162,7 @@ AllocatorManager::AllocatorManager()
     m_numAllocators = 0;
     m_isAllocatorLeaking = false;
     m_configurationFinalized = false;
-    m_defaultTrackingRecordMode = V::Debug::AllocationRecords::RECORD_NO_RECORDS;
+    // = V::Debug::AllocationRecords::RECORD_NO_RECORDS;
     m_data = new (m_mallocSchema->Allocate(sizeof(InternalData), VStd::alignment_of<InternalData>::value, 0)) InternalData(VStdIAllocator(m_mallocSchema.get()));
 }
 
@@ -224,9 +224,8 @@ AllocatorManager::InternalDestroy() {
 //=========================================================================
 // ConfigureAllocatorOverrides
 //=========================================================================
-void 
-AllocatorManager::ConfigureAllocatorOverrides(IAllocator* alloc) {
-    auto record = m_data->m_allocatorMap.emplace(VStd::piecewise_construct, VStd::forward_as_tuple(alloc->GetName(), VStdIAllocator(m_mallocSchema.get())), VStd::forward_as_tuple(alloc));
+void AllocatorManager::ConfigureAllocatorOverrides(IAllocator* alloc) {
+    /*auto record = m_data->m_allocatorMap.emplace(VStd::piecewise_construct, VStd::forward_as_tuple(alloc->GetName(), VStdIAllocator(m_mallocSchema.get())), VStd::forward_as_tuple(alloc));
 
     // 如果分配器支持覆盖，我们只需要继续.
     if (!alloc->CanBeOverridden()) {
@@ -270,7 +269,7 @@ AllocatorManager::ConfigureAllocatorOverrides(IAllocator* alloc) {
         auto shim = static_cast<Internal::AllocatorOverrideShim*>(alloc->GetAllocationSource());
         alloc->SetAllocationSource(shim->GetOverride());
         Internal::AllocatorOverrideShim::Destroy(shim);
-    }
+    }*/
 }
 
 //=========================================================================
@@ -281,7 +280,7 @@ AllocatorManager::UnRegisterAllocator(class IAllocator* alloc){
     VStd::lock_guard<VStd::mutex> lock(m_allocatorListMutex);
 
     if (alloc->GetRecords()){
-        EBUS_EVENT(Debug::MemoryDetectorBus, UnregisterAllocator, alloc);
+        //EBUS_EVENT(Debug::MemoryDetectorBus, UnregisterAllocator, alloc);
     }
 
     for (int i = 0; i < m_numAllocators; ++i) {
@@ -356,7 +355,7 @@ AllocatorManager::RemoveOutOfMemoryListener()
 //=========================================================================
 // SetTrackingMode
 //=========================================================================
-void
+/*void
 AllocatorManager::SetTrackingMode(V::Debug::AllocationRecords::Mode mode)
 {
     VStd::lock_guard<VStd::mutex> lock(m_allocatorListMutex);
@@ -368,7 +367,7 @@ AllocatorManager::SetTrackingMode(V::Debug::AllocationRecords::Mode mode)
             records->SetMode(mode);
         }
     }
-}
+}*/
 
 //=========================================================================
 // SetOverrideSchema
@@ -404,8 +403,8 @@ AllocatorManager::AddAllocatorRemapping(const char* fromName, const char* toName
 
 #ifdef VCORE_MEMORY_ENABLE_OVERRIDES
     V_Assert(!m_configurationFinalized, "You cannot set an allocator remapping after FinalizeConfiguration() has been called.");
-    m_data->m_remappings.emplace(VStd::piecewise_construct, VStd::forward_as_tuple(fromName, m_mallocSchema.get()), VStd::forward_as_tuple(toName, m_mallocSchema.get()));
-    m_data->m_remappingsReverse.emplace(VStd::piecewise_construct, VStd::forward_as_tuple(toName, m_mallocSchema.get()), VStd::forward_as_tuple(fromName, m_mallocSchema.get()));
+    //m_data->m_remappings.emplace(VStd::piecewise_construct, VStd::forward_as_tuple(fromName, m_mallocSchema.get()), VStd::forward_as_tuple(toName, m_mallocSchema.get()));
+    //m_data->m_remappingsReverse.emplace(VStd::piecewise_construct, VStd::forward_as_tuple(toName, m_mallocSchema.get()), VStd::forward_as_tuple(fromName, m_mallocSchema.get()));
 #endif
 }
 
@@ -510,7 +509,7 @@ AllocatorManager::DumpAllocators() {
 
     V_Printf(TAG, "-,Totals,%.2f,%.2f,%.2f\n", totalUsedBytes / 1024.0f, totalReservedBytes / 1024.0f, totalConsumedBytes / 1024.0f);
 }
-void AllocatorManager::GetAllocatorStats(size_t& allocatedBytes, size_t& capacityBytes, VStd::vector<AllocatorStats>* outStats)
+/*void AllocatorManager::GetAllocatorStats(size_t& allocatedBytes, size_t& capacityBytes, VStd::vector<AllocatorStats>* outStats)
 {
     allocatedBytes = 0;
     capacityBytes = 0;
@@ -566,7 +565,7 @@ void AllocatorManager::GetAllocatorStats(size_t& allocatedBytes, size_t& capacit
             capacityBytes += sourceCapacityBytes;
         }
     }
-}
+}*/
 
 //=========================================================================
 // MemoryBreak
@@ -610,9 +609,8 @@ AllocatorManager::ResetMemoryBreak(int slot) {
 //=========================================================================
 // DebugBreak
 //=========================================================================
-void
-AllocatorManager::DebugBreak(void* address, const Debug::AllocationInfo& info) {
-    (void)address;
+void AllocatorManager::DebugBreak(void* address, const Debug::AllocationInfo& info) {
+    /*(void)address;
     (void)info;
     if (m_activeBreaks) {
         void* AddressEnd = (char*)address + info.ByteSize;
@@ -639,5 +637,5 @@ AllocatorManager::DebugBreak(void* address, const Debug::AllocationInfo& info) {
                 }
             }
         }
-    }
+    }*/
 }

@@ -6,6 +6,7 @@
 
 // OS Allocations macros V_OS_MALLOC/V_OS_FREE
 #include <vcore/memory/osallocator_platform.h>
+#include <vcore/vobject/vobject.h>
 
 namespace V {
     /**
@@ -19,7 +20,7 @@ namespace V {
         , public IAllocatorAllocate
     {
     public:
-        VOBJECT(OSAllocator, "{79106fb2-631a-4e0e-8c47-7521ee5e5544}");
+        VOBJECT_RTTI(OSAllocator, "{79106fb2-631a-4e0e-8c47-7521ee5e5544}");
         
         OSAllocator();
         ~OSAllocator() override;

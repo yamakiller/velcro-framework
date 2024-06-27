@@ -26,6 +26,7 @@ IF (CMAKE_SYSTEM_NAME MATCHES "Windows")
         add_definitions(-D_CRT_SECURE_NO_DEPRECATE)
         add_definitions(-D_CRT_NONSTDC_NO_DEPRECATE)
         add_definitions(-D_SILENCE_CXX20_IS_POD_DEPRECATION_WARNING)
+        add_definitions(-D_ENABLE_EXTENDED_ALIGNED_STORAGE)
         #这是为UNICODE编码模式
         ADD_DEFINITIONS(-DUNICODE -D_UNICODE)
         

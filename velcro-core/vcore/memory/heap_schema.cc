@@ -5,7 +5,7 @@
 #include <vcore/std/parallel/mutex.h>
 #include <vcore/std/parallel/thread.h>
 
-#include <vcore/traits_platform.h>
+#include <vcore/vcore_traits_platform.h>
 
 
 //////////////////////////////////////////////////////////////////////////

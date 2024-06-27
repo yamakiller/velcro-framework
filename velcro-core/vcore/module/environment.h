@@ -11,7 +11,6 @@
 #include <vcore/std/typetraits/aligned_storage.h>
 
 
-/*
 namespace V {
     namespace Internal {
         class EnvironmentInterface;
@@ -547,6 +546,6 @@ namespace V {
     } \
     extern "C" V_DLL_EXPORT void UninitializeDynamicModule() { V::Environment::Detach(); }
 
-#endif // V_MONOLITHIC_BUILD*/
+#endif // V_MONOLITHIC_BUILD
 
 #endif //V_FRAMEWORK_CORE_MODULE_ENVIRONMENT_H___

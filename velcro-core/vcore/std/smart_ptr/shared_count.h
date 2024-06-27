@@ -187,7 +187,7 @@ namespace VStd {
 
             void* get_deleter(Internal::sp_typeinfo const& ti) override
             {
-                return ti == aztypeid(D) ? &reinterpret_cast<char&>(d_) : 0;
+                return ti == v_typeid(D) ? &reinterpret_cast<char&>(d_) : 0;
             }
         };
         //////////////////////////////////////////////////////////////////////////

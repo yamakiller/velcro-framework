@@ -48,7 +48,7 @@ namespace VStd {
         return VStd::unique_ptr<T>(new T(VStd::forward<Args>(args)...));
     }
 
-    // The reason that there is not an array aznew version version of make_unique is because VClassAllocator does not support array new
+    // The reason that there is not an array vnew version version of make_unique is because VClassAllocator does not support array new
     template<typename T>
     VStd::enable_if_t<VStd::is_array<T>::value && VStd::extent<T>::value == 0, unique_ptr<T>> make_unique(std::size_t size)
     {

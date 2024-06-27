@@ -11,7 +11,7 @@
 #include <vcore/memory/system_allocator.h>
 #include <vcore/io/path/path.h>
 #include <vcore/string_func/string_func.h>
-#include <vcore/traits_platform.h>
+#include <vcore/vcore_traits_platform.h>
 #include <vcore/math/crc.h>
 
 namespace V::StringFunc::Internal

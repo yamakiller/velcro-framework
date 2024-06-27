@@ -2,6 +2,7 @@
 #define V_FRAMEWORK_CORE_MEMORY_SYSTEM_ALLOCATOR_H
 
 #include <vcore/memory/memory.h>
+#include <vcore/vobject/vobject.h>
 
 namespace V {
      class SystemAllocator
@@ -9,7 +10,7 @@ namespace V {
         , public IAllocatorAllocate
     {
     public:
-        VOBJECT(SystemAllocator, "{eb679696-c016-41e2-83da-6a4028ebb46d}");
+        VOBJECT_RTTI(SystemAllocator, "{eb679696-c016-41e2-83da-6a4028ebb46d}");
 
         SystemAllocator();
         ~SystemAllocator() override;

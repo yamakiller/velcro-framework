@@ -10,7 +10,7 @@
 
 #include <vcore/base.h>
 #include <vcore/memory/allocator_wrapper.h>
-#include <vcore/memory/Config.h>
+#include <vcore/memory/config.h>
 #include <vcore/memory/simple_schema_allocator.h>
 #include <vcore/std/typetraits/alignment_of.h>
 #include <vcore/std/typetraits/aligned_storage.h>

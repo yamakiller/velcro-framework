@@ -1,4 +1,4 @@
-#include <vcore/traits_platform.h>
+#include <vcore/vcore_traits_platform.h>
 #include <vcore/std/functional.h>
 #include <vcore/std/string/conversions.h>
 #include <vcore/settings/command_line.h>

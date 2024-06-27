@@ -2,7 +2,6 @@
 #define V_FRAMEWORK_CORE_RTTI_VOBJECT_H
 
 #include <vcore/vobject/type.h>
-#include <vcore/module/environment.h>
 #include <vcore/std/typetraits/is_abstract.h>
 
 namespace VStd {

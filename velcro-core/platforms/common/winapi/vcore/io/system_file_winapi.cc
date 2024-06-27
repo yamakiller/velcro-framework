@@ -328,7 +328,7 @@ namespace Platform {
     }
 
 
-    void FindFiles(const char* filter, SystemFile::FindFileCB cb) {
+    /*void FindFiles(const char* filter, V::IO::SystemFile::FindFileCB cb) {
         WIN32_FIND_DATA fd;
         HANDLE hFile;
         int lastError;
@@ -372,7 +372,7 @@ namespace Platform {
                 //EBUS_EVENT(FileIOEventBus, OnError, nullptr, filter, lastError);
             }
         }
-    }
+    }*/
 
     V::u64 ModificationTime(const char* fileName)
     {

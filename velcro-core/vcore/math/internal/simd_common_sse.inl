@@ -4,6 +4,26 @@ namespace V
     {
         namespace Sse
         {
+            V_MATH_INLINE __m128 Splat(float value)
+            {
+                return _mm_set1_ps(value);
+            }
+
+            V_MATH_INLINE __m128i Splat(int32_t value)
+            {
+                return _mm_set1_epi32(value);
+            }
+
+            V_MATH_INLINE __m128 CastToFloat(__m128i value)
+            {
+                return _mm_castsi128_ps(value);
+            }
+
+            V_MATH_INLINE __m128i CastToInt(__m128 value)
+            {
+                return _mm_castps_si128(value);
+            }
+
             V_MATH_INLINE __m128 LoadImmediate(float x, float y, float z, float w)
             {
                 return _mm_set_ps(w, z, y, x);
@@ -72,27 +92,6 @@ namespace V
             V_MATH_INLINE __m128i Xor(__m128i arg1, __m128i arg2)
             {
                 return _mm_xor_si128(arg1, arg2);
-            }
-
-            V_MATH_INLINE __m128 CastToFloat(__m128i value)
-            {
-                return _mm_castsi128_ps(value);
-            }
-
-            V_MATH_INLINE __m128i CastToInt(__m128 value)
-            {
-                return _mm_castps_si128(value);
-            }
-
-            V_ATOMIC_ADDRESS_LOCK_FREE __m128 Splat(float value)
-            {
-                return _mm_set1_ps(value);
-            }
-
-
-            V_MATH_INLINE __m128i Splat(int32_t value)
-            {
-                return _mm_set1_epi32(value);
             }
         } // namespace Sse
     } // namespace Simd

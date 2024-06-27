@@ -6,7 +6,7 @@
 #include <vcore/std/typetraits/aligned_storage.h>
 #include <vcore/std/typetraits/alignment_of.h>
 #include <vcore/memory/allocator_base.h>
-#include <vcore/debug/memory_profiler.h>
+//#include <vcore/debug/memory_profiler.h>
 
 namespace V {
     template <class Schema, class DescriptorType=typename Schema::Descriptor, bool ProfileAllocations=true, bool ReportOutOfMemory=true>
@@ -60,7 +60,7 @@ namespace V {
             pointer_type ptr = m_schema->Allocate(byteSize, alignment, flags, name, fileName, lineNum, suppressStackRecord);
 
             if (ProfileAllocations) {
-                V_PROFILE_MEMORY_ALLOC_EX(MemoryReserved, fileName, lineNum, ptr, byteSize, name ? name : GetName());
+                //V_PROFILE_MEMORY_ALLOC_EX(MemoryReserved, fileName, lineNum, ptr, byteSize, name ? name : GetName());
                 V_MEMORY_PROFILE(ProfileAllocation(ptr, byteSize, alignment, name, fileName, lineNum, suppressStackRecord));
             }
 
@@ -77,7 +77,7 @@ namespace V {
             byteSize = MemorySizeAdjustedUp(byteSize);
 
             if (ProfileAllocations) {
-                V_PROFILE_MEMORY_FREE(MemoryReserved, ptr);
+                //V_PROFILE_MEMORY_FREE(MemoryReserved, ptr);
                 V_MEMORY_PROFILE(ProfileDeallocation(ptr, byteSize, alignment, nullptr));
             }
 
@@ -100,7 +100,7 @@ namespace V {
 
         pointer_type ReAllocate(pointer_type ptr, size_type newSize, size_type newAlignment) override {
             if (ProfileAllocations) {
-                V_PROFILE_MEMORY_FREE(MemoryReserved, ptr);
+                //V_PROFILE_MEMORY_FREE(MemoryReserved, ptr);
             }
 
             newSize = MemorySizeAdjustedUp(newSize);
@@ -112,7 +112,7 @@ namespace V {
             pointer_type newPtr = m_schema->ReAllocate(ptr, newSize, newAlignment);
 
             if (ProfileAllocations) {
-                V_PROFILE_MEMORY_ALLOC(MemoryReserved, newPtr, newSize, GetName());
+                //V_PROFILE_MEMORY_ALLOC(MemoryReserved, newPtr, newSize, GetName());
                 V_MEMORY_PROFILE(ProfileReallocationEnd(ptr, newPtr, newSize, newAlignment));
             }
 

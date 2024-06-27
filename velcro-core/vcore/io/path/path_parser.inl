@@ -1,6 +1,6 @@
 
 
-#include <vcore/traits_platform.h>
+#include <vcore/vcore_traits_platform.h>
 #include <vcore/casting/numeric_cast.h>
 #include <vcore/std/string/string.h>
 

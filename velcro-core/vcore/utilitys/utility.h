@@ -10,9 +10,9 @@
 
 #include <vcore/platform_default.h>
 #include <vcore/base.h>
-#include <vcore/IO/Path/Path.h>
+#include <vcore/io/path/path.h>
 #include <vcore/outcome/outcome.h>
-#include <vcore/IO/Path/Path.h>
+#include <vcore/io/path/path.h>
 //#include <vcore/Settings/SettingsRegistry.h>
 #include <vcore/std/optional.h>
 #include <vcore/std/string/string.h>

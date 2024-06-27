@@ -11,7 +11,7 @@
 #include <initializer_list>
 #include <vcore/std/typetraits/is_scalar.h>
 #include <vcore/std/utils.h>
-#include <vcore/memory/Memory.h>
+#include <vcore/memory/memory.h>
 #include <vcore/memory/system_allocator.h>
 
 namespace VStd {

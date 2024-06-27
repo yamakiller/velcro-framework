@@ -6,6 +6,64 @@ SET(FILES
     vcore/platform.h
     vcore/platform.cc
     vcore/variadic.h
+    vcore/casting/lossy_cast.h
+    vcore/casting/numeric_cast_internal.h
+    vcore/casting/numeric_cast.h
+    vcore/interface/interface.h
+    vcore/io/path/path_fwd.h
+    vcore/io/path/path.h
+    vcore/io/path/path.cc
+    vcore/io/file_io.h
+    vcore/io/file_io.cc
+    vcore/io/generic_streams.h
+    vcore/io/generic_streams.cc
+    vcore/io/io_utils.h
+    vcore/io/io_utils.cc
+    vcore/io/system_file.h
+    vcore/io/system_file.cc
+    vcore/math/internal/math_type.h
+    vcore/math/internal/simd.h
+    vcore/math/crc.h
+    vcore/math/crc.cc
+    vcore/math/guid.h 
+    vcore/math/math_utils.h
+    vcore/math/random.h
+    vcore/math/sfmt.h 
+    vcore/math/sfmt.cc
+    vcore/math/sha1.h 
+    vcore/math/type_id.h
+    vcore/math/uuid.h
+    vcore/math/uuid.cc
+    vcore/module/environment.h
+    vcore/module/environment.cc
+    vcore/memory/system_allocator.h
+    vcore/memory/system_allocator.cc
+    vcore/memory/allocator_base.h
+    vcore/memory/allocator_base.cc
+    vcore/memory/allocator_manager.h
+    vcore/memory/allocator_manager.cc
+    vcore/memory/allocator_override_shim.h
+    vcore/memory/allocator_override_shim.cc
+    vcore/memory/allocator_wrapper.h
+    vcore/memory/config.h
+    vcore/memory/heap_schema.h
+    vcore/memory/heap_schema.cc
+    vcore/memory/iallocator.h
+    vcore/memory/iallocator.cc
+    vcore/memory/malloc_schema.h
+    vcore/memory/malloc_schema.cc
+    vcore/memory/memory.h
+    vcore/memory/memory.cc
+    vcore/memory/osallocator.h
+    vcore/memory/osallocator.cc
+    vcore/memory/platform_memory_instrumentation.h
+    vcore/memory/simple_schema_allocator.h
+    vcore/outcome/internal/outcome_storage.h
+    vcore/outcome/outcome.h
+    vcore/vobject/type.h
+    vcore/vobject/type_simple.h
+    vcore/vobject/type_safe_integral.h
+    vcore/vobject/vobject.h
     vcore/debug/trace.h
     vcore/std/base.h
     vcore/std/config.h
@@ -19,6 +77,7 @@ SET(FILES
     vcore/std/exceptions.h
     vcore/std/functional_basic.h
     vcore/std/functional.h
+    vcore/std/hash_table.h
     vcore/std/hash.h
     vcore/std/hash.cc
     vcore/std/iterator.h
@@ -42,6 +101,30 @@ SET(FILES
     vcore/std/function/function_template.h
     vcore/std/function/identity.h
     vcore/std/function/invoke.h
+    vcore/std/parallel/atomic.h
+    vcore/std/parallel/combinable.h
+    vcore/std/parallel/condition_variable.h
+    vcore/std/parallel/conditional_variable.h
+    vcore/std/parallel/config.h
+    vcore/std/parallel/exponential_backoff.h
+    vcore/std/parallel/lock.h
+    vcore/std/parallel/mutex.h
+    vcore/std/parallel/scoped_lock.h
+    vcore/std/parallel/semaphore.h
+    vcore/std/parallel/shared_mutex.h
+    vcore/std/parallel/shared_spin_mutex.h
+    vcore/std/parallel/spin_mutex.h
+    vcore/std/parallel/thread.h
+    vcore/std/smart_ptr/checked_delete.h
+    vcore/std/smart_ptr/intrusive_base.h
+    vcore/std/smart_ptr/intrusive_ptr.h
+    vcore/std/smart_ptr/intrusive_refcount.h
+    vcore/std/smart_ptr/make_shared.h
+    vcore/std/smart_ptr/shared_count.h
+    vcore/std/smart_ptr/shared_ptr.h
+    vcore/std/smart_ptr/sp_convertible.h
+    vcore/std/smart_ptr/unique_ptr.h
+    vcore/std/smart_ptr/weak_ptr.h
     vcore/std/typetraits/internal/is_template_copy_constructible.h
     vcore/std/typetraits/internal/type_sequence_traits.h
     vcore/std/typetraits/add_const.h
@@ -118,4 +201,15 @@ SET(FILES
     vcore/std/typetraits/typetraits.h
     vcore/std/typetraits/underlying_type.h
     vcore/std/typetraits/void_t.h
+    vcore/string_func/string_func.h
+    vcore/string_func/string_func.cc
+    vcore/utilitys/city.h
+    vcore/utilitys/city.cc
+    vcore/utilitys/citycrc.h
+    vcore/utilitys/type_hash.h
+    vcore/utilitys/type_hash.cc
+    vcore/utilitys/utility.h
+    vcore/utilitys/utility.cc
+    vcore/platform_id/platform_id.cc
+    vcore/platform_id/platform_id.h 
 )

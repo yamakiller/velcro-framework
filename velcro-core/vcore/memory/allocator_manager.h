@@ -11,7 +11,7 @@
 
 
 #include <vcore/base.h>
-#include <vcore/memory/allocator_records.h>
+//#include <vcore/memory/allocator_records.h>
 #include <vcore/std/algorithm.h>
 #include <vcore/std/parallel/mutex.h>
 #include <vcore/std/string/string.h>
@@ -35,7 +35,7 @@ namespace V {
     class AllocatorManager {
         friend IAllocator;
         friend class AllocatorBase;
-        friend class Debug::AllocationRecords;
+        //friend class Debug::AllocationRecords;
         //friend class V::Internal::EnvironmentVariableHolder<AllocatorManager>;
 
     public:
@@ -75,11 +75,11 @@ namespace V {
         void    RemoveOutOfMemoryListener();
 
         /// Set default memory track mode for all allocators created after this point.
-        void    SetDefaultTrackingMode(V::Debug::AllocationRecords::Mode mode) { m_defaultTrackingRecordMode = mode; }
-       V::Debug::AllocationRecords::Mode  GetDefaultTrackingMode() const      { return m_defaultTrackingRecordMode; }
+        //void    SetDefaultTrackingMode(V::Debug::AllocationRecords::Mode mode) { m_defaultTrackingRecordMode = mode; }
+        //V::Debug::AllocationRecords::Mode  GetDefaultTrackingMode() const      { return m_defaultTrackingRecordMode; }
 
         /// Set memory track mode for all allocators already created.
-        void    SetTrackingMode(V::Debug::AllocationRecords::Mode mode);
+        //void    SetTrackingMode(V::Debug::AllocationRecords::Mode mode);
 
         /// Especially for great code and engines...
         void    SetAllocatorLeaking(bool allowLeaking)  { m_isAllocatorLeaking = allowLeaking; }
@@ -126,7 +126,7 @@ namespace V {
             bool   IsAlias;
         };
 
-        void GetAllocatorStats(size_t& usedBytes, size_t& reservedBytes, VStd::vector<AllocatorStats>* outStats = nullptr);
+        //void GetAllocatorStats(size_t& usedBytes, size_t& reservedBytes, VStd::vector<AllocatorStats>* outStats = nullptr);
 
         //////////////////////////////////////////////////////////////////////////
         // Debug support
@@ -182,7 +182,7 @@ namespace V {
         bool                m_configurationFinalized;
         VStd::atomic<int>  m_profilingRefcount;
 
-        Debug::AllocationRecords::Mode m_defaultTrackingRecordMode;
+        //Debug::AllocationRecords::Mode m_defaultTrackingRecordMode;
         
 
         VStd::unique_ptr<V::MallocSchema, void(*)(V::MallocSchema*)> m_mallocSchema;

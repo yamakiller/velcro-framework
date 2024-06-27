@@ -2,7 +2,7 @@
 #include <vcore/memory/allocator_manager.h>
 
 #include <vcore/memory/osallocator.h>
-#include <vcore/memory/allocator_records.h>
+//#include <vcore/memory/allocator_records.h>
 
 #include <vcore/std/functional.h>
 
@@ -219,7 +219,7 @@ SystemAllocator::Allocate(size_type byteSize, size_type alignment, int flags, co
 
     V_Assert(address != nullptr, "SystemAllocator: Failed to allocate %d bytes aligned on %d (flags: 0x%08x) %s : %s (%d)!", byteSize, alignment, flags, name ? name : "(no name)", fileName ? fileName : "(no file name)", lineNum);
 
-    V_PROFILE_MEMORY_ALLOC_EX(MemoryReserved, fileName, lineNum, address, byteSize, name);
+    //V_PROFILE_MEMORY_ALLOC_EX(MemoryReserved, fileName, lineNum, address, byteSize, name);
     V_MEMORY_PROFILE(ProfileAllocation(address, byteSize, alignment, name, fileName, lineNum, suppressStackRecord + 1));
 
     return address;
@@ -230,7 +230,7 @@ SystemAllocator::Allocate(size_type byteSize, size_type alignment, int flags, co
 //=========================================================================
 void SystemAllocator::DeAllocate(pointer_type ptr, size_type byteSize, size_type alignment) {
     byteSize = MemorySizeAdjustedUp(byteSize);
-    V_PROFILE_MEMORY_FREE(MemoryReserved, ptr);
+    //V_PROFILE_MEMORY_FREE(MemoryReserved, ptr);
     V_MEMORY_PROFILE(ProfileDeallocation(ptr, byteSize, alignment, nullptr));
     m_allocator->DeAllocate(ptr, byteSize, alignment);
 }
@@ -243,9 +243,9 @@ SystemAllocator::ReAllocate(pointer_type ptr, size_type newSize, size_type newAl
     newSize = MemorySizeAdjustedUp(newSize);
 
     V_MEMORY_PROFILE(ProfileReallocationBegin(ptr, newSize));
-    V_PROFILE_MEMORY_FREE(MemoryReserved, ptr);
+    //V_PROFILE_MEMORY_FREE(MemoryReserved, ptr);
     pointer_type newAddress = m_allocator->ReAllocate(ptr, newSize, newAlignment);
-    V_PROFILE_MEMORY_ALLOC(MemoryReserved, newAddress, newSize, "SystemAllocator realloc");
+    //V_PROFILE_MEMORY_ALLOC(MemoryReserved, newAddress, newSize, "SystemAllocator realloc");
     V_MEMORY_PROFILE(ProfileReallocationEnd(ptr, newAddress, newSize, newAlignment));
 
     return newAddress;
