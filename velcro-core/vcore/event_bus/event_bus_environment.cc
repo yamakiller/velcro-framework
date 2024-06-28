@@ -51,7 +51,7 @@ namespace V
         //////////////////////////////////////////////////////////////////////////
         u32 EventBusEnvironmentTLSAccessors::GetId()
         {
-            return V_CRC_CE("EventBusEnvironmentTLSAccessors");
+            return V_CRC("EventBusEnvironmentTLSAccessors", 0x2fe98c39);
         }
 
         //////////////////////////////////////////////////////////////////////////
@@ -64,6 +64,28 @@ namespace V
         void EventBusEnvironmentTLSAccessors::SetTLSEnvironment(EventBusEnvironment* environment)
         {
             _tlsCurrentEnvironment = environment;
+        }
+
+         EventBusEnvironmentAllocator::EventBusEnvironmentAllocator()
+            : m_name("EventBusEnvironmentAllocator")
+        {
+            m_allocator = Environment::GetInstance()->GetAllocator();
+        }
+
+        EventBusEnvironmentAllocator::EventBusEnvironmentAllocator(const EventBusEnvironmentAllocator& rhs)
+            : m_name(rhs.m_name)
+            , m_allocator(rhs.m_allocator)
+        {
+        }
+
+        EventBusEnvironmentAllocator::pointer_type EventBusEnvironmentAllocator::allocate(size_t byteSize, size_t alignment, int)
+        {
+            return m_allocator->Allocate(byteSize, alignment);
+        }
+        
+        void EventBusEnvironmentAllocator::deallocate(pointer_type ptr, size_type, size_type)
+        {
+            m_allocator->DeAllocate(ptr);
         }
     } // namespace Internal
 

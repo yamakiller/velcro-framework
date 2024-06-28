@@ -212,7 +212,7 @@ inline constexpr auto v_numeric_cast(FromType&& value) ->
 #endif
 
 // This is a helper class that lets us induce the destination type of a numeric cast
-// It should never be directly used by anything other than vnumeric_caster.
+// It should never be directly used by anything other than v_numeric_caster.
 namespace V {
     template <typename FromType>
     class NumericCasted {
@@ -233,7 +233,7 @@ namespace V {
 // This is the primary function we should use when doing numeric casting, since it induces the
 // type we need to cast to from the code rather than requiring an explicit coupling in the source.
 template <typename FromType>
-inline constexpr V::NumericCasted<FromType> vnumeric_caster(FromType value) {
+inline constexpr V::NumericCasted<FromType> v_numeric_caster(FromType value) {
     return V::NumericCasted<FromType>(value);
 }
 

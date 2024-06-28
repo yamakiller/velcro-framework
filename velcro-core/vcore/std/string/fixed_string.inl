@@ -1373,7 +1373,7 @@ namespace VStd
         {
             result.resize(len);
             va_copy(argListCopy, argList);
-            [[maybe_unused]] const int bytesPrinted = azvsnprintf(result.data(), result.size() + 1, format, argListCopy);
+            [[maybe_unused]] const int bytesPrinted = v_vsnprintf(result.data(), result.size() + 1, format, argListCopy);
             va_end(argListCopy);
             V_Assert(bytesPrinted >= 0, "azvsnprintf error! Format string: \"%s\"", format);
             V_Assert(static_cast<size_t>(bytesPrinted) == result.size(), "azvsnprintf failed to print all bytes! Format string: \"%s\", bytesPrinted=%i/%i",

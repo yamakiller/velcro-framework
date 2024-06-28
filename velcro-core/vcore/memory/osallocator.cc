@@ -41,7 +41,6 @@ namespace V {
 
     //=========================================================================
     // Allocate
-    // [9/2/2009]
     //=========================================================================
     OSAllocator::pointer_type
     OSAllocator::Allocate(size_type byteSize, size_type alignment, int flags, const char* name, const char* fileName, int lineNum, unsigned int suppressStackRecord)

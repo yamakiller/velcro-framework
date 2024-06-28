@@ -1,10 +1,19 @@
 #ifndef V_FRAMEWORK_CORE_MATH_MATH_UTILS_H
 #define V_FRAMEWORK_CORE_MATH_MATH_UTILS_H
 
+#include <vcore/base.h>
+#include <vcore/std/math.h>
+#include <vcore/std/typetraits/conditional.h>
+#include <vcore/std/typetraits/is_integral.h>
+#include <vcore/std/typetraits/is_signed.h>
+#include <vcore/std/typetraits/is_unsigned.h>
+#include <vcore/std/utils.h>
+
 #include <float.h>
 #include <limits>
 #include <math.h>
 #include <utility>
+
 
 #define V_MATH_INLINE V_FORCE_INLINE
 
@@ -19,10 +28,24 @@
 
 namespace V {
 
+    //! 
+    namespace Constants {
+        static constexpr float Pi = 3.14159265358979323846f;
+        static constexpr float TwoPi = 6.28318530717958647692f;
+        static constexpr float HalfPi = 1.57079632679489661923f;
+        static constexpr float QuarterPi = 0.78539816339744830962f;
+        static constexpr float TwoOverPi = 0.63661977236758134308f;
+        static constexpr float MaxFloatBeforePrecisionLoss = 100000.f;
+        static constexpr float Tolerance = 0.001f;
+        static constexpr float FloatMax = FLT_MAX;
+        static constexpr float FloatEpsilon = FLT_EPSILON;
+    }
+
     constexpr bool IsPowerOfTwo(uint32_t testValue) {
         return (testValue & (testValue - 1)) == 0;
     }
 
+    // 地址对齐的编译时检查
     template <uint32_t Alignment>
     V_MATH_INLINE bool IsAligned(const void* addr) {
         static_assert(IsPowerOfTwo(Alignment), "Alignment must be a power of two");
@@ -37,6 +60,549 @@ namespace V {
             ++bits;
         } while (maxValue > 0);
         return bits;
+    }
+
+     //! C在编译时计算表示给定输入位集所需的字节数.
+    template <uint64_t MAX_VALUE>
+    constexpr uint32_t RequiredBytesForBitfield() {
+        static_assert(MAX_VALUE <= 64, "Invalid value");
+        return (MAX_VALUE > 32) ? 8
+             : (MAX_VALUE > 16) ? 4
+             : (MAX_VALUE >  8) ? 2
+             : 1;
+    }
+
+    //! 在编译时计算表示给定最大值所需的字节数.
+    template <uint64_t MAX_VALUE>
+    constexpr uint32_t RequiredBytesForValue() {
+        static_assert(MAX_VALUE < 0xFFFFFFFFFFFFFFFF, "Invalid value");
+        return (MAX_VALUE > 0x00000000FFFFFFFF) ? 8
+             : (MAX_VALUE > 0x000000000000FFFF) ? 4
+             : (MAX_VALUE > 0x00000000000000FF) ? 2
+             : 1;
+    }
+
+    template <uint32_t BYTE_COUNT, bool IS_SIGNED = false> struct SizeType { };
+    template <> struct SizeType<8, false> { using Type = uint64_t; };
+    template <> struct SizeType<7, false> { using Type = uint64_t; };
+    template <> struct SizeType<6, false> { using Type = uint64_t; };
+    template <> struct SizeType<5, false> { using Type = uint64_t; };
+    template <> struct SizeType<4, false> { using Type = uint32_t; };
+    template <> struct SizeType<3, false> { using Type = uint32_t; };
+    template <> struct SizeType<2, false> { using Type = uint16_t; };
+    template <> struct SizeType<1, false> { using Type =  uint8_t; };
+    template <> struct SizeType<0, false> { using Type =  uint8_t; };
+    template <> struct SizeType<8, true > { using Type =  int64_t; };
+    template <> struct SizeType<7, true > { using Type =  int64_t; };
+    template <> struct SizeType<6, true > { using Type =  int64_t; };
+    template <> struct SizeType<5, true > { using Type =  int64_t; };
+    template <> struct SizeType<4, true > { using Type =  int32_t; };
+    template <> struct SizeType<3, true > { using Type =  int32_t; };
+    template <> struct SizeType<2, true > { using Type =  int16_t; };
+    template <> struct SizeType<1, true > { using Type =   int8_t; };
+    template <> struct SizeType<0, true > { using Type =   int8_t; };
+
+     //! 描述两个整数类型之间的符号和大小关系的枚举.
+    enum class IntegralTypeDiff
+    {
+        //! 左整数有符号，右整数有符号,两者大小相等
+        LSignedRSignedEqSize,
+
+        //! 左边的整数是有符号的,右边的整数是无符号的,两者大小相等
+        LSignedRUnsignedEqSize,
+
+        //! 左边的整数是无符号的,右边的整数是有符号的,两者大小相等
+        LUnsignedRSignedEqSize,
+
+        //! 左整数无符号,右整数无符号,两者大小相等
+        LUnsignedRUnsignedEqSize,
+
+        //! 左侧整数有符号,右侧整数有符号,左侧整数更宽
+        LSignedRSignedLWider,
+
+        //! 左边的整数是有符号的,右边的整数是无符号的,左边的整数更宽
+        LSignedRUnsignedLWider,
+
+        //! 左边的整数是无符号的,右边的整数是有符号的,左边的整数更宽
+        LUnsignedRSignedLWider,
+
+        //! 左整数无符号,右整数无符号,左整数更宽
+        LUnsignedRUnsignedLWider,
+
+        //! 左整数有符号,右整数有符号,右整数更宽
+        LSignedRSignedRWider,
+
+        //! 左边的整数是有符号的,右边的整数是无符号的,右边的整数更宽
+        LSignedRUnsignedRWider,
+
+        //! 左边的整数是无符号的,右边的整数是有符号的,右边的整数更宽
+        LUnsignedRSignedRWider,
+
+        //! 左整数无符号,右整数无符号,右整数更宽
+        LUnsignedRUnsignedRWider,
+    };
+
+    //! 比较两个整数类型并返回它们的符号和大小关系.
+    template <typename LeftType, typename RightType>
+    constexpr IntegralTypeDiff IntegralTypeCompare()
+    {
+        static_assert(VStd::is_signed<LeftType>::value || VStd::is_unsigned<LeftType>::value, "LeftType must either be a signed or unsigned integral type");
+        static_assert(VStd::is_signed<RightType>::value || VStd::is_unsigned<RightType>::value, "RightType must either be a signed or unsigned integral type");
+
+        if constexpr (sizeof(LeftType) < sizeof(RightType))
+        {
+            if constexpr(VStd::is_signed<LeftType>::value && VStd::is_signed<RightType>::value)
+            {
+                return IntegralTypeDiff::LSignedRSignedRWider;
+            }
+            else if constexpr(VStd::is_signed<LeftType>::value && VStd::is_unsigned<RightType>::value)
+            {
+                return IntegralTypeDiff::LSignedRUnsignedRWider;
+            }
+            else if constexpr(VStd::is_unsigned<LeftType>::value && VStd::is_signed<RightType>::value)
+            {
+                return IntegralTypeDiff::LUnsignedRSignedRWider;
+            }
+            else
+            {
+                return IntegralTypeDiff::LUnsignedRUnsignedRWider;
+            }
+        }
+        else if constexpr (sizeof(LeftType) > sizeof(RightType))
+        {
+            if constexpr(VStd::is_signed<LeftType>::value && VStd::is_signed<RightType>::value)
+            {
+                return IntegralTypeDiff::LSignedRSignedLWider;
+            }
+            else if constexpr(VStd::is_signed<LeftType>::value && VStd::is_unsigned<RightType>::value)
+            {
+                return IntegralTypeDiff::LSignedRUnsignedLWider;
+            }
+            else if constexpr(VStd::is_unsigned<LeftType>::value && VStd::is_signed<RightType>::value)
+            {
+                return IntegralTypeDiff::LUnsignedRSignedLWider;
+            }
+            else
+            {
+                return IntegralTypeDiff::LUnsignedRUnsignedLWider;
+            }
+        }
+        else
+        {
+            if constexpr(VStd::is_signed<LeftType>::value && VStd::is_signed<RightType>::value)
+            {
+                return IntegralTypeDiff::LSignedRSignedEqSize;
+            }
+            else if constexpr(VStd::is_signed<LeftType>::value && VStd::is_unsigned<RightType>::value)
+            {
+                return IntegralTypeDiff::LSignedRUnsignedEqSize;
+            }
+            else if constexpr(VStd::is_unsigned<LeftType>::value && VStd::is_signed<RightType>::value)
+            {
+                return IntegralTypeDiff::LUnsignedRSignedEqSize;
+            }
+            else
+            {
+                return IntegralTypeDiff::LUnsignedRUnsignedEqSize;
+            }
+        }
+    }
+
+    //! SafeIntegralCompare 返回的比较结果.
+    enum class IntegralCompare
+    {
+        LessThan,
+        Equal,
+        GreaterThan
+    };
+
+    //! Safely compares two integers of any sign and width combination and returns an IntegralCompare result
+    //! that is the whether lhs is less than, equal to or greater than rhs.
+    template<typename LeftType, typename RightType>
+    constexpr IntegralCompare SafeIntegralCompare(LeftType lhs, RightType rhs);
+
+    //! A collection of methods for clamping and constraining integer values and ranges to that of a reference integer type.
+    template<typename SourceType, typename ClampType>
+    struct ClampedIntegralLimits
+    {
+        //! If SourceType and ClampType are different, returns the greater value of 
+        //! std::numeric_limits<SourceType>::lowest() and std::numeric_limits<ClampType>::lowest(),
+        //! otherwise returns std::numeric_limits<SourceType>::lowest().
+        static constexpr SourceType Min();
+
+        //! If SourceType and ClampType are different, returns the lesser value of 
+        //! std::numeric_limits<SourceType>::max() and std::numeric_limits<ClampType>::max(),
+        //! otherwise returns std::numeric_limits<SourceType>::max().
+        static constexpr SourceType Max();
+
+        //! Safely clamps a value of type ValueType to the [Min(), Max()] range as determined by the
+        //! numerical limit constraint rules described by Min() and Max() given SourceType and ClampType.
+        //! @param first component is the clamped value which may or may not equal the original value.
+        //! @param second is a Boolean flag signifying whether or not the the value was required to be clamped
+        //! in order to stay within ClampType's numerical range.
+        template<typename ValueType>
+        static constexpr VStd::pair<SourceType, bool> Clamp(ValueType value);        
+    };
+
+    //! Converts radians to degrees.
+    constexpr float RadToDeg(float rad)
+    {
+        return rad * 180.0f / Constants::Pi;
+    }
+
+    //! Converts degrees to radians.
+    constexpr float DegToRad(float deg)
+    {
+        return deg * Constants::Pi / 180.0f;
+    }
+
+    //! Simd optimized math functions.
+    //! @{
+    float Abs(float value);
+    float Mod(float value, float divisor);
+    float Wrap(float value, float maxValue);
+    float Wrap(float value, float minValue, float maxValue);
+    float AngleMod(float value);
+    void SinCos(float angle, float& sin, float& cos);
+    float Sin(float angle);
+    float Cos(float angle);
+    float Acos(float value);
+    float Atan(float value);
+    float Atan2(float y, float x);
+    float Sqrt(float value);
+    float InvSqrt(float value);
+    //! @}
+
+    V_MATH_INLINE bool IsClose(float a, float b, float tolerance = Constants::Tolerance)
+    {
+        return (VStd::abs(a - b) <= tolerance);
+    }
+
+    V_MATH_INLINE bool IsClose(double a, double b, double tolerance = Constants::Tolerance)
+    {
+        return (VStd::abs(a - b) <= tolerance);
+    }
+
+    //! Returns x >= 0.0f ? 1.0f : -1.0f.
+    V_MATH_INLINE float GetSign(float x)
+    {
+        union FloatInt
+        {
+            float           f;
+            unsigned int    u;
+        } fi;
+        fi.f = x;
+        fi.u &= 0x80000000; // preserve sign
+        fi.u |= 0x3f800000; // 1
+        return fi.f;
+    }
+
+    //! Returns the clamped value.
+    template<typename T>
+    constexpr T GetClamp(T value, T min, T max)
+    {
+        if (value < min)
+        {
+            return min;
+        }
+        else if (value > max)
+        {
+            return max;
+        }
+        else
+        {
+            return value;
+        }
+    }
+
+    //! Return the smaller of the 2 values.
+    //! \note we don't use names like clamp, min and max because many implementations define it as a macro.
+    template<typename T>
+    constexpr T GetMin(T a, T b)
+    {
+        return a < b ? a : b;
+    }
+
+    //! Return the bigger of the 2 values.
+    //! \note we don't use names like clamp, min and max because many implementations define it as a macro.
+    template<typename T>
+    constexpr T GetMax(T a, T b)
+    {
+        return a > b ? a : b;
+    }
+
+    //! Returns a linear interpolation between 2 values.
+    constexpr float Lerp(float a, float b, float t)
+    {
+        return a + (b - a) * t;
+    }
+
+    constexpr double Lerp(double a, double b, double t)
+    {
+        return a + (b - a) * t;
+    }
+
+    //! Returns a value t where Lerp(a, b, t) == value (or 0 if a == b).
+    inline float LerpInverse(float a, float b, float value)
+    {
+        return IsClose(a, b, std::numeric_limits<float>::epsilon()) ? 0.0f : (value - a) / (b - a);
+    }
+
+    inline double LerpInverse(double a, double b, double value)
+    {
+        return IsClose(a, b, std::numeric_limits<double>::epsilon()) ? 0.0 : (value - a) / (b - a);
+    }
+
+    //! Returns true if the number provided is even.
+    template<typename T>
+    constexpr VStd::enable_if_t<VStd::is_integral<T>::value, bool> IsEven(T a)
+    {
+        return a % 2 == 0;
+    }
+
+    //! Returns true if the number provided is odd.
+    template<typename T>
+    constexpr VStd::enable_if_t<VStd::is_integral<T>::value, bool> IsOdd(T a)
+    {
+        return a % 2 != 0;
+    }
+
+    V_MATH_INLINE float GetAbs(float a)
+    {
+        return VStd::abs(a);
+    }
+
+    V_MATH_INLINE double GetAbs(double a)
+    {
+        return VStd::abs(a);
+    }
+
+    V_MATH_INLINE float GetMod(float a, float b)
+    {
+        return Mod(a, b);
+    }
+
+    V_MATH_INLINE double GetMod(double a, double b)
+    {
+        return fmod(a, b);
+    }
+
+    //! Wraps [0, maxValue].
+    V_MATH_INLINE int Wrap(int value, int maxValue)
+    {
+        return (value % maxValue) + ((value < 0) ? maxValue : 0);
+    }
+
+    //! Wraps [minValue, maxValue].
+    V_MATH_INLINE int Wrap(int value, int minValue, int maxValue)
+    {
+        return Wrap(value - minValue, maxValue - minValue) + minValue;
+    }
+
+    V_MATH_INLINE float GetFloatQNaN()
+    {
+        return std::numeric_limits<float>::quiet_NaN();
+    }
+
+    //! IsCloseMag(x, y, epsilon) returns true if y and x are sufficiently close, taking magnitude of x and y into account in the epsilon
+    template<typename T>
+    V_MATH_INLINE bool IsCloseMag(T x, T y, T epsilonValue = std::numeric_limits<T>::epsilon())
+    {
+        return (VStd::abs(x - y) <= epsilonValue * GetMax<T>(GetMax<T>(T(1.0), VStd::abs(x)), VStd::abs(y)));
+    }
+
+    //! ClampIfCloseMag(x, y, epsilon) returns y when x and y are within epsilon of each other (taking magnitude into account).  Otherwise returns x.
+    template<typename T>
+    V_MATH_INLINE T ClampIfCloseMag(T x, T y, T epsilonValue = std::numeric_limits<T>::epsilon())
+    {
+        return IsCloseMag<T>(x, y, epsilonValue) ? y : x;
+    }
+
+    // This wrapper function exists here to ensure the correct version of isnormal is used on certain platforms (namely Android) because of the
+    // math.h and cmath include order can be somewhat dangerous.  For example, cmath undefines isnormal (and a number of other C99 math macros 
+    // defined in math.h) in favor of their std:: variants.
+    V_MATH_INLINE bool IsNormalDouble(double x)
+    {
+        return std::isnormal(x);
+    }
+
+    V_MATH_INLINE bool IsFiniteFloat(float x)
+    {
+        return (v_isfinite(x) != 0);
+    }
+
+    //! Returns the maximum value for SourceType as constrained by the numerical range of ClampType.
+    template <typename SourceType, typename ClampType>    
+    constexpr SourceType ClampedIntegralLimits<SourceType, ClampType>::Min()
+    {
+        if constexpr (VStd::is_unsigned<ClampType>::value || VStd::is_unsigned<SourceType>::value)
+        {
+            // If either SourceType or ClampType is unsigned, the lower limit will always be 0
+            return 0;
+        }
+        else
+        {
+            // Both SourceType and ClampType are signed, take the greater of the lower limits of each type
+            return sizeof(SourceType) < sizeof(ClampType) ? 
+                (std::numeric_limits<SourceType>::lowest)() : 
+                static_cast<SourceType>((std::numeric_limits<ClampType>::lowest)());
+        }
+    }
+
+    //! Returns the minimum value for SourceType as constrained by the numerical range of ClampType.
+    template <typename SourceType, typename ClampType>
+    constexpr SourceType ClampedIntegralLimits<SourceType, ClampType>::Max()
+    {
+        if constexpr (sizeof(SourceType) < sizeof(ClampType))
+        {
+            // If SourceType is narrower than ClampType, the upper limit will be SourceType's
+            return (std::numeric_limits<SourceType>::max)();
+        }
+        else if constexpr (sizeof(SourceType) > sizeof(ClampType))
+        {
+            // If SourceType is wider than ClampType, the upper limit will be ClampType's
+            return static_cast<SourceType>((std::numeric_limits<ClampType>::max)());
+        }
+        else
+        {
+            if constexpr (VStd::is_signed<ClampType>::value)
+            {
+                // SourceType and ClampType are the same width, ClampType is signed
+                // so our upper limit will be ClampType
+                return static_cast<SourceType>((std::numeric_limits<ClampType>::max)());
+            }       
+            else
+            {
+                // SourceType and ClampType are the same width, ClampType is unsigned
+                // then our upper limit will be SourceType
+                return (std::numeric_limits<SourceType>::max)();
+            }
+        }
+    }
+
+    template <typename SourceType, typename ClampType>
+    template <typename ValueType>
+    constexpr VStd::pair<SourceType, bool> ClampedIntegralLimits<SourceType, ClampType>::Clamp(ValueType value)
+    {
+        if (SafeIntegralCompare(value, Min()) == IntegralCompare::LessThan)
+        {
+            return { Min(), true };
+        }
+        if (SafeIntegralCompare(value, Max()) == IntegralCompare::GreaterThan)
+        {
+            return { Max(), true };
+        }
+        else
+        {
+            return { static_cast<SourceType>(value), false };
+        }
+    }
+
+    template <typename LeftType, typename RightType>
+    constexpr IntegralCompare SafeIntegralCompare(LeftType lhs, RightType rhs)
+    {
+        constexpr bool LeftSigned = VStd::is_signed<LeftType>::value;
+        constexpr bool RightSigned = VStd::is_signed<RightType>::value;
+        constexpr std::size_t LeftTypeSize = sizeof(LeftType);
+        constexpr std::size_t RightTypeSize = sizeof(RightType);
+
+        static_assert(VStd::is_integral<LeftType>::value && VStd::is_integral<RightType>::value,
+                      "Template parameters must be integrals");
+
+        auto comp = [lhs](auto value) -> IntegralCompare
+        {
+            if (lhs < value)
+            {
+                return IntegralCompare::LessThan;
+            }
+            else if (lhs > value)
+            {
+                return IntegralCompare::GreaterThan;
+            }
+            else
+            {
+                return IntegralCompare::Equal;
+            }
+        };
+
+        if constexpr (LeftSigned == RightSigned)
+        {
+            return comp(rhs);
+        }
+        else if constexpr (LeftTypeSize > RightTypeSize)
+        {
+            if constexpr (LeftSigned)
+            {
+                // LeftTypeSize > RightTypeSize
+                // LeftType is signed
+                // RightType is unsigned
+                return comp(static_cast<LeftType>(rhs));
+            }
+            else
+            {
+                // LeftTypeSize > RightTypeSize
+                // LeftType is unsigned
+                // RightType is signed
+                if (rhs < 0)
+                {
+                    return IntegralCompare::GreaterThan;
+                }
+                else
+                {
+                    return comp(static_cast<LeftType>(rhs));
+                }
+            }
+        }
+        else if constexpr (LeftSigned)
+        {
+            // LeftTypeSize <= RightTypeSize
+            // LeftType is signed
+            // RightType is unsigned
+            RightType max = static_cast<RightType>((std::numeric_limits<LeftType>::max)());
+
+            if (rhs > max)
+            {
+                return IntegralCompare::LessThan;
+            }
+            else
+            {
+                return comp(static_cast<LeftType>(rhs));
+            }
+        }
+        else if constexpr (LeftTypeSize < RightTypeSize)
+        {
+            // LeftType < RightType
+            // LeftType is unsigned
+            // RightType is signed
+            RightType max = static_cast<RightType>((std::numeric_limits<LeftType>::max)());
+
+            if (rhs < 0)
+            {
+                return IntegralCompare::GreaterThan;
+            }
+            else if (rhs > max)
+            {
+                return IntegralCompare::LessThan;
+            }
+            else
+            {
+                return comp(static_cast<LeftType>(rhs));
+            }
+        }
+        else
+        {
+            // LeftType == RightType
+            // LeftType is unsigned
+            // RightType is signed
+            if (rhs < 0)
+            {
+                return IntegralCompare::GreaterThan;
+            }
+            else
+            {
+                return comp(static_cast<LeftType>(rhs));
+            }
+        }
     }
 }
 

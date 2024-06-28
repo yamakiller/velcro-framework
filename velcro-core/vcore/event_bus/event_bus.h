@@ -727,10 +727,10 @@ namespace V
 
     /// Helper macro to deprecate the helper typedef EventBus<_Interface> _BusName
     /// Where _Interface is a deprecated  EventBus API class
-#   define DEPRECATE_EVENTBUS(_Interface, _BusName, _message) DEPRECATE_EVENTBUS_WITH_TRAITS(_Interface, _Interface, _BusName, _message)
+#   define DEPRECATE_EVENTBUS(_Interface, _BusName, _message) DEPRECATE_EBUS_WITH_TRAITS(_Interface, _Interface, _BusName, _message)
     /// Helper macro to deprecate the helper typedef EventBus<_Interface, _BusTraits> _BusName
     /// Where _Interface is a deprecated EventBus API class and/or _BusTraits is a deprecated EventBusTraits class
-#   define DEPRECATE_EVENTBUS_WITH_TRAITS(_Interface, _BusTraits, _BusName, _message)       \
+#   define DEPRECATE_EBUS_WITH_TRAITS(_Interface, _BusTraits, _BusName, _message)       \
     V_PUSH_DISABLE_WARNING(4996, "-Wdeprecated-declarations")                          \
     typedef V::EventBus<_Interface, _BusTraits> DeprecatedBus_##_Interface##_BusTraits;    \
     V_POP_DISABLE_WARNING                                                              \
@@ -776,145 +776,145 @@ namespace V
 #   define EBUS_EVENT_RESULT_REVERSE(_Result, _EVENTBUS, /*EventName,*/ ...) _EVENTBUS::BroadcastResultReverse(_Result, &_EVENTBUS::Events::__VA_ARGS__)
 
     /// Enqueues an asynchronous event to dispatch to all handlers.
-#   define EVENTBUS_QUEUE_EVENT(_EVENTBUS, /*EventName,*/ ...)                _EVENTBUS::QueueBroadcast(&_EVENTBUS::Events::__VA_ARGS__)
+#   define EBUS_QUEUE_EVENT(_EVENTBUS, /*EventName,*/ ...)                _EVENTBUS::QueueBroadcast(&_EVENTBUS::Events::__VA_ARGS__)
 
     /// Enqueues an asynchronous event to dispatch to handlers at a cached address.
-#   define EVENTBUS_QUEUE_EVENT_PTR(_BusPtr, _EVENTBUS, /*EventName,*/ ...)    _EVENTBUS::QueueEvent(_BusPtr, &_EVENTBUS::Events::__VA_ARGS__)
+#   define EBUS_QUEUE_EVENT_PTR(_BusPtr, _EVENTBUS, /*EventName,*/ ...)    _EVENTBUS::QueueEvent(_BusPtr, &_EVENTBUS::Events::__VA_ARGS__)
 
     /// Enqueues an asynchronous event to dispatch to handlers at a specific address.
-#   define EVENTBUS_QUEUE_EVENT_ID(_BusId, _EVENTBUS, /*EventName,*/ ...)      _EVENTBUS::QueueEvent(_BusId, &_EVENTBUS::Events::__VA_ARGS__)
+#   define EBUS_QUEUE_EVENT_ID(_BusId, _EVENTBUS, /*EventName,*/ ...)      _EVENTBUS::QueueEvent(_BusId, &_EVENTBUS::Events::__VA_ARGS__)
 
     /// Enqueues an asynchronous event to dispatch to all handlers in reverse order.
-#   define EVENTBUS_QUEUE_EVENT_REVERSE(_EVENTBUS, /*EventName,*/ ...)                _EVENTBUS::QueueBroadcastReverse(&_EVENTBUS::Events::__VA_ARGS__)
+#   define EBUS_QUEUE_EVENT_REVERSE(_EVENTBUS, /*EventName,*/ ...)                _EVENTBUS::QueueBroadcastReverse(&_EVENTBUS::Events::__VA_ARGS__)
 
     /// Enqueues an asynchronous event to dispatch to handlers at a cached address in reverse order.
-#   define EVENTBUS_QUEUE_EVENT_PTR_REVERSE(_BusPtr, _EVENTBUS, /*EventName,*/ ...)    _EVENTBUS::QueueEventReverse(_BusPtr, &_EVENTBUS::Events::__VA_ARGS__)
+#   define EBUS_QUEUE_EVENT_PTR_REVERSE(_BusPtr, _EVENTBUS, /*EventName,*/ ...)    _EVENTBUS::QueueEventReverse(_BusPtr, &_EVENTBUS::Events::__VA_ARGS__)
 
     /// Enqueues an asynchronous event to dispatch to handlers at a specific address in reverse order.
-#   define EVENTBUS_QUEUE_EVENT_ID_REVERSE(_BusId, _EVENTBUS, /*EventName,*/ ...)      _EVENTBUS::QueueEventReverse(_BusId, &_EVENTBUS::Events::__VA_ARGS__)
+#   define EBUS_QUEUE_EVENT_ID_REVERSE(_BusId, _EVENTBUS, /*EventName,*/ ...)      _EVENTBUS::QueueEventReverse(_BusId, &_EVENTBUS::Events::__VA_ARGS__)
 
     /// Enqueues an arbitrary callable function to be executed asynchronously.
-#   define EVENTBUS_QUEUE_FUNCTION(_EVENTBUS, /*Function pointer, params*/ ...)       _EVENTBUS::QueueFunction(__VA_ARGS__)
+#   define EBUS_QUEUE_FUNCTION(_EVENTBUS, /*Function pointer, params*/ ...)       _EVENTBUS::QueueFunction(__VA_ARGS__)
 
     //////////////////////////////////////////////////////////////////////////
     // Debug events active only when V_DEBUG_BUILD is defined
 #if defined(V_DEBUG_BUILD)
 
     /// Dispatches an event to handlers at a cached address.
-#   define EVENTBUS_DBG_EVENT_PTR(_BusPtr, _EVENTBUS, /*EventName,*/ ...)   EBUS_EVENT_PTR(_BusPtr, _EVENTBUS, __VA_ARGS__)
+#   define EBUS_DBG_EVENT_PTR(_BusPtr, _EVENTBUS, /*EventName,*/ ...)   EBUS_EVENT_PTR(_BusPtr, _EVENTBUS, __VA_ARGS__)
 
     /// Dispatches an event to handlers at a cached address and receives results.
-#   define EVENTBUS_DBG_EVENT_PTR_RESULT(_Result, _BusPtr, _EVENTBUS, /*EventName,*/ ...) EBUS_EVENT_PTR_RESULT(_Result, _BusPtr, _EVENTBUS, __VA_ARGS__)
+#   define EBUS_DBG_EVENT_PTR_RESULT(_Result, _BusPtr, _EVENTBUS, /*EventName,*/ ...) EBUS_EVENT_PTR_RESULT(_Result, _BusPtr, _EVENTBUS, __VA_ARGS__)
 
     /// Dispatches an event to handlers at a specific address.
-#   define EVENTBUS_DBG_EVENT_ID(_BusId, _EVENTBUS, /*EventName,*/ ...) EBUS_EVENT_ID(_BusId, _EVENTBUS, __VA_ARGS__)
+#   define EBUS_DBG_EVENT_ID(_BusId, _EVENTBUS, /*EventName,*/ ...) EBUS_EVENT_ID(_BusId, _EVENTBUS, __VA_ARGS__)
 
     /// Dispatches an event to handlers at a specific address and receives results.
-#   define EVENTBUS_DBG_EVENT_ID_RESULT(_Result, _BusId, _EVENTBUS, /*EventName,*/ ...) EBUS_EVENT_ID_RESULT(_Result, _BusId, _EVENTBUS, __VA_ARGS__)
+#   define EBUS_DBG_EVENT_ID_RESULT(_Result, _BusId, _EVENTBUS, /*EventName,*/ ...) EBUS_EVENT_ID_RESULT(_Result, _BusId, _EVENTBUS, __VA_ARGS__)
 
     /// Dispatches an event to all handlers.
-#   define EVENTBUS_DBG_EVENT(_EVENTBUS, /*EventName,*/ ...) EBUS_EVENT(_EVENTBUS, __VA_ARGS__)
+#   define EBUS_DBG_EVENT(_EVENTBUS, /*EventName,*/ ...) EBUS_EVENT(_EVENTBUS, __VA_ARGS__)
 
     /// Dispatches an event to all handlers and receives results.
-#   define EVENTBUS_DBG_EVENT_RESULT(_Result, _EVENTBUS, /*EventName,*/ ...)  EBUS_EVENT_RESULT(_Result, _EVENTBUS, __VA_ARGS__)
+#   define EBUS_DBG_EVENT_RESULT(_Result, _EVENTBUS, /*EventName,*/ ...)  EBUS_EVENT_RESULT(_Result, _EVENTBUS, __VA_ARGS__)
 
     /// Dispatches an event to handlers at a cached address in reverse order.
-#   define EVENTBUS_DBG_EVENT_PTR_REVERSE(_BusPtr, _EVENTBUS, /*EventName,*/ ...) EBUS_EVENT_PTR_REVERSE(_BusPtr, _EVENTBUS, __VA_ARGS__)
+#   define EBUS_DBG_EVENT_PTR_REVERSE(_BusPtr, _EVENTBUS, /*EventName,*/ ...) EBUS_EVENT_PTR_REVERSE(_BusPtr, _EVENTBUS, __VA_ARGS__)
 
     /// Dispatches an event to handlers at a cached address in reverse order and receives results.
-#   define EVENTBUS_DBG_EVENT_PTR_RESULT_REVERSE(_Result, _BusPtr, _EVENTBUS, /*EventName,*/ ...) EBUS_EVENT_PTR_RESULT_REVERSE(_Result, _BusPtr, _EVENTBUS, __VA_ARGS__)
+#   define EBUS_DBG_EVENT_PTR_RESULT_REVERSE(_Result, _BusPtr, _EVENTBUS, /*EventName,*/ ...) EBUS_EVENT_PTR_RESULT_REVERSE(_Result, _BusPtr, _EVENTBUS, __VA_ARGS__)
 
     /// Dispatches an event to handlers at a specific address in reverse order.
-#   define EVENTBUS_DBG_EVENT_ID_REVERSE(_BusId, _EVENTBUS, /*EventName,*/ ...) EBUS_EVENT_ID_REVERSE(_BusId, _EVENTBUS, __VA_ARGS__)
+#   define EBUS_DBG_EVENT_ID_REVERSE(_BusId, _EVENTBUS, /*EventName,*/ ...) EBUS_EVENT_ID_REVERSE(_BusId, _EVENTBUS, __VA_ARGS__)
 
     /// Dispatches an event to handlers at a specific address in reverse order and receives results.
-#   define EVENTBUS_DBG_EVENT_ID_RESULT_REVERSE(_Result, _BusId, _EVENTBUS, /*EventName,*/ ...) EBUS_EVENT_ID_RESULT_REVERSE(_Result, _BusId, _EVENTBUS, __VA_ARGS__)
+#   define EBUS_DBG_EVENT_ID_RESULT_REVERSE(_Result, _BusId, _EVENTBUS, /*EventName,*/ ...) EBUS_EVENT_ID_RESULT_REVERSE(_Result, _BusId, _EVENTBUS, __VA_ARGS__)
 
     /// Dispatches an event to all handlers in reverse order.
-#   define EVENTBUS_DBG_EVENT_REVERSE(_EVENTBUS, /*EventName,*/ ...) EBUS_EVENT_REVERSE(_EVENTBUS, __VA_ARGS__)
+#   define EBUS_DBG_EVENT_REVERSE(_EVENTBUS, /*EventName,*/ ...) EBUS_EVENT_REVERSE(_EVENTBUS, __VA_ARGS__)
 
     /// Dispatches an event to all handlers in reverse order and receives results.
-#   define EVENTBUS_DBG_EVENT_RESULT_REVERSE(_Result, _EVENTBUS, /*EventName,*/ ...) EBUS_EVENT_RESULT_REVERSE(_Result, _EVENTBUS, __VA_ARGS__)
+#   define EBUS_DBG_EVENT_RESULT_REVERSE(_Result, _EVENTBUS, /*EventName,*/ ...) EBUS_EVENT_RESULT_REVERSE(_Result, _EVENTBUS, __VA_ARGS__)
 
     /// Enqueues an asynchronous event to dispatch to all handlers.
-#   define EVENTBUS_DBG_QUEUE_EVENT(_EVENTBUS, /*EventName,*/ ...)                EVENTBUS_QUEUE_EVENT(_EVENTBUS, __VA_ARGS__)
+#   define EBUS_DBG_QUEUE_EVENT(_EVENTBUS, /*EventName,*/ ...)                EBUS_QUEUE_EVENT(_EVENTBUS, __VA_ARGS__)
 
     /// Enqueues an asynchronous event to dispatch to handlers at a cached address.
-#   define EVENTBUS_DBG_QUEUE_EVENT_PTR(_BusPtr, _EVENTBUS, /*EventName,*/ ...)    EVENTBUS_QUEUE_EVENT_PTR(BusPtr, _EVENTBUS, __VA_ARGS__)
+#   define EBUS_DBG_QUEUE_EVENT_PTR(_BusPtr, _EVENTBUS, /*EventName,*/ ...)    EBUS_QUEUE_EVENT_PTR(BusPtr, _EVENTBUS, __VA_ARGS__)
 
     /// Enqueues an asynchronous event to dispatch to handlers at a specific address.
-#   define EVENTBUS_DBG_QUEUE_EVENT_ID(_BusId, _EVENTBUS, /*EventName,*/ ...)      EVENTBUS_QUEUE_EVENT_ID(_BusId, _EVENTBUS, __VA_ARGS__)
+#   define EBUS_DBG_QUEUE_EVENT_ID(_BusId, _EVENTBUS, /*EventName,*/ ...)      EBUS_QUEUE_EVENT_ID(_BusId, _EVENTBUS, __VA_ARGS__)
 
     /// Enqueues an asynchronous event to dispatch to all handlers in reverse order.
-#   define EVENTBUS_DBG_QUEUE_EVENT_REVERSE(_EVENTBUS, /*EventName,*/ ...)                EVENTBUS_QUEUE_EVENT_REVERSE(_EVENTBUS, __VA_ARGS__)
+#   define EBUS_DBG_QUEUE_EVENT_REVERSE(_EVENTBUS, /*EventName,*/ ...)                EBUS_QUEUE_EVENT_REVERSE(_EVENTBUS, __VA_ARGS__)
 
     /// Enqueues an asynchronous event to dispatch to handlers at a cached address in reverse order.
-#   define EVENTBUS_DBG_QUEUE_EVENT_PTR_REVERSE(_BusPtr, _EVENTBUS, /*EventName,*/ ...)    EVENTBUS_QUEUE_EVENT_PTR_REVERSE(_BusPtr, _EVENTBUS, __VA_ARGS__)
+#   define EBUS_DBG_QUEUE_EVENT_PTR_REVERSE(_BusPtr, _EVENTBUS, /*EventName,*/ ...)    EBUS_QUEUE_EVENT_PTR_REVERSE(_BusPtr, _EVENTBUS, __VA_ARGS__)
 
     /// Enqueues an asynchronous event to dispatch to handlers at a specific address in reverse order.
-#   define EVENTBUS_DBG_QUEUE_EVENT_ID_REVERSE(_BusId, _EVENTBUS, /*EventName,*/ ...)      EVENTBUS_QUEUE_EVENT_ID_REVERSE(_BusId, _EVENTBUS, __VA_ARGS__)
+#   define EBUS_DBG_QUEUE_EVENT_ID_REVERSE(_BusId, _EVENTBUS, /*EventName,*/ ...)      EBUS_QUEUE_EVENT_ID_REVERSE(_BusId, _EVENTBUS, __VA_ARGS__)
 
     /// Enqueues an arbitrary callable function to be executed asynchronously.
-#   define EVENTBUS_DBG_QUEUE_FUNCTION(_EVENTBUS, /*Function pointer, params*/ ...)   EVENTBUS_QUEUE_FUNCTION(_EVENTBUS, __VA_ARGS__)
+#   define EBUS_DBG_QUEUE_FUNCTION(_EVENTBUS, /*Function pointer, params*/ ...)   EBUS_QUEUE_FUNCTION(_EVENTBUS, __VA_ARGS__)
 
 #else // !V_DEBUG_BUILD
 
     /// Dispatches an event to handlers at a cached address.
-#   define EVENTBUS_DBG_EVENT_PTR(_BusPtr, _EVENTBUS, /*EventName,*/ ...)
+#   define EBUS_DBG_EVENT_PTR(_BusPtr, _EVENTBUS, /*EventName,*/ ...)
 
     /// Dispatches an event to handlers at a cached address and receives results.
-#   define EVENTBUS_DBG_EVENT_PTR_RESULT(_Result, _BusPtr, _EVENTBUS, /*EventName,*/ ...)
+#   define EBUS_DBG_EVENT_PTR_RESULT(_Result, _BusPtr, _EVENTBUS, /*EventName,*/ ...)
 
     /// Dispatches an event to handlers at a specific address.
-#   define EVENTBUS_DBG_EVENT_ID(_BusId, _EVENTBUS, /*EventName,*/ ...)
+#   define EBUS_DBG_EVENT_ID(_BusId, _EVENTBUS, /*EventName,*/ ...)
 
     /// Dispatches an event to handlers at a specific address and receives results.
-#   define EVENTBUS_DBG_EVENT_ID_RESULT(_Result, _BusId, _EVENTBUS, /*EventName,*/ ...)
+#   define EBUS_DBG_EVENT_ID_RESULT(_Result, _BusId, _EVENTBUS, /*EventName,*/ ...)
 
     /// Dispatches an event to all handlers.
-#   define EVENTBUS_DBG_EVENT(_EVENTBUS, /*EventName,*/ ...)
+#   define EBUS_DBG_EVENT(_EVENTBUS, /*EventName,*/ ...)
 
     /// Dispatches an event to all handlers and receives results.
-#   define EVENTBUS_DBG_EVENT_RESULT(_Result, _EVENTBUS, /*EventName,*/ ...)
+#   define EBUS_DBG_EVENT_RESULT(_Result, _EVENTBUS, /*EventName,*/ ...)
 
     /// Dispatches an event to handlers at a cached address in reverse order.
-#   define EVENTBUS_DBG_EVENT_PTR_REVERSE(_BusPtr, _EVENTBUS, /*EventName,*/ ...)
+#   define EBUS_DBG_EVENT_PTR_REVERSE(_BusPtr, _EVENTBUS, /*EventName,*/ ...)
 
     /// Dispatches an event to handlers at a cached address in reverse order and receives results.
-#   define EVENTBUS_DBG_EVENT_PTR_RESULT_REVERSE(_Result, _BusPtr, _EVENTBUS, /*EventName,*/ ...)
+#   define EBUS_DBG_EVENT_PTR_RESULT_REVERSE(_Result, _BusPtr, _EVENTBUS, /*EventName,*/ ...)
 
     /// Dispatches an event to handlers at a specific address in reverse order.
-#   define EVENTBUS_DBG_EVENT_ID_REVERSE(_BusId, _EVENTBUS, /*EventName,*/ ...)
+#   define EBUS_DBG_EVENT_ID_REVERSE(_BusId, _EVENTBUS, /*EventName,*/ ...)
 
     /// Dispatches an event to handlers at a specific address in reverse order and receives results.
-#   define EVENTBUS_DBG_EVENT_ID_RESULT_REVERSE(_Result, _BusId, _EVENTBUS, /*EventName,*/ ...)
+#   define EBUS_DBG_EVENT_ID_RESULT_REVERSE(_Result, _BusId, _EVENTBUS, /*EventName,*/ ...)
 
     /// Dispatches an event to all handlers in reverse order.
-#   define EVENTBUS_DBG_EVENT_REVERSE(_EVENTBUS, /*EventName,*/ ...)
+#   define EBUS_DBG_EVENT_REVERSE(_EVENTBUS, /*EventName,*/ ...)
 
     /// Dispatches an event to all handlers in reverse order and receives results.
-#   define EVENTBUS_DBG_EVENT_RESULT_REVERSE(_Result, _EVENTBUS, /*EventName,*/ ...)
+#   define EBUS_DBG_EVENT_RESULT_REVERSE(_Result, _EVENTBUS, /*EventName,*/ ...)
 
     /// Enqueues an asynchronous event to dispatch to all handlers.
-#   define EVENTBUS_DBG_QUEUE_EVENT(_EVENTBUS, /*EventName,*/ ...)
+#   define EBUS_DBG_QUEUE_EVENT(_EVENTBUS, /*EventName,*/ ...)
 
     /// Enqueues an asynchronous event to dispatch to handlers at a cached address.
-#   define EVENTBUS_DBG_QUEUE_EVENT_PTR(_BusPtr, _EVENTBUS, /*EventName,*/ ...)
+#   define EBUS_DBG_QUEUE_EVENT_PTR(_BusPtr, _EVENTBUS, /*EventName,*/ ...)
 
     /// Enqueues an asynchronous event to dispatch to handlers at a specific address.
-#   define EVENTBUS_DBG_QUEUE_EVENT_ID(_BusId, _EVENTBUS, /*EventName,*/ ...)
+#   define EBUS_DBG_QUEUE_EVENT_ID(_BusId, _EVENTBUS, /*EventName,*/ ...)
 
     /// Enqueues an asynchronous event to dispatch to all handlers in reverse order.
-#   define EVENTBUS_DBG_QUEUE_EVENT_REVERSE(_EVENTBUS, /*EventName,*/ ...)
+#   define EBUS_DBG_QUEUE_EVENT_REVERSE(_EVENTBUS, /*EventName,*/ ...)
 
     /// Enqueues an asynchronous event to dispatch to handlers at a cached address in reverse order.
-#   define EVENTBUS_DBG_QUEUE_EVENT_PTR_REVERSE(_BusPtr, _EVENTBUS, /*EventName,*/ ...)
+#   define EBUS_DBG_QUEUE_EVENT_PTR_REVERSE(_BusPtr, _EVENTBUS, /*EventName,*/ ...)
 
     /// Enqueues an asynchronous event to dispatch to handlers at a specific address in reverse order.
-#   define EVENTBUS_DBG_QUEUE_EVENT_ID_REVERSE(_BusId, _EVENTBUS, /*EventName,*/ ...)
+#   define EBUS_DBG_QUEUE_EVENT_ID_REVERSE(_BusId, _EVENTBUS, /*EventName,*/ ...)
 
     /// Enqueues an arbitrary callable function to be executed asynchronously.
-#   define EVENTBUS_DBG_QUEUE_FUNCTION(_EVENTBUS, /*Function name*/ ...)
+#   define EBUS_DBG_QUEUE_FUNCTION(_EVENTBUS, /*Function name*/ ...)
 
 #endif // !V_DEBUG BUILD
 
@@ -1812,7 +1812,7 @@ V_POP_DISABLE_WARNING
             if (m_isConnected)
             {
                 auto* context = EventBus::GetContext();
-                EVENTBUS_ASSERT(context, "Internal error: context deleted while router attached.");
+                EBUS_ASSERT(context, "Internal error: context deleted while router attached.");
                 {
                     VStd::scoped_lock<decltype(context->m_contextMutex)> lock(context->m_contextMutex);
                     // We could support connection/disconnection while routing a message, but it would require a call to a fix
@@ -1889,15 +1889,15 @@ V_POP_DISABLE_WARNING
 
 // The following allow heavily-used busses to be declared extern, in order to speed up compile time where the same header
 // with the same bus is included in many different source files.
-// to use it, declare the EventBus extern using DECLARE_EVENTBUS_EXTERN or DECLARE_EVENTBUS_EXTERN_WITH_TRAITS in the header file
-// and then use DECLARE_EVENTBUS_INSTANTIATION or DECLARE_EVENTBUS_INSTANTIATION_WITH_TRAITS in a file that everything that includes the header
+// to use it, declare the EventBus extern using DECLARE_EBUS_EXTERN or DECLARE_EBUS_EXTERN_WITH_TRAITS in the header file
+// and then use DECLARE_EBUS_INSTANTIATION or DECLARE_EBUS_INSTANTIATION_WITH_TRAITS in a file that everything that includes the header
 // will link to (for example, in a static library, dynamic library with export library, or .inl that everyone must include in a compile unit).
 
 // The following must be declared AT GLOBAL SCOPE and the namespace V is assumed due to the rule that extern template declarations must occur
 // in their enclosing scope.
 
 //! Externs an EventBus class template with both the interface and bus traits arguments
-#define DECLARE_EVENTBUS_EXTERN_WITH_TRAITS(a,b) \
+#define DECLARE_EBUS_EXTERN_WITH_TRAITS(a,b) \
 namespace V \
 { \
    extern template class EventBus<a, b>; \
@@ -1905,14 +1905,14 @@ namespace V \
 
 //! Externs an EventBus class template using only the interface argument
 //! for both the EventBus Interface and BusTraits template parameters
-#define DECLARE_EVENTBUS_EXTERN(a) \
+#define DECLARE_EBUS_EXTERN(a) \
 namespace V \
 { \
    extern template class EventBus<a, a>; \
 }
 
 //! Instantiates an EventBus class template with both the interface and bus traits arguments
-#define DECLARE_EVENTBUS_INSTANTIATION_WITH_TRAITS(a,b) \
+#define DECLARE_EBUS_INSTANTIATION_WITH_TRAITS(a,b) \
 namespace V \
 { \
    template class EventBus<a, b>; \
@@ -1920,7 +1920,7 @@ namespace V \
 //! Instantiates an EventBus class template using only the interface argument
 //! for both the EventBus Interface and BusTraits template parameters
 
-#define DECLARE_EVENTBUS_INSTANTIATION(a) \
+#define DECLARE_EBUS_INSTANTIATION(a) \
 namespace V \
 { \
    template class EventBus<a, a>; \

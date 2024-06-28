@@ -15,12 +15,33 @@ SET(FILES
     vcore/io/path/path.cc
     vcore/io/file_io.h
     vcore/io/file_io.cc
+    vcore/io/file_reader.h
+    vcore/io/file_reader.cc
     vcore/io/generic_streams.h
     vcore/io/generic_streams.cc
     vcore/io/io_utils.h
     vcore/io/io_utils.cc
     vcore/io/system_file.h
     vcore/io/system_file.cc
+    vcore/io/istreamer.h
+    vcore/io/istreamer_types.h
+    vcore/io/istreamer_types.cc
+    vcore/io/text_stream_writers.h
+    vcore/io/byte_container_stream.h
+    vcore/io/compressor_stream.h
+    vcore/io/compressor_stream.cc
+    vcore/io/compressor_zstd.h
+    vcore/io/compressor_zstd.cc
+    vcore/io/compressor_zlib.h
+    vcore/io/compressor_zlib.cc
+    vcore/io/compressor_stream.h
+    vcore/io/compressor_stream.cc
+    vcore/io/compressor.h
+    vcore/io/compressor.cc
+    vcore/io/streamer/streamer_configuration.h
+    vcore/io/streamer/streamer_configuration.cc
+    vcore/io/streamer/file_range.h
+    vcore/io/streamer/file_range.cc
     vcore/ipc/shared_memory_common.h
     vcore/ipc/shared_memory.h
     vcore/ipc/shared_memory.cc
@@ -28,7 +49,8 @@ SET(FILES
     vcore/math/internal/simd.h
     vcore/math/crc.h
     vcore/math/crc.cc
-    vcore/math/guid.h 
+    vcore/math/guid.h
+    vcore/math/math_intrinsics.h
     vcore/math/math_utils.h
     vcore/math/random.h
     vcore/math/sfmt.h 
@@ -71,6 +93,9 @@ SET(FILES
     vcore/memory/memory.cc
     vcore/memory/osallocator.h
     vcore/memory/osallocator.cc
+    vcore/memory/pool_schema.h
+    vcore/memory/pool_allocator.h
+    vcore/memory/pool_schema.cc
     vcore/memory/platform_memory_instrumentation.h
     vcore/memory/simple_schema_allocator.h
     vcore/event_bus/internal/bus_container.h
@@ -98,9 +123,27 @@ SET(FILES
     vcore/vobject/type_simple.h
     vcore/vobject/type_safe_integral.h
     vcore/vobject/vobject.h
+    vcore/debug/budget_tracker.h
+    vcore/debug/budget_tracker.cc
+    vcore/debug/budget.h
+    vcore/debug/budget.cc
+    vcore/debug/event_trace_detector_bus.h
+    vcore/debug/event_trace_detector.h
+    vcore/debug/event_trace_detector.cc
+    vcore/debug/event_trace.h
+    vcore/debug/event_trace.cc
+    vcore/debug/memory_profiler.h
+    vcore/debug/profiler_bus.h
+    vcore/debug/profiler.h
+    vcore/debug/profiler.cc
+    vcore/debug/time.h
+    vcore/debug/trace_message_bus.h
+    vcore/debug/trace_message_detector_bus.h
     vcore/debug/ievent_logger.h
     vcore/debug/trace.h
     vcore/debug/trace.cc
+    vcore/debug/local_file_event_logger.h
+    vcore/debug/local_file_event_logger.cc
     vcore/compression/compression.h
     vcore/compression/compression.cc
     vcore/compression/zstd_compression.h
@@ -137,6 +180,7 @@ SET(FILES
     vcore/std/ratio.h
     vcore/std/time.h
     vcore/std/tuple.h
+    vcore/std/any.h
     vcore/std/utils.h
     vcore/std/bind/bind.h
     vcore/std/bind/mem_fn.h
@@ -176,6 +220,19 @@ SET(FILES
     vcore/std/function/function_template.h
     vcore/std/function/identity.h
     vcore/std/function/invoke.h
+    vcore/std/parallel/containers/internal/concurrent_hash_table.h
+    vcore/std/parallel/containers/concurrent_fixed_unordered_map.h
+    vcore/std/parallel/containers/concurrent_fixed_unordered_set.h
+    vcore/std/parallel/containers/concurrent_unordered_map.h
+    vcore/std/parallel/containers/concurrent_unordered_set.h
+    vcore/std/parallel/containers/concurrent_vector.h
+    vcore/std/parallel/containers/lock_free_intrusive_stack.h
+    vcore/std/parallel/containers/lock_free_intrusive_stamped_stack.h
+    vcore/std/parallel/containers/lock_free_queue.h
+    vcore/std/parallel/containers/lock_free_stack.h
+    vcore/std/parallel/containers/lock_free_stamped_queue.h
+    vcore/std/parallel/containers/lock_free_stamped_stack.h
+    vcore/std/parallel/allocator_concurrent_static.h
     vcore/std/parallel/atomic.h
     vcore/std/parallel/combinable.h
     vcore/std/parallel/condition_variable.h
@@ -287,4 +344,28 @@ SET(FILES
     vcore/utilitys/utility.cc
     vcore/platform_id/platform_id.cc
     vcore/platform_id/platform_id.h 
+    vcore/statistics/named_running_statistic.h
+    vcore/statistics/running_statistic.h
+    vcore/statistics/running_statistic.cc
+    vcore/statistics/statistical_profiler_proxy.h
+    vcore/statistics/statistical_profiler.h
+    vcore/statistics/statistics_manager.h
+    vcore/threading/thread_safe_deque.h
+    vcore/threading/thread_safe_object.h
+    vcore/settings/command_line.h
+    vcore/settings/command_line.cc
+    vcore/settings/setting.h
+    vcore/settings/setting.cc
+    vcore/console/console_data_wrapper.h
+    vcore/console/console_functor.h
+    vcore/console/console_functor.cc
+    vcore/console/console_type_helpers.h
+    vcore/console/console.h
+    vcore/console/console.cc
+    vcore/console/iconsole_types.h
+    vcore/console/iconsole.h
+    vcore/console/ilogger.h
+    vcore/unit_test/mocks/mock_file_io_base.h
+    vcore/unit_test/test_types.h
+    vcore/unit_test/unit_test.h
 )

@@ -5,6 +5,7 @@
 #include <vcore/std/allocator.h>
 #include <vcore/std/typetraits/alignment_of.h>
 #include <vcore/std/chrono/types.h>
+#include <vcore/std/hash.h>
 #include <vcore/std/utils.h>
 
 #define AFFINITY_MASK_ALL          V_TRAIT_THREAD_AFFINITY_MASK_ALLTHREADS
@@ -228,7 +229,7 @@ namespace VStd {
         }
     }
     
-    /*template <>
+    template <>
     struct hash<thread_id>
     {
         size_t operator()(const thread_id& value) const {
@@ -237,7 +238,7 @@ namespace VStd {
             *reinterpret_cast<thread_id*>(&hash) = value;
             return hash;
         }
-    };*/
+    };
 
 } // namespace VStd
 

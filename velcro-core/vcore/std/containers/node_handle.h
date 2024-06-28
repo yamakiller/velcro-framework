@@ -75,7 +75,7 @@ namespace VStd {
 
             node_handle& operator=(node_handle&& other)
             {
-                AZSTD_CONTAINER_ASSERT(m_allocator == VStd::nullopt || allocator_traits::propagate_on_container_move_assignment::value || m_allocator == other.m_allocator,
+                VSTD_CONTAINER_ASSERT(m_allocator == VStd::nullopt || allocator_traits::propagate_on_container_move_assignment::value || m_allocator == other.m_allocator,
                     "node_type with incompatible allocator passed to node_type::operator=(node_type&&)");
 
                 destroy_node();

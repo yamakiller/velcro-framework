@@ -494,23 +494,23 @@ namespace VStd
 
         V_FORCE_INLINE local_iterator          begin(size_type bucket)
         {
-            AZSTD_CONTAINER_ASSERT(bucket < m_data.get_num_buckets(), "VStd::hash_table::begin() - invalid bucket index!");
+            VSTD_CONTAINER_ASSERT(bucket < m_data.get_num_buckets(), "VStd::hash_table::begin() - invalid bucket index!");
             return m_data.buckets()[bucket].second;
         }
         V_FORCE_INLINE const_local_iterator    begin(size_type bucket) const
         {
-            AZSTD_CONTAINER_ASSERT(bucket < m_data.get_num_buckets(), "VStd::hash_table::begin() - invalid bucket index!");
+            VSTD_CONTAINER_ASSERT(bucket < m_data.get_num_buckets(), "VStd::hash_table::begin() - invalid bucket index!");
             return m_data.buckets()[bucket].second;
         }
         V_FORCE_INLINE local_iterator          end(size_type bucket)
         {
-            AZSTD_CONTAINER_ASSERT(bucket < m_data.get_num_buckets(), "VStd::hash_table::begin() - invalid bucket index!");
+            VSTD_CONTAINER_ASSERT(bucket < m_data.get_num_buckets(), "VStd::hash_table::begin() - invalid bucket index!");
             vector_value_type& b = m_data.buckets()[bucket];
             return VStd::next(b.second, b.first);
         }
         V_FORCE_INLINE const_local_iterator    end(size_type bucket) const
         {
-            AZSTD_CONTAINER_ASSERT(bucket < m_data.get_num_buckets(), "VStd::hash_table::begin() - invalid bucket index!");
+            VSTD_CONTAINER_ASSERT(bucket < m_data.get_num_buckets(), "VStd::hash_table::begin() - invalid bucket index!");
             const vector_value_type& b = m_data.buckets()[bucket];
             return VStd::next(b.second, b.first);
         }
