@@ -69,6 +69,9 @@ SET(FILES
     vcore/name/name_dictionary.cc
     vcore/name/name.h
     vcore/name/name.cc
+    vcore/native_ui/native_ui_requests.h
+    vcore/native_ui/native_ui_system.h
+    vcore/native_ui/native_ui_system.cc
     vcore/memory/system_allocator.h
     vcore/memory/system_allocator.cc
     vcore/memory/allocator_base.h

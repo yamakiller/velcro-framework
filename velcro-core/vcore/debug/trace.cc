@@ -4,8 +4,8 @@
 
 #include <vcore/debug/stack_tracer.h>
 #include <vcore/debug/ievent_logger.h>
-//#include <vcore/debug/trace_message_bus.h>
-//#include <vcore/debug/trace_message_detector_bus.h>
+#include <vcore/debug/trace_message_bus.h>
+#include <vcore/debug/trace_message_detector_bus.h>
 #include <vcore/interface/interface.h>
 #include <vcore/math/crc.h>
 
@@ -13,7 +13,8 @@
 
 #include <vcore/std/containers/unordered_set.h>
 #include <vcore/module/environment.h>
-//#include <vcore/console/iconsole.h>
+#include <vcore/native_ui/native_ui_system.h>
+#include <vcore/console/iconsole.h>
 #include <vcore/std/chrono/chrono.h>
 
 
@@ -307,7 +308,7 @@ namespace V
                 }
             }
             
-/*#if V_ENABLE_TRACE_ASSERTS
+#if V_ENABLE_TRACE_ASSERTS
             //display native UI dialogs at verbosity level 2
             if (currentLevel == assertLevel_nativeUI)
             {
@@ -334,7 +335,7 @@ namespace V
                 }
             }
             else
-#endif //V_ENABLE_TRACE_ASSERTS*/
+#endif //V_ENABLE_TRACE_ASSERTS
             // Crash the application directly at assert level 3
             if (currentLevel >= assertLevel_crash)
             {
@@ -379,10 +380,10 @@ namespace V
             logger->RecordStringEvent(ErrorEventId, message);
         }
 
-        //EBUS_EVENT(TraceMessageDetectorBus, OnPreError, window, fileName, line, funcName, message);
+        EBUS_EVENT(TraceMessageDetectorBus, OnPreError, window, fileName, line, funcName, message);
 
         TraceMessageResult result;
-        //EBUS_EVENT_RESULT(result, TraceMessageBus, OnPreError, window, fileName, line, funcName, message);
+        EBUS_EVENT_RESULT(result, TraceMessageBus, OnPreError, window, fileName, line, funcName, message);
         if (result.m_value)
         {
             g_alreadyHandlingAssertOrFatal = false;
@@ -395,8 +396,8 @@ namespace V
         v_strcat(message, g_maxMessageLength, "\n");
         Output(window, message);
 
-        //EBUS_EVENT(TraceMessageDetectorBus, OnError, window, message);
-        //EBUS_EVENT_RESULT(result, TraceMessageBus, OnError, window, message);
+        EBUS_EVENT(TraceMessageDetectorBus, OnError, window, message);
+        EBUS_EVENT_RESULT(result, TraceMessageBus, OnError, window, message);
         Output(window, "==================================================================\n");
         if (result.m_value)
         {
@@ -430,10 +431,10 @@ namespace V
             logger->RecordStringEvent(WarningEventId, message);
         }
 
-        //EBUS_EVENT(TraceMessageDetectorBus, OnPreWarning, window, fileName, line, funcName, message);
+        EBUS_EVENT(TraceMessageDetectorBus, OnPreWarning, window, fileName, line, funcName, message);
 
         TraceMessageResult result;
-        //EBUS_EVENT_RESULT(result, TraceMessageBus, OnPreWarning, window, fileName, line, funcName, message);
+        EBUS_EVENT_RESULT(result, TraceMessageBus, OnPreWarning, window, fileName, line, funcName, message);
         if (result.m_value)
         {
             return;
@@ -445,8 +446,8 @@ namespace V
         v_strcat(message, g_maxMessageLength, "\n");
         Output(window, message);
 
-        //EBUS_EVENT(TraceMessageDetectorBus, OnWarning, window, message);
-        //EBUS_EVENT_RESULT(result, TraceMessageBus, OnWarning, window, message);
+        EBUS_EVENT(TraceMessageDetectorBus, OnWarning, window, message);
+        EBUS_EVENT_RESULT(result, TraceMessageBus, OnWarning, window, message);
         Output(window, "==================================================================\n");
     }
 
@@ -473,10 +474,10 @@ namespace V
             logger->RecordStringEvent(PrintfEventId, message);
         }
 
-        //EBUS_EVENT(TraceMessageDetectorBus, OnPrintf, window, message);
+        EBUS_EVENT(TraceMessageDetectorBus, OnPrintf, window, message);
 
         TraceMessageResult result;
-        //EBUS_EVENT_RESULT(result, TraceMessageBus, OnPrintf, window, message);
+        EBUS_EVENT_RESULT(result, TraceMessageBus, OnPrintf, window, message);
         if (result.m_value)
         {
             return;
@@ -502,9 +503,9 @@ namespace V
             // only call into Ebusses if we are not in a recursive-exception situation as that
             // would likely just lead to even more exceptions.
             
-            //EBUS_EVENT(TraceMessageDetectorBus, OnOutput, window, message);
+            EBUS_EVENT(TraceMessageDetectorBus, OnOutput, window, message);
             TraceMessageResult result;
-            //EBUS_EVENT_RESULT(result, TraceMessageBus, OnOutput, window, message);
+            EBUS_EVENT_RESULT(result, TraceMessageBus, OnOutput, window, message);
             if (result.m_value)
             {
                 return;
