@@ -1037,7 +1037,7 @@ namespace V {
 *       VOBJECT_SPECIALIZE(MyClass, "{e193c899-15dc-4ccb-ba85-f671319f1740}");
 *   }
 */
-#define VOBJECT_SPECIALIZE(_ClassName, _ClassUuid) VOBJECT_INTERNAL_SPECIALIZE(_ClassName, _ClassUuid)
+#define VOBJECT_SPECIALIZE(_ClassName, _ClassUuid) VOBJECT_INFO_INTERNAL_SPECIALIZE(_ClassName, _ClassUuid)
 
 // Used to declare that a template argument is a "typename" with VOBJECT_TEMPLATE.
 #define VOBJECT_TYPENAME VOBJECT_INTERNAL_TYPENAME

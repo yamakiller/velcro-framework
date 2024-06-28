@@ -16,6 +16,7 @@ SET (FILES
     platforms/windows/vcore/std/time_windows.cc
     platforms/windows/vcore/platform_id/platform_id_platform.h
     platforms/windows/vcore/io/system_file_platform.h
+    platforms/windows/vcore/io/streamer/streamer_context_platform.h
     platforms/windows/vcore/ipc/shared_memory_platform.h
     platforms/windows/vcore/ipc/shared_memory_windows.h
     platforms/windows/vcore/ipc/shared_memory_windows.cc
@@ -24,6 +25,7 @@ SET (FILES
     platforms/windows/vcore/math/random_platform.h
     platforms/windows/vcore/math/random_windows.h
     platforms/windows/vcore/math/random_windows.cc
+    platforms/windows/vcore/native_ui/native_ui_system_windows.cc
     platforms/windows/vcore/utilitys/utility_windows.cc
     platforms/common/winapi/vcore/debug/trace_winapi.cc
     platforms/common/winapi/vcore/utilitys/utility_winapi.cc

@@ -24,12 +24,12 @@ namespace V::IO
 
     struct HardwareInformation
     {
-        VStd::any m_platformData;
-        VStd::string m_profile{"Default"};
-        size_t m_maxPhysicalSectorSize{ VCORE_GLOBAL_NEW_ALIGNMENT };
-        size_t m_maxLogicalSectorSize{ VCORE_GLOBAL_NEW_ALIGNMENT };
-        size_t m_maxPageSize{ VCORE_GLOBAL_NEW_ALIGNMENT };
-        size_t m_maxTransfer{ VCORE_GLOBAL_NEW_ALIGNMENT };
+        VStd::any PlatformData;
+        VStd::string Profile{"Default"};
+        size_t MaxPhysicalSectorSize{ VCORE_GLOBAL_NEW_ALIGNMENT };
+        size_t MaxLogicalSectorSize{ VCORE_GLOBAL_NEW_ALIGNMENT };
+        size_t MaxPageSize{ VCORE_GLOBAL_NEW_ALIGNMENT };
+        size_t MaxTransfer{ VCORE_GLOBAL_NEW_ALIGNMENT };
     };
 
     class IStreamerStackConfig
@@ -49,7 +49,7 @@ namespace V::IO
         VOBJECT_RTTI(V::IO::StreamerConfig, "{B20540CB-A75C-45F9-A891-7ABFD9192E9F}");
         V_CLASS_ALLOCATOR(StreamerConfig, SystemAllocator, 0);
 
-        VStd::vector<VStd::shared_ptr<IStreamerStackConfig>> m_stackConfig;
+        VStd::vector<VStd::shared_ptr<IStreamerStackConfig>> StackConfig;
        
     };
 

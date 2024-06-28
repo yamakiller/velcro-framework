@@ -41,7 +41,7 @@ namespace V::Debug {
 // If you encounter a linker error complaining that this function is not defined, you have likely forgotten to either
 // define or declare the budget used in a profile or memory marker. See V_DEFINE_BUDGET and V_DECLARE_BUDGET below
 // for usage.
-#define V_BUDGET_GETTER(name) GetAzBudget##name
+#define V_BUDGET_GETTER(name) GetVelcroBudget##name
 
 #if defined(_RELEASE)
 #define V_DEFINE_BUDGET(name)                                                                                                              \

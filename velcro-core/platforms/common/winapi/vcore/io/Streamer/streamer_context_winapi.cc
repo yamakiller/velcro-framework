@@ -1,7 +1,7 @@
 #include <utility>
 #include <vcore/casting/numeric_cast.h>
 #include <platforms/common/winapi/vcore/io/Streamer/streamer_context_winapi.h>
-//#include <vcore/debug/profiler.h>
+#include <vcore/debug/profiler.h>
 
 namespace V::Platform {
     StreamerContextThreadSync::StreamerContextThreadSync() {

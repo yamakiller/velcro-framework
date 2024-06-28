@@ -5,7 +5,6 @@
 #include <vcore/io/path/path.h>
 #include <vcore/std/parallel/scoped_lock.h>
 #include <vcore/std/parallel/thread.h>
-//#include <vcore/Settings/SettingsRegistry.h>
 
 #include <time.h>
 

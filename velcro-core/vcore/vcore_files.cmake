@@ -36,12 +36,18 @@ SET(FILES
     vcore/io/compressor_zlib.cc
     vcore/io/compressor_stream.h
     vcore/io/compressor_stream.cc
+    vcore/io/compression_bus.h
+    vcore/io/compression_bus.cc
     vcore/io/compressor.h
     vcore/io/compressor.cc
     vcore/io/streamer/streamer_configuration.h
     vcore/io/streamer/streamer_configuration.cc
     vcore/io/streamer/file_range.h
     vcore/io/streamer/file_range.cc
+    vcore/io/streamer/request_path.h
+    vcore/io/streamer/request_path.cc
+    vcore/io/streamer/statistics.h
+    vcore/io/streamer/statistics.cc
     vcore/ipc/shared_memory_common.h
     vcore/ipc/shared_memory.h
     vcore/ipc/shared_memory.cc
@@ -101,6 +107,9 @@ SET(FILES
     vcore/memory/pool_schema.cc
     vcore/memory/platform_memory_instrumentation.h
     vcore/memory/simple_schema_allocator.h
+    vcore/memory/new_and_delete.inl
+    vcore/memory/nedmalloc.inl
+    vcore/memory/dlmalloc.inl
     vcore/event_bus/internal/bus_container.h
     vcore/event_bus/internal/call_stack_entry.h
     vcore/event_bus/internal/debug.h
