@@ -52,7 +52,7 @@ namespace VStd
 
         V_FORCE_INLINE ~static_pool_concurrent_allocator()
         {
-            AZ_Assert(m_numOfAllocatedNodes == 0, "We still have allocated nodes. Call leak_before_destroy() before you destroy the container, to indicate this is ok.");
+            V_Assert(m_numOfAllocatedNodes == 0, "We still have allocated nodes. Call leak_before_destroy() before you destroy the container, to indicate this is ok.");
         }
 
         // When we copy the allocator we don't copy the allocated memory since it's the user responsibility.
@@ -84,7 +84,7 @@ namespace VStd
                 {
                     if (firstFreeNode == invalid_index)
                     {
-                        AZ_Assert(false, "VStd::static_pool_concurrent_allocator - No more free nodes!");
+                        V_Assert(false, "VStd::static_pool_concurrent_allocator - No more free nodes!");
                         return nullptr;
                     }
                 }
@@ -92,7 +92,7 @@ namespace VStd
             }
             else
             {
-                AZ_Assert(false, "VStd::static_pool_concurrent_allocator - No more free nodes!");
+                V_Assert(false, "VStd::static_pool_concurrent_allocator - No more free nodes!");
                 return nullptr;
             }
         }
@@ -103,16 +103,16 @@ namespace VStd
             (void)byteSize;
             (void)flags;
 
-            AZ_Assert(alignment > 0 && (alignment & (alignment - 1)) == 0, "VStd::static_pool_concurrent_allocator::allocate - alignment must be > 0 and power of 2");
-            AZ_Assert(byteSize == sizeof(Node), "VStd::static_pool_concurrent_allocator - We can allocate only node sizes from the pool!");
-            AZ_Assert(alignment <= VStd::alignment_of<Node>::value, "VStd::static_pool_concurrent_allocator - Invalid data alignment!");
+            V_Assert(alignment > 0 && (alignment & (alignment - 1)) == 0, "VStd::static_pool_concurrent_allocator::allocate - alignment must be > 0 and power of 2");
+            V_Assert(byteSize == sizeof(Node), "VStd::static_pool_concurrent_allocator - We can allocate only node sizes from the pool!");
+            V_Assert(alignment <= VStd::alignment_of<Node>::value, "VStd::static_pool_concurrent_allocator - Invalid data alignment!");
 
             return allocate();
         }
 
         void  deallocate(Node* ptr)
         {
-            AZ_Assert(((char*)ptr >= (char*)&m_data) && ((char*)ptr < ((char*)&m_data + sizeof(Node) * NumNodes)), "VStd::static_pool_concurrent_allocator - Pointer is out of range!");
+            V_Assert(((char*)ptr >= (char*)&m_data) && ((char*)ptr < ((char*)&m_data + sizeof(Node) * NumNodes)), "VStd::static_pool_concurrent_allocator - Pointer is out of range!");
 
             pool_node* firstPoolNode = reinterpret_cast<pool_node*>(&m_data);
             pool_node* curPoolNode = reinterpret_cast<pool_node*>(ptr);
@@ -131,8 +131,8 @@ namespace VStd
         { 
             (void)byteSize;
             (void)alignment;
-            AZ_Assert(alignment > 0 && (alignment & (alignment - 1)) == 0, "VStd::static_pool_concurrent_allocator::deallocate - alignment must be > 0 and power of 2");
-            AZ_Assert(byteSize <= sizeof(Node), "VStd::static_pool_concurrent_allocator - We can allocate only node sizes from the pool!");
+            V_Assert(alignment > 0 && (alignment & (alignment - 1)) == 0, "VStd::static_pool_concurrent_allocator::deallocate - alignment must be > 0 and power of 2");
+            V_Assert(byteSize <= sizeof(Node), "VStd::static_pool_concurrent_allocator - We can allocate only node sizes from the pool!");
             deallocate(reinterpret_cast<Node*>(ptr));
         }
 
@@ -158,7 +158,7 @@ namespace VStd
 
         void leak_before_destroy()
         {
-#ifdef AZ_Assert  // used only to confirm that it is ok for use to have allocated nodes
+#ifdef V_Assert  // used only to confirm that it is ok for use to have allocated nodes
             m_numOfAllocatedNodes = 0;
             m_firstFreeNode = invalid_index; // We are not allowed to allocate after we call leak_before_destroy.
 #endif

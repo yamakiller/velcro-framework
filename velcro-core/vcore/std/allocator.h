@@ -10,10 +10,13 @@
 
 #include <vcore/std/base.h>
 #include <vcore/std/typetraits/integral_constant.h>
+#include <vcore/vobject/type_simple.h>
 
 namespace VStd {
     class allocator {
         public:
+            VOBJECT(allocator, "{33e93c12-3230-47bd-aff3-d94ecaea256c}");
+
             typedef void*              pointer_type;
             typedef VStd::size_t       size_type;
             typedef VStd::ptrdiff_t    difference_type;

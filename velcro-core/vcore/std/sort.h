@@ -84,7 +84,7 @@ namespace VStd
             V_FORCE_INLINE void    copy(InputIterator first, InputIterator last)
             {
                 size_type newSize = VStd::distance(first, last);
-                AZ_Assert(newSize <= m_capacity, "TemporaryBuffer::copy - new size is bigger than the buffer capacity!");
+                V_Assert(newSize <= m_capacity, "TemporaryBuffer::copy - new size is bigger than the buffer capacity!");
                 if (newSize > m_size)
                 {
                     if constexpr (!VStd::is_trivially_constructible_v<T>)
@@ -102,7 +102,7 @@ namespace VStd
 
             V_FORCE_INLINE void set_size(size_type newSize)
             {
-                AZ_Assert(newSize <= m_capacity, "TemporaryBuffer::set_size - new size is bigger than the buffer capacity!");
+                V_Assert(newSize <= m_capacity, "TemporaryBuffer::set_size - new size is bigger than the buffer capacity!");
                 if (newSize > m_size)
                 {
                     if constexpr (!VStd::is_trivially_constructible_v<T>)

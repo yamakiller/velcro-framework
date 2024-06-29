@@ -54,7 +54,7 @@ namespace VStd
 
         T& operator[](unsigned int i)
         {
-            AZ_Assert(i < m_size, ("Index out of range"));
+            V_Assert(i < m_size, ("Index out of range"));
             unsigned int chunkIndex = GetChunkForIndex(i);
             unsigned int chunkSize = GetChunkSize(chunkIndex);
             T* chunk = GetChunk(chunkIndex);
@@ -96,7 +96,7 @@ namespace VStd
             }
 
             unsigned int chunkIndex = highestBitSet - (INITIAL_CAPACITY_LOG - 1);
-            AZ_Assert(chunkIndex < MAX_NUM_CHUNKS, ("Ran out of chunks"));
+            V_Assert(chunkIndex < MAX_NUM_CHUNKS, ("Ran out of chunks"));
             return chunkIndex;
         }
 

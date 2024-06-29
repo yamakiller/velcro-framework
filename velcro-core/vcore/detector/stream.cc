@@ -262,8 +262,7 @@ namespace V
         }
 
         //=========================================================================
-        // DetectorInputFileStream::Close
-        
+        // DetectorInputFileStream::Close        
         //=========================================================================
         void DetectorInputFileStream::Close()
         {
@@ -338,10 +337,10 @@ namespace V
                     u32 dataType = (se->sizeAndFlags & DetectorOutputStream::StreamEntry::dataInternalMask) >> DetectorOutputStream::StreamEntry::dataInternalShift;
                     u32 value = se->sizeAndFlags & DetectorOutputStream::StreamEntry::dataSizeMask;
                     Data de;
-                    de.m_name = se->name;
-                    de.m_stringPool = stream.GetStringPool();
-                    de.m_isPooledString = false;
-                    de.m_isPooledStringCrc32 = false;
+                    de.Name = se->name;
+                    de.StringPool = stream.GetStringPool();
+                    de.IsPooledString = false;
+                    de.IsPooledStringCrc32 = false;
                     switch (dataType)
                     {
                     case DetectorOutputStream::StreamEntry::INT_TAG:
@@ -353,26 +352,26 @@ namespace V
                     case DetectorOutputStream::StreamEntry::INT_DATA_U8:
                     {
                         u8 value8 = static_cast<u8>(value);
-                        de.m_data = &value8;
-                        de.m_dataSize = 1;
-                        de.m_isEndianSwap = false;
+                        de.DataPtr = &value8;
+                        de.DataSize = 1;
+                        de.IsEndianSwap = false;
                         m_dataCallback(de);
                         dataStart += entrySize;
                     } break;
                     case DetectorOutputStream::StreamEntry::INT_DATA_U16:
                     {
                         u16 value16 = static_cast<u16>(value);
-                        de.m_data = &value16;
-                        de.m_dataSize = 2;
-                        de.m_isEndianSwap = false;
+                        de.DataPtr = &value16;
+                        de.DataSize = 2;
+                        de.IsEndianSwap = false;
                         m_dataCallback(de);
                         dataStart += entrySize;
                     } break;
                     case DetectorOutputStream::StreamEntry::INT_DATA_U29:
                     {
-                        de.m_data = &value;
-                        de.m_dataSize = 4;
-                        de.m_isEndianSwap = false;
+                        de.DataPtr = &value;
+                        de.DataSize = 4;
+                        de.IsEndianSwap = false;
                         m_dataCallback(de);
                         dataStart += entrySize;
                     } break;
@@ -382,15 +381,15 @@ namespace V
                         if ((userDataSize + entrySize) <= (unsigned)(dataEnd - dataStart))
                         {
                             // Add string to the pool
-                            V_Assert(de.m_stringPool != nullptr, "We require a string pool to parse this stream");
+                            V_Assert(de.StringPool != nullptr, "We require a string pool to parse this stream");
                             V::u32 crc32;
                             const char* stringPtr;
                             dataStart += entrySize;
-                            de.m_stringPool->InsertCopy(reinterpret_cast<const char*>(dataStart), userDataSize, crc32, &stringPtr);
-                            de.m_dataSize = userDataSize;
-                            de.m_isEndianSwap = isEndianSwap;
-                            de.m_isPooledString = true;
-                            de.m_data = const_cast<void*>(static_cast<const void*>(stringPtr));
+                            de.StringPool->InsertCopy(reinterpret_cast<const char*>(dataStart), userDataSize, crc32, &stringPtr);
+                            de.DataSize = userDataSize;
+                            de.IsEndianSwap = isEndianSwap;
+                            de.IsPooledString = true;
+                            de.DataPtr = const_cast<void*>(static_cast<const void*>(stringPtr));
                             m_dataCallback(de);
                             dataStart += userDataSize;
                         }
@@ -406,7 +405,7 @@ namespace V
                     } break;
                     case DetectorOutputStream::StreamEntry::INT_POOLED_STRING_CRC32:
                     {
-                        de.m_isPooledStringCrc32 = true;
+                        de.IsPooledStringCrc32 = true;
                         V_Assert(value == 4, "The data size for a pooled string crc32 should be 4 bytes!");
                     }     // continue to INT_SIZE
                     case DetectorOutputStream::StreamEntry::INT_SIZE:
@@ -415,9 +414,9 @@ namespace V
                         if ((userDataSize + entrySize) <= (unsigned)(dataEnd - dataStart)) // do we have all the date we need to process...
                         {
                             dataStart += entrySize;
-                            de.m_data = dataStart;
-                            de.m_dataSize = userDataSize;
-                            de.m_isEndianSwap = isEndianSwap;
+                            de.DataPtr = dataStart;
+                            de.DataSize = userDataSize;
+                            de.IsEndianSwap = isEndianSwap;
                             m_dataCallback(de);
                             dataStart += userDataSize;
                         }
@@ -449,37 +448,37 @@ namespace V
 
         const char*  DetectorSAXParser::Data::PrepareString(unsigned int& stringLength) const
         {
-            const char* srcData = reinterpret_cast<const char*>(m_data);
-            stringLength = m_dataSize;
-            if (m_stringPool)
+            const char* srcData = reinterpret_cast<const char*>(DataPtr);
+            stringLength = DataSize;
+            if (StringPool)
             {
                 V::u32 crc32;
                 const char* stringPtr;
-                if (m_isPooledStringCrc32)
+                if (IsPooledStringCrc32)
                 {
-                    crc32 = *reinterpret_cast<V::u32*>(m_data);
-                    if (m_isEndianSwap)
+                    crc32 = *reinterpret_cast<V::u32*>(DataPtr);
+                    if (IsEndianSwap)
                     {
                         VStd::endian_swap(crc32);
                     }
-                    stringPtr = m_stringPool->Find(crc32);
+                    stringPtr = StringPool->Find(crc32);
                     V_Assert(stringPtr != nullptr, "Failed to find string with id 0x%08x in the string pool, proper stream read is impossible!", crc32);
                     stringLength = static_cast<unsigned int>(strlen(stringPtr));
                 }
-                else if (m_isPooledString)
+                else if (IsPooledString)
                 {
                     stringPtr = srcData; // already stored in the pool just transfer the pointer
                 }
                 else
                 {
                     // Store copy of the string in the pool to save memory (keep only one reference of the string).
-                    m_stringPool->InsertCopy(reinterpret_cast<const char*>(srcData), stringLength, crc32, &stringPtr);
+                    StringPool->InsertCopy(reinterpret_cast<const char*>(srcData), stringLength, crc32, &stringPtr);
                 }
                 srcData = stringPtr;
             }
             else
             {
-                V_Assert(m_isPooledString == false && m_isPooledStringCrc32 == false, "This stream requires using of a string pool as the string is send only once and afterwards only the Crc32 is used!");
+                V_Assert(IsPooledString == false && IsPooledStringCrc32 == false, "This stream requires using of a string pool as the string is send only once and afterwards only the Crc32 is used!");
             }
             return srcData;
         }
@@ -517,7 +516,7 @@ namespace V
             const Data* dataNode = nullptr;
             for (Node::DataListType::const_iterator i = m_data.begin(); i != m_data.end(); ++i)
             {
-                if (i->m_name == dataName)
+                if (i->Name == dataName)
                 {
                     dataNode = &*i;
                     break;
@@ -580,8 +579,8 @@ namespace V
             Data de = data;
             if (!m_isPersistentInputData)
             {
-                de.m_data = vmalloc(data.m_dataSize, 1, OSAllocator);
-                memcpy(const_cast<void*>(de.m_data), data.m_data, data.m_dataSize);
+                de.DataPtr = vmalloc(data.DataSize, 1, OSAllocator);
+                memcpy(const_cast<void*>(de.DataPtr), data.DataPtr, data.DataSize);
             }
             m_topNode->m_data.push_back(de);
         }
@@ -596,7 +595,7 @@ namespace V
             {
                 for (Node::DataListType::iterator iter = node.m_data.begin(); iter != node.m_data.end(); ++iter)
                 {
-                    vfree(iter->m_data, OSAllocator, iter->m_dataSize);
+                    vfree(iter->DataPtr, OSAllocator, iter->DataSize);
                     ++g_numFree;
                 }
                 node.m_data.clear();

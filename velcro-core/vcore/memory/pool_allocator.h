@@ -91,10 +91,10 @@ namespace V
             AllocatorDebugConfig GetDebugConfig() override
             {
                 return AllocatorDebugConfig()
-                    .ExcludeFromDebugging(!m_desc.AllocationRecords)
-                    .StackRecordLevels(m_desc.StackRecordLevels)
-                    .MarksUnallocatedMemory(m_desc.IsMarkUnallocatedMemory)
-                    .UsesMemoryGuards(m_desc.IsMemoryGuards);
+                    .SetExcludeFromDebugging(!m_desc.AllocationRecords)
+                    .SetStackRecordLevels(m_desc.StackRecordLevels)
+                    .SetMarksUnallocatedMemory(m_desc.IsMarkUnallocatedMemory)
+                    .SetUsesMemoryGuards(m_desc.IsMemoryGuards);
             }
 
             //////////////////////////////////////////////////////////////////////////

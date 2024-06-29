@@ -8,15 +8,25 @@ SET (FILES
     platforms/windows/vcore/debug/stack_tracer_windows.cc
     platforms/windows/vcore/memory/heap_schema_windows.cc
     platforms/windows/vcore/memory/osallocator_platform.h
+    platforms/windows/vcore/socket/vsocket_fwd_platform.h
+    platforms/windows/vcore/socket/vsocket_fwd_windows.h
+    platforms/windows/vcore/socket/vsocket_platform.h
     platforms/windows/vcore/std/parallel/internal/condition_variable_platform.h
     platforms/windows/vcore/std/parallel/internal/mutex_platform.h
     platforms/windows/vcore/std/parallel/internal/semaphore_platform.h
     platforms/windows/vcore/std/parallel/internal/thread_platform.h
+    platforms/windows/vcore/std/parallel/internal/thread_windows.cc
     platforms/windows/vcore/std/parallel/config_platform.h
     platforms/windows/vcore/std/time_windows.cc
     platforms/windows/vcore/platform_id/platform_id_platform.h
     platforms/windows/vcore/io/system_file_platform.h
     platforms/windows/vcore/io/streamer/streamer_context_platform.h
+    platforms/windows/vcore/io/streamer/streamer_configuration_windows.h
+    platforms/windows/vcore/io/streamer/streamer_configuration_windows.cc
+    platforms/windows/vcore/io/streamer/storage_drive_config_windows.h
+    platforms/windows/vcore/io/streamer/storage_drive_config_windows.cc
+    platforms/windows/vcore/io/streamer/storage_drive_windows.h
+    platforms/windows/vcore/io/streamer/storage_drive_windows.cc
     platforms/windows/vcore/ipc/shared_memory_platform.h
     platforms/windows/vcore/ipc/shared_memory_windows.h
     platforms/windows/vcore/ipc/shared_memory_windows.cc
@@ -28,6 +38,9 @@ SET (FILES
     platforms/windows/vcore/native_ui/native_ui_system_windows.cc
     platforms/windows/vcore/utilitys/utility_windows.cc
     platforms/common/winapi/vcore/debug/trace_winapi.cc
+    platforms/common/winapi/vcore/socket/vsocket_fwd_winapi.h
+    platforms/common/winapi/vcore/socket/vsocket_winapi.h
+    platforms/common/winapi/vcore/socket/vsocket_winapi.cc
     platforms/common/winapi/vcore/utilitys/utility_winapi.cc
     platforms/common/winapi/vcore/io/streamer/streamer_context_winapi.h
     platforms/common/winapi/vcore/io/streamer/streamer_context_winapi.cc

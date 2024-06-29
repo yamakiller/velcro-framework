@@ -65,7 +65,7 @@ namespace V
         {
             // If it is already reflected, just capture a reference to it
             auto reflectionPtr = reflectionIt->second.lock();
-            AZ_Assert(reflectionPtr, "OnDemandReflection for typed %s is missing, despite being present in the reflect context", typeId.ToString<VStd::string>().c_str());
+            V_Assert(reflectionPtr, "OnDemandReflection for typed %s is missing, despite being present in the reflect context", typeId.ToString<VStd::string>().c_str());
             if (reflectionPtr)
             {
                 m_reflectFunctions.emplace_back(VStd::move(reflectionPtr));

@@ -207,7 +207,7 @@ namespace V {
         {
         };
 
-          template <class T>
+        template <class T>
         struct HasVObject
         {
             static constexpr bool value = HasVObjectSpecialized<T>::value || HasVObjectIntrusive<T>::value;
@@ -259,7 +259,7 @@ namespace V {
             template<typename TypeIdResolverTag = CanonicalTypeIdTag>
             static V::TypeId Id()
             {
-                const V::TypeId tail = AggregateTypes<Tn...>::template Uuid<TypeIdResolverTag>();
+                const V::TypeId tail = AggregateTypes<Tn...>::template Id<TypeIdResolverTag>();
                 if (!tail.IsNull())
                 {
                     // Avoid accumulating a null uuid, since it affects the result.
@@ -327,7 +327,7 @@ namespace V {
         template<typename T, typename TypeIdResolverTag>
         const V::TypeId& GetTypeId()
         {
-            return V::VObject<T>::template Uuid<TypeIdResolverTag>();
+            return V::VObject<T>::template Id<TypeIdResolverTag>();
         }
 
         template<VStd::size_t N, typename>
@@ -365,6 +365,7 @@ namespace V {
             return T::VOBJECT_Name();
         }
 
+        template<typename TypeIdResolverTag = CanonicalTypeIdTag>
         static const V::TypeId& Id()
         {
             static_assert(V::Internal::HasVObjectIntrusive<T>::value,
@@ -395,7 +396,7 @@ namespace V {
         typedef typename VStd::remove_enum<T>::type UnderlyingType;
         static const char* Name() { return nullptr; }
    
-
+        template<typename TypeIdResolverTag = CanonicalTypeIdTag>
         static const V::TypeId& Id() { static V::TypeId nullUuid = V::TypeId::CreateNull(); return nullUuid; }
         static constexpr TypeTraits GetTypeTraits()
         {

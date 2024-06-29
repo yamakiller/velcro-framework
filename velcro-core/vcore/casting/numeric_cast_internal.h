@@ -15,6 +15,10 @@
 #include <vcore/std/typetraits/is_unsigned.h>
 #include <limits>
 
+#if defined(max)
+    #undef max
+#endif 
+
 namespace NumericCastInternal {
     template<typename ToType, typename FromType>
     inline constexpr typename VStd::enable_if<!VStd::is_integral<FromType>::value || !VStd::is_floating_point<ToType>::value, bool>::type

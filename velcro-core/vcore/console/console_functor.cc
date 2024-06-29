@@ -6,7 +6,7 @@ namespace V
 {
     ConsoleFunctorBase* ConsoleFunctorBase::_deferredHead = nullptr;
 
-    // Needed to guard against calling Interface<T>::Get(), it's not safe to call Interface<T>::Get() prior to Az Environment attach
+    // Needed to guard against calling Interface<T>::Get(), it's not safe to call Interface<T>::Get() prior to Velcro Environment attach
     // Otherwise this could trigger environment construction, which can assert on Gems
     bool ConsoleFunctorBase::_deferredHeadInvoked = false;
 

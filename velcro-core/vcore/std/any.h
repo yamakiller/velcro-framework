@@ -272,7 +272,7 @@ namespace VStd
         type_id type() const { return m_typeInfo.ID; }
         /// Helper for checking type equality
         template <typename ValueType>
-        bool is() const { return type() == azrtti_typeid<ValueType>() && m_typeInfo.IsPointer == is_pointer<ValueType>::value; }
+        bool is() const { return type() == vobject_rtti_typeid<ValueType>() && m_typeInfo.IsPointer == is_pointer<ValueType>::value; }
 
         const type_info& get_type_info() const { return m_typeInfo; }
 
@@ -365,7 +365,7 @@ namespace VStd
         static type_info create_template_type_info()
         {
             type_info ti;
-            ti.ID = azrtti_typeid<ValueType>();
+            ti.ID = vobject_rtti_typeid<ValueType>();
             ti.IsPointer = is_pointer<ValueType>::value;
             ti.UseHeap = VStd::GetMax(sizeof(ValueType), VStd::alignment_of<ValueType>::value) > Internal::ANY_SBO_BUF_SIZE;
             ti.Handler = type_info::HandleFnT(&action_handler<ValueType>);

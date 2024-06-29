@@ -105,17 +105,17 @@ namespace V {
             virtual ~DetectorManager() {}
 
             static DetectorManager*  Create(/*const Descriptor& desc*/);
-            static void             Destroy(DetectorManager* manager);
+            static void              Destroy(DetectorManager* manager);
 
-            virtual void            Register(Detector* detector) = 0;
-            virtual void            Unregister(Detector* detector) = 0;
+            virtual void             Register(Detector* detector) = 0;
+            virtual void             Unregister(Detector* detector) = 0;
 
-            virtual void            FrameUpdate() = 0;
+            virtual void             FrameUpdate() = 0;
 
             virtual DetectorSession* Start(DetectorOutputStream& output, const DetectorListType& detectorList, int numFrames = -1) = 0;
-            virtual void            Stop(DetectorSession* session) = 0;
+            virtual void             Stop(DetectorSession* session) = 0;
 
-            virtual int             GetNumDetectors() const  = 0;
+            virtual int              GetNumDetectors() const  = 0;
             virtual Detector*        GetDetector(int index) = 0;
 
         private:

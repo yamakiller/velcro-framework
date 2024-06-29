@@ -40,14 +40,36 @@ SET(FILES
     vcore/io/compression_bus.cc
     vcore/io/compressor.h
     vcore/io/compressor.cc
+    vcore/io/byte_container_stream.h
     vcore/io/streamer/streamer_configuration.h
     vcore/io/streamer/streamer_configuration.cc
+    vcore/io/streamer/scheduler.h
+    vcore/io/streamer/scheduler.cc
     vcore/io/streamer/file_range.h
     vcore/io/streamer/file_range.cc
+    vcore/io/streamer/file_request.h
+    vcore/io/streamer/file_request.cc
+    vcore/io/streamer/file_request.inl
+    vcore/io/streamer/request_path.h
+    vcore/io/streamer/request_path.cc
+    vcore/io/streamer/read_splitter.h
+    vcore/io/streamer/read_splitter.cc
     vcore/io/streamer/request_path.h
     vcore/io/streamer/request_path.cc
     vcore/io/streamer/statistics.h
     vcore/io/streamer/statistics.cc
+    vcore/io/streamer/streamer_context.h
+    vcore/io/streamer/streamer_context.cc
+    vcore/io/streamer/stream_stack_entry.h
+    vcore/io/streamer/stream_stack_entry.cc
+    vcore/io/streamer/storage_drive.h
+    vcore/io/streamer/storage_drive.cc
+    vcore/io/streamer/streamer.h
+    vcore/io/streamer/streamer.cc
+    vcore/io/streamer/block_cache.h
+    vcore/io/streamer/block_cache.cc
+    vcore/io/streamer/dedicated_cache.h
+    vcore/io/streamer/dedicated_cache.cc
     vcore/ipc/shared_memory_common.h
     vcore/ipc/shared_memory.h
     vcore/ipc/shared_memory.cc
@@ -168,6 +190,9 @@ SET(FILES
     vcore/detector/stream.h
     vcore/detector/stream.cc
     vcore/time/itime.h
+    vcore/socket/vsocket_fwd.h
+    vcore/socket/vsocket.h
+    vcore/socket/vsocket.cc
     vcore/std/base.h
     vcore/std/config.h
     vcore/std/algorithm.h
@@ -193,6 +218,7 @@ SET(FILES
     vcore/std/time.h
     vcore/std/tuple.h
     vcore/std/any.h
+    vcore/std/sort.h
     vcore/std/utils.h
     vcore/std/bind/bind.h
     vcore/std/bind/mem_fn.h

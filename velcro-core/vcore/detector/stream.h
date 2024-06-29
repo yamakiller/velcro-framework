@@ -529,13 +529,13 @@ namespace V {
         public:
             struct Data
             {
-                u32                 m_name;             ///< Crc name of the data entry.
-                void*               m_data;             ///< Pointer to copy if the loaded data.
-                unsigned int        m_dataSize;         ///< Data size in bytes.
-                mutable bool        m_isEndianSwap;     ///< True if the user will need to swap the endian when he access the data. We swap the data is the storage so we can read it multiple times without swap.
-                DetectorStringPool*  m_stringPool;       ///< Pointer to optional data string pool.
-                bool                m_isPooledString;   ///< True if we have a pooled string (stored in the stringPool already).
-                bool                m_isPooledStringCrc32;  ///< True is we have stored a crc32 (4 bytes) which refers to a string from the String Pool.
+                u32                 Name;             ///< Crc name of the data entry.
+                void*               DataPtr;             ///< Pointer to copy if the loaded data.
+                unsigned int        DataSize;         ///< Data size in bytes.
+                mutable bool        IsEndianSwap;     ///< True if the user will need to swap the endian when he access the data. We swap the data is the storage so we can read it multiple times without swap.
+                DetectorStringPool* StringPool;       ///< Pointer to optional data string pool.
+                bool                IsPooledString;   ///< True if we have a pooled string (stored in the stringPool already).
+                bool                IsPooledStringCrc32;  ///< True is we have stored a crc32 (4 bytes) which refers to a string from the String Pool.
 
                 //////////////////////////////////////////////////////////////////////////
                 // Generic
@@ -544,12 +544,12 @@ namespace V {
                 {
                     static_assert(VStd::is_pod<T>::value, "T must be plain-old-data");
 
-                    V_Assert(sizeof(t) >= m_dataSize, "You are about to lose some data, this is wrong.");
-                    if (m_dataSize == sizeof(t))
+                    V_Assert(sizeof(t) >= DataSize, "You are about to lose some data, this is wrong.");
+                    if (DataSize == sizeof(t))
                     {
                         // do a memcpy as alignment might be required for some data types! This is not performance critical as we usually load drill files on x86/x64
                         // which doesn't care about alignment.
-                        memcpy(&t, m_data, m_dataSize);
+                        memcpy(&t, DataPtr, DataSize);
                     }
                     else
                     {
@@ -557,16 +557,16 @@ namespace V {
 
                         if (VStd::is_signed<T>::value)
                         {
-                            switch (m_dataSize)
+                            switch (DataSize)
                             {
                             case 1:
-                                t = static_cast<T>(*reinterpret_cast<s8*>(m_data));
+                                t = static_cast<T>(*reinterpret_cast<s8*>(DataPtr));
                                 break;
                             case 2:
-                                t = static_cast<T>(*reinterpret_cast<s16*>(m_data));
+                                t = static_cast<T>(*reinterpret_cast<s16*>(DataPtr));
                                 break;
                             case 4:
-                                t = static_cast<T>(*reinterpret_cast<s32*>(m_data));
+                                t = static_cast<T>(*reinterpret_cast<s32*>(DataPtr));
                                 break;
                             default:
                                 V_Assert(false, "Source data size unsupported... we can extend only 1,2,4 bytes into 2,4,8 bytes integrals");
@@ -574,23 +574,23 @@ namespace V {
                         }
                         else
                         {
-                            switch (m_dataSize)
+                            switch (DataSize)
                             {
                             case 1:
-                                t = static_cast<T>(*reinterpret_cast<u8*>(m_data));
+                                t = static_cast<T>(*reinterpret_cast<u8*>(DataPtr));
                                 break;
                             case 2:
-                                t = static_cast<T>(*reinterpret_cast<u16*>(m_data));
+                                t = static_cast<T>(*reinterpret_cast<u16*>(DataPtr));
                                 break;
                             case 4:
-                                t = static_cast<T>(*reinterpret_cast<u32*>(m_data));
+                                t = static_cast<T>(*reinterpret_cast<u32*>(DataPtr));
                                 break;
                             default:
                                 V_Assert(false, "Source data size unsupported... we can extend only 1,2,4 bytes into 2,4,8 bytes integrals");
                             }
                         }
                     }
-                    if (m_isEndianSwap)
+                    if (IsEndianSwap)
                     {
                         VStd::endian_swap(t);
                     }
@@ -598,9 +598,9 @@ namespace V {
 
                 inline void Read(bool& b) const
                 {
-                    u8* data = reinterpret_cast<u8*>(m_data);
+                    u8* data = reinterpret_cast<u8*>(DataPtr);
                     b = false;
-                    for (unsigned int i = 0; i < m_dataSize; ++i)
+                    for (unsigned int i = 0; i < DataSize; ++i)
                     {
                         if (data[i] != 0)
                         {
@@ -613,15 +613,15 @@ namespace V {
                 // Binary and strings
                 inline unsigned int Read(void* buffer, unsigned int bufferSize) const
                 {
-                    unsigned int dataToCopy = VStd::GetMin(m_dataSize, bufferSize);
-                    memcpy(buffer, m_data, dataToCopy);
+                    unsigned int dataToCopy = VStd::GetMin(DataSize, bufferSize);
+                    memcpy(buffer, DataPtr, dataToCopy);
                     // no data swap
                     return dataToCopy;
                 }
                 // a call avilable only when we use a string pool, it will return the pointer of string in the pool, so you don't need to copy it or do any fancy procedures.
                 inline const char* ReadPooledString() const
                 {
-                    V_Assert(m_stringPool != nullptr, "This read type is supported only when we use string pool!");
+                    V_Assert(StringPool != nullptr, "This read type is supported only when we use string pool!");
                     unsigned int srcDataSize;
                     return PrepareString(srcDataSize);
                 }
@@ -640,18 +640,18 @@ namespace V {
                     unsigned int srcDataSize;
                     const char* srcData = PrepareString(srcDataSize);
                     str = VStd::basic_string<VStd::string::value_type, VStd::string::traits_type, Allocator>(static_cast<const VStd::string::value_type*>(srcData), srcDataSize);
-                    return m_dataSize;
+                    return DataSize;
                 }
                 template<class Allocator>
                 inline unsigned int Read(VStd::basic_string<VStd::wstring::value_type, VStd::wstring::traits_type, Allocator>& str) const
                 {
                     // wstring pooling not supported yet
-                    str = VStd::basic_string<VStd::wstring::value_type, VStd::wstring::traits_type, Allocator>(static_cast<const VStd::wstring::value_type*>(m_data), m_dataSize / 2);
-                    if (m_isEndianSwap)
+                    str = VStd::basic_string<VStd::wstring::value_type, VStd::wstring::traits_type, Allocator>(static_cast<const VStd::wstring::value_type*>(Data), DataSize / 2);
+                    if (IsEndianSwap)
                     {
                         VStd::endian_swap(str.begin(), str.end());
                     }
-                    return m_dataSize;
+                    return DataSize;
                 }
 
                 //////////////////////////////////////////////////////////////////////////
@@ -665,15 +665,15 @@ namespace V {
                     typedef typename VStd::insert_iterator<Container> InsertIterator;
                     // we can specialize for contiguous_iterator_tag so have only 1 write for all elements
                     const size_t elementSize = sizeof(InsertIterator::container_type::value_type);
-                    size_t numElements = m_dataSize / elementSize;
-                    V_Assert(m_dataSize % elementSize == 0, "Stored elements size doesn't match the read parameters!");
+                    size_t numElements = DataSize / elementSize;
+                    V_Assert(DataSize % elementSize == 0, "Stored elements size doesn't match the read parameters!");
                     Data elementEntry = *this;
-                    elementEntry.m_dataSize = elementSize;
-                    char* dataPtr = reinterpret_cast<char*>(m_data);
+                    elementEntry.DataSize = elementSize;
+                    char* dataPtr = reinterpret_cast<char*>(DataPtr);
                     for (size_t i = 0; i < numElements; ++i, ++iter)
                     {
                         typename InsertIterator::container_type::value_type value;
-                        elementEntry.m_data = dataPtr;
+                        elementEntry.DataPtr = dataPtr;
                         Read(elementEntry, value);
                         iter = value;
                         dataPtr += elementSize;

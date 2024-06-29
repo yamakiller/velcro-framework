@@ -1002,7 +1002,7 @@ namespace VStd {
         inline int      validate_iterator(const const_iterator& iter) const
         {
 #ifdef VSTD_HAS_CHECKED_ITERATORS
-            AZ_Assert(iter.m_container == this, "This iterator doesn't belong to this container");
+            V_Assert(iter.m_container == this, "This iterator doesn't belong to this container");
             base_node_ptr_type iterNode = iter.m_iter.m_node;
 #else
             base_node_ptr_type iterNode = iter.m_node;
@@ -1018,7 +1018,7 @@ namespace VStd {
         inline int      validate_iterator(const iterator& iter) const
         {
 #ifdef VSTD_HAS_CHECKED_ITERATORS
-            AZ_Assert(iter.m_container == this, "This iterator doesn't belong to this container");
+            V_Assert(iter.m_container == this, "This iterator doesn't belong to this container");
             base_node_ptr_type iterNode = iter.m_iter.m_node;
 #else
             base_node_ptr_type iterNode = iter.m_node;
@@ -1288,7 +1288,7 @@ namespace VStd {
             Debug::checked_iterator_base* iter = m_iteratorList;
             while (iter != 0)
             {
-                AZ_Assert(iter->m_container == static_cast<const checked_container_base*>(this), "list::orphan_node - iterator was corrupted!");
+                V_Assert(iter->m_container == static_cast<const checked_container_base*>(this), "list::orphan_node - iterator was corrupted!");
                 base_node_ptr_type nodePtr = static_cast<iterator*>(iter)->m_iter.m_node;
 
                 if (nodePtr == node)

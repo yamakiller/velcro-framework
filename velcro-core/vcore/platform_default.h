@@ -145,4 +145,6 @@
 #   define V_COMMAND_LINE_LEN 2048
 #endif
 
+V_PUSH_DISABLE_WARNING(4353, "-Wunknown-warning-option")
+
 #endif  // V_FRAMEWORK_CORE_PLATFORM_DEFAULT_H
