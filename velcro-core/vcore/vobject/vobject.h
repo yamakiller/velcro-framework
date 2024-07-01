@@ -612,14 +612,14 @@ namespace V {
     namespace Internal
     {
         template<class T, class U>
-        inline T        rtti_cast_helper(U ptr, const VStd::integral_constant<RttiKind, RttiKind::Intrusive>& /* HasAZRttiIntrusive<U> */)
+        inline T        rtti_cast_helper(U ptr, const VStd::integral_constant<RttiKind, RttiKind::Intrusive>& /* HasVObjectRttiIntrusive<U> */)
         {
             typedef typename VStd::remove_pointer<T>::type CastType;
             return ptr ? reinterpret_cast<T>(ptr->RTTI_AddressOf(VObject<CastType>::Id())) : nullptr;
         }
 
         template<class T, class U>
-        inline T        rtti_cast_helper(U ptr, const VStd::integral_constant<RttiKind, RttiKind::External>& /* HasAZRttiExternal<U> */)
+        inline T        rtti_cast_helper(U ptr, const VStd::integral_constant<RttiKind, RttiKind::External>& /* HasVObjectRttiExternal<U> */)
         {
             typedef typename VStd::remove_pointer<T>::type CastType;
             return ptr ? reinterpret_cast<T>(RttiHelper<VStd::remove_pointer_t<U>>().Cast(ptr, VObject<CastType>::Id())) : nullptr;
@@ -657,13 +657,13 @@ namespace V {
         };
 
         template<class U>
-        inline typename AddressTypeHelper<U>::type RttiAddressOfHelper(U ptr, const V::TypeId& id, const VStd::integral_constant<RttiKind, RttiKind::Intrusive>& /* HasAZRttiIntrusive<U> */)
+        inline typename AddressTypeHelper<U>::type RttiAddressOfHelper(U ptr, const V::TypeId& id, const VStd::integral_constant<RttiKind, RttiKind::Intrusive>& /* HasVObjectRttiIntrusive<U> */)
         {
             return ptr ? ptr->RTTI_AddressOf(id) : nullptr;
         }
 
         template<class U>
-        inline typename AddressTypeHelper<U>::type RttiAddressOfHelper(U ptr, const V::TypeId& id, const VStd::integral_constant<RttiKind, RttiKind::External>& /* HasAZRttiExternal<U> */)
+        inline typename AddressTypeHelper<U>::type RttiAddressOfHelper(U ptr, const V::TypeId& id, const VStd::integral_constant<RttiKind, RttiKind::External>& /* HasVObjectRttiExternal<U> */)
         {
             return ptr ? RttiHelper<VStd::remove_pointer_t<U>>().Cast(ptr, id) : nullptr;
         }
@@ -684,13 +684,13 @@ namespace V {
         template<class T, class U>
         struct RttiIsTypeOfHelper
         {
-            static inline bool  Check(const U& ref, const VStd::integral_constant<RttiKind, RttiKind::Intrusive>& /* HasAZRttiIntrusive<U> */)
+            static inline bool  Check(const U& ref, const VStd::integral_constant<RttiKind, RttiKind::Intrusive>& /* HasVObjectRttiIntrusive<U> */)
             {
                 typedef typename RttiRemoveQualifiers<T>::type CheckType;
                 return ref.RTTI_IsTypeOf(VObject<CheckType>::Id());
             }
 
-            static inline bool  Check(const U&, const VStd::integral_constant<RttiKind, RttiKind::External>& /* HasAZRttiExternal<U> */)
+            static inline bool  Check(const U&, const VStd::integral_constant<RttiKind, RttiKind::External>& /* HasVObjectRttiExternal<U> */)
             {
                 typedef typename RttiRemoveQualifiers<T>::type CheckType;
                 return RttiHelper<U>().IsTypeOf(VObject<CheckType>::Id());
@@ -706,13 +706,13 @@ namespace V {
         template<class T, class U>
         struct RttiIsTypeOfHelper<T, U*>
         {
-            static inline bool  Check(const U* ptr, const VStd::integral_constant<RttiKind, RttiKind::Intrusive>& /* HasAZRttiIntrusive<U> */)
+            static inline bool  Check(const U* ptr, const VStd::integral_constant<RttiKind, RttiKind::Intrusive>& /* HasVObjectRttiIntrusive<U> */)
             {
                 typedef typename RttiRemoveQualifiers<T>::type CheckType;
                 return ptr && ptr->RTTI_IsTypeOf(VObject<CheckType>::Id());
             }
 
-            static inline bool  Check(const U* ptr, const VStd::integral_constant<RttiKind, RttiKind::External>& /* HasAZRttiExternal<U> */)
+            static inline bool  Check(const U* ptr, const VStd::integral_constant<RttiKind, RttiKind::External>& /* HasVObjectRttiExternal<U> */)
             {
                 typedef typename RttiRemoveQualifiers<T>::type CheckType;
                 return ptr ? RttiHelper<U>().IsTypeOf(VObject<CheckType>::Id()) : false;
@@ -729,12 +729,12 @@ namespace V {
         template<class U>
         struct rtti_is_type_of_id_helper
         {
-            static inline bool  Check(const V::TypeId& id, const U& ref, const VStd::integral_constant<RttiKind, RttiKind::Intrusive>& /* HasAZRttiIntrusive<U> */)
+            static inline bool  Check(const V::TypeId& id, const U& ref, const VStd::integral_constant<RttiKind, RttiKind::Intrusive>& /* HasVObjectRttiIntrusive<U> */)
             {
                 return ref.RTTI_IsTypeOf(id);
             }
 
-            static inline bool  Check(const V::TypeId& id, const U&, const VStd::integral_constant<RttiKind, RttiKind::External>& /* HasAZRttiExternal<U> */)
+            static inline bool  Check(const V::TypeId& id, const U&, const VStd::integral_constant<RttiKind, RttiKind::External>& /* HasVObjectRttiExternal<U> */)
             {
                 return RttiHelper<U>().IsTypeOf(id);
             }
@@ -745,7 +745,7 @@ namespace V {
                 return id == VObject<SrcType>::Id();
             }
 
-            static inline const V::TypeId& Type(const U& ref, const VStd::integral_constant<RttiKind, RttiKind::Intrusive>& /* HasAZRttiIntrusive<U> */)
+            static inline const V::TypeId& Type(const U& ref, const VStd::integral_constant<RttiKind, RttiKind::Intrusive>& /* HasVObjectRttiIntrusive<U> */)
             {
                 return ref.RTTI_GetType();
             }
@@ -781,13 +781,13 @@ namespace V {
                 return id == VObject<SrcType>::Id();
             }
 
-            static inline const V::TypeId& Type(U* ptr, const VStd::integral_constant<RttiKind, RttiKind::Intrusive>& /* HasAZRttiIntrusive<U> */)
+            static inline const V::TypeId& Type(U* ptr, const VStd::integral_constant<RttiKind, RttiKind::Intrusive>& /* HasVObjectRttiIntrusive<U> */)
             {
                 static V::TypeId s_invalidUuid = V::TypeId::CreateNull();
                 return ptr ? ptr->RTTI_GetType() : s_invalidUuid;
             }
 
-            static inline const V::TypeId& Type(U* ptr, const VStd::integral_constant<RttiKind, RttiKind::External>& /* HasAZRttiExternal<U> */)
+            static inline const V::TypeId& Type(U* ptr, const VStd::integral_constant<RttiKind, RttiKind::External>& /* HasVObjectRttiExternal<U> */)
             {
                 static V::TypeId s_invalidUuid = V::TypeId::CreateNull();
                 return ptr ? RttiHelper<U>().GetTypeId() : s_invalidUuid;

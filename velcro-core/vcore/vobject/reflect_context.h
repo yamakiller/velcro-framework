@@ -14,6 +14,7 @@
 #include <vcore/std/typetraits/function_traits.h>
 #include <vcore/std/typetraits/is_function.h>
 #include <vcore/std/typetraits/is_member_function_pointer.h>
+#include <vcore/std/typetraits/is_member_pointer.h>
 #include <vcore/std/typetraits/is_same.h>
 
 namespace V
@@ -31,7 +32,7 @@ namespace V
     {
         // This needs to be not a pointer, because we're jamming it into shared_ptr, and we don't want a pointer to a pointer
         // #MSVC2013 does not allow using of a function signature.
-        typedef void reflection_function_ref(ReflectContext* context);
+        typedef void ReflectionFunctionRef(ReflectContext* context);
     }
 
      class OnDemandReflectionOwner
@@ -55,7 +56,7 @@ namespace V
 
     private:
         /// Reflection functions this instance owns references to
-        VStd::vector<VStd::shared_ptr<Internal::reflection_function_ref>> m_reflectFunctions;
+        VStd::vector<VStd::shared_ptr<Internal::ReflectionFunctionRef>> m_reflectFunctions;
         ReflectContext& m_reflectContext;
     };
 
@@ -70,7 +71,7 @@ namespace V
     class ReflectContext
     {
     public:
-        VOBJECT_RTTI(V::ReflectContext, "{B18D903B-7FAD-4A53-918A-3967B3198224}")
+        VOBJECT_RTTI(V::ReflectContext, "{6cf0e009-c874-4724-9d0f-729d71e11f1d}")
 
         ReflectContext();
         virtual ~ReflectContext() = default;
@@ -93,7 +94,7 @@ namespace V
         bool m_isRemoveReflection;
 
         /// Store the on demand reflect functions so we can avoid double-reflecting something
-        VStd::unordered_map<V::Uuid, VStd::weak_ptr<Internal::reflection_function_ref>> m_onDemandReflection;
+        VStd::unordered_map<V::Uuid, VStd::weak_ptr<Internal::ReflectionFunctionRef>> m_onDemandReflection;
         /// OnDemandReflection functions that need to be called
         VStd::vector<VStd::pair<V::Uuid, StaticReflectionFunctionPtr>> m_toProcessOnDemandReflection;
         /// The type ids of the currently reflecting type. Used to prevent circular references. Is a set to prevent recursive circular references.
@@ -113,7 +114,7 @@ namespace V
     public:
         using ContextDeleter = void(*)(void* contextData);
 
-        VOBJECT_RTTI(V::Attribute, "{2C656E00-12B0-476E-9225-5835B92209CC}");
+        VOBJECT_RTTI(V::Attribute, "{e08cc752-cefe-477b-b5a7-8b3e56119c4c}");
         Attribute()
             : m_contextData(nullptr, &DefaultDelete)
         { }
@@ -421,6 +422,6 @@ namespace V
                 return &OnDemandReflection<T>::Reflect;
             }
         };
-    }
-}
+    } // namespace Internal
+} // namespace V
 #endif // V_FRAMEWORK_CORE_VOBJECT_REFLECT_CONTEXT_H

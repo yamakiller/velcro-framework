@@ -127,4 +127,4 @@ namespace V
             m_currentlyProcessingTypeIds.pop_back();
         }
     }
-}
+} // namespace V

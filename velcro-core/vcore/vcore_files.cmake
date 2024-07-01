@@ -157,6 +157,8 @@ SET(FILES
     vcore/vobject/type_simple.h
     vcore/vobject/type_safe_integral.h
     vcore/vobject/vobject.h
+    vcore/vobject/reflect_context.h
+    vcore/vobject/reflect_context.cc
     vcore/debug/budget_tracker.h
     vcore/debug/budget_tracker.cc
     vcore/debug/budget.h
